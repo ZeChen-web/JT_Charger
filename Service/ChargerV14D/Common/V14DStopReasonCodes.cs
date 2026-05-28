@@ -74,7 +74,7 @@ public enum DcStopReason : byte
     BcsCellVoltageOver = 89,       // BCS判断单体电压超过配置允许
     VinAuthTimeout = 90,           // VIN鉴权超时
     VinAuthFailed = 91,            // VIN鉴权失败
-    TrickleChargeTimeout = 92,     // 涓流充电超时
+    TrickleChargeTimeout = 92,     // �����糬ʱ
     MeterDataJump = 93,            // 电表数据异常突变
     MeterMeasureStop = 94,         // 电表计量停止
     MeterErrorLarge = 95,          // 电表计量误差过大

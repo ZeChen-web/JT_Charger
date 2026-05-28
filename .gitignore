@@ -1,0 +1,38 @@
+﻿# Build outputs
+[Bb]in/
+[Oo]bj/
+.vs/
+.idea/
+.vscode/
+
+# Logs
+[Ll]ogs/
+**/[Ll]ogs/
+*.log
+
+# User/IDE state
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.DotSettings.user
+
+# Debug symbols and generated binaries outside bin/obj
+*.pdb
+*.mdb
+*.ilk
+*.iobj
+*.ipdb
+
+# NuGet/generated artifacts
+*.nupkg
+packages/
+TestResults/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local extraction scratch files
+protocol_v14d_text.txt
