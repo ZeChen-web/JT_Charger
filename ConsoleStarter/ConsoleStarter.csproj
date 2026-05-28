@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Entity\Entity.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="log4net" Version="2.0.15"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="SqlSugarCore" Version="5.1.4.115"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="log4net.xml">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="log4net.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="log4net.config">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="HybirdFrameworkCore">
+        <HintPath>..\Common\lib\HybirdFrameworkCore.dll</HintPath>
+      </Reference>
+      <Reference Include="HybirdFrameworkDriver">
+        <HintPath>..\Common\lib\HybirdFrameworkDriver.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

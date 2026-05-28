@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <TargetFrameworks>net6.0;net6.0-windows</TargetFrameworks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\Entity.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\Entity.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.3.4" />
+        <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.9" />
+        <PackageReference Include="SqlSugarCore" Version="5.1.4.115" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Common\Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="HybirdFrameworkCore">
+        <HintPath>..\Common\lib\HybirdFrameworkCore.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

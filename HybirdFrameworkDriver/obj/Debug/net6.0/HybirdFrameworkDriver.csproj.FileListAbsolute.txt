@@ -1,0 +1,17 @@
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkDriver.deps.json
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkDriver.dll
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkDriver.pdb
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkDriver.xml
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkCore.dll
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkCore.pdb
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\bin\Debug\net6.0\HybirdFrameworkCore.xml
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.csproj.AssemblyReference.cache
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.GeneratedMSBuildEditorConfig.editorconfig
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.AssemblyInfoInputs.cache
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.AssemblyInfo.cs
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.csproj.CoreCompileInputs.cache
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.csproj.CopyComplete
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.dll
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\refint\HybirdFrameworkDriver.dll
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\HybirdFrameworkDriver.pdb
+D:\项目文件\项目报表\19焕能后背式站控\04项目源码\02充电机服务\HybirdFrameworkDriver\obj\Debug\net6.0\ref\HybirdFrameworkDriver.dll

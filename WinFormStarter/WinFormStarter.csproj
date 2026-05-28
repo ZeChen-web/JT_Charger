@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="7.1.0"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0"/>
+        <PackageReference Include="log4net" Version="2.0.15"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Entity\Entity.csproj"/>
+        <ProjectReference Include="..\Repository\Repository.csproj"/>
+        <ProjectReference Include="..\Service\Service.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="log4net.xml">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.Development.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="log4net.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="log4net.config">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Form2.cs">
+            <SubType>Form</SubType>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="HybirdFrameworkCore">
+        <HintPath>..\Common\lib\HybirdFrameworkCore.dll</HintPath>
+      </Reference>
+      <Reference Include="HybirdFrameworkDriver">
+        <HintPath>..\Common\lib\HybirdFrameworkDriver.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ce369e94-d8b3-43b9-aa3b-4cd957dd95ab": {
+      "ProjectGuid": "ce369e94-d8b3-43b9-aa3b-4cd957dd95ab",
+      "DisplayName": "WebStarter",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

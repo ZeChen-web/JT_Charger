@@ -1,0 +1,901 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common</name>
+    </assembly>
+    <members>
+        <member name="T:Common.Const.ClaimConst">
+            <summary>
+            Claim相关常量
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.Account">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.AccountType">
+            <summary>
+            账号类型
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.OrgId">
+            <summary>
+            组织机构Id
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.OrgName">
+            <summary>
+            组织机构名称
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.OrgType">
+            <summary>
+            组织机构类型
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.OpenId">
+            <summary>
+            微信OpenId
+            </summary>
+        </member>
+        <member name="F:Common.Const.ClaimConst.LoginMode">
+            <summary>
+            登录模式PC、APP
+            </summary>
+        </member>
+        <member name="T:Common.Const.CommonConst">
+            <summary>
+            通用常量
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysDemoEnv">
+            <summary>
+            演示环境开关
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysPassword">
+            <summary>
+            默认密码
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysSecondVer">
+            <summary>
+            登录二次验证
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysCaptcha">
+            <summary>
+            开启图形验证码
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysOpLog">
+            <summary>
+            开启操作日志
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysTokenExpire">
+            <summary>
+            Token过期时间
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysRefreshTokenExpire">
+            <summary>
+            RefreshToken过期时间
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysErrorMail">
+            <summary>
+            开启发送异常日志邮件
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysSingleLogin">
+            <summary>
+            单用户登录
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysAdminRole">
+            <summary>
+            系统管理员角色编码
+            </summary>
+        </member>
+        <member name="F:Common.Const.CommonConst.SysDomainLogin">
+            <summary>
+            开启域登录验证
+            </summary>
+        </member>
+        <member name="T:Common.Const.RedisConstMgr">
+            <summary>
+            缓存相关常量
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyUserButton">
+            <summary>
+            用户权限缓存（按钮集合）
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyUserOrg">
+            <summary>
+            用户机构缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyRoleMaxDataScope">
+            <summary>
+            角色最大数据范围缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyUserOnline">
+            <summary>
+            在线用户缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyVerCode">
+            <summary>
+            图形验证码缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyPhoneVerCode">
+            <summary>
+            手机验证码缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyErrorPasswordCount">
+            <summary>
+            密码错误次数缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyTenant">
+            <summary>
+            租户缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyConst">
+            <summary>
+            常量下拉框
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyAll">
+            <summary>
+            所有缓存关键字集合
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.SqlSugar">
+            <summary>
+            SqlSugar二级缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyOpenAccess">
+            <summary>
+            开放接口身份缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyOpenAccessNonce">
+            <summary>
+            开放接口身份随机数缓存
+            </summary>
+        </member>
+        <member name="F:Common.Const.RedisConstMgr.KeyBlacklist">
+            <summary>
+            黑名单
+            </summary>
+        </member>
+        <member name="T:Common.Const.SqlSugarConst">
+            <summary>
+            SqlSugar相关常量
+            </summary>
+        </member>
+        <member name="F:Common.Const.SqlSugarConst.MainConfigId">
+            <summary>
+            默认主数据库标识（默认租户）
+            </summary>
+        </member>
+        <member name="F:Common.Const.SqlSugarConst.LogConfigId">
+            <summary>
+            默认日志数据库标识
+            </summary>
+        </member>
+        <member name="F:Common.Const.SqlSugarConst.PrimaryKey">
+            <summary>
+            默认表主键
+            </summary>
+        </member>
+        <member name="T:Common.Enum.AccountTypeEnum">
+            <summary>
+            账号类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.AccountTypeEnum.SuperAdmin">
+            <summary>
+            超级管理员
+            </summary>
+        </member>
+        <member name="F:Common.Enum.AccountTypeEnum.SysAdmin">
+            <summary>
+            系统管理员
+            </summary>
+        </member>
+        <member name="F:Common.Enum.AccountTypeEnum.NormalUser">
+            <summary>
+            普通账号
+            </summary>
+        </member>
+        <member name="F:Common.Enum.AccountTypeEnum.Member">
+            <summary>
+            会员
+            </summary>
+        </member>
+        <member name="T:Common.Enum.CacheTypeEnum">
+            <summary>
+            缓存类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CacheTypeEnum.Memory">
+            <summary>
+            内存缓存
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CacheTypeEnum.Redis">
+            <summary>
+            Redis缓存
+            </summary>
+        </member>
+        <member name="T:Common.Enum.CardTypeEnum">
+            <summary>
+            证件类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.IdCard">
+            <summary>
+            身份证
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.PassportCard">
+            <summary>
+            护照
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.BirthCard">
+            <summary>
+            出生证
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.GatCard">
+            <summary>
+            港澳台通行证
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.ForeignCard">
+            <summary>
+            外国人居留证
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CardTypeEnum.License">
+            <summary>
+            营业执照
+            </summary>
+        </member>
+        <member name="T:Common.Enum.CryptogramEnum">
+            <summary>
+            密码加密枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CryptogramEnum.MD5">
+            <summary>
+            MD5
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CryptogramEnum.SM2">
+            <summary>
+            SM2（国密）
+            </summary>
+        </member>
+        <member name="F:Common.Enum.CryptogramEnum.SM4">
+            <summary>
+            SM4（国密）
+            </summary>
+        </member>
+        <member name="T:Common.Enum.DataScopeEnum">
+            <summary>
+            角色数据范围枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.DataScopeEnum.All">
+            <summary>
+            全部数据
+            </summary>
+        </member>
+        <member name="F:Common.Enum.DataScopeEnum.DeptChild">
+            <summary>
+            本部门及以下数据
+            </summary>
+        </member>
+        <member name="F:Common.Enum.DataScopeEnum.Dept">
+            <summary>
+            本部门数据
+            </summary>
+        </member>
+        <member name="F:Common.Enum.DataScopeEnum.Self">
+            <summary>
+            仅本人数据
+            </summary>
+        </member>
+        <member name="F:Common.Enum.DataScopeEnum.Define">
+            <summary>
+            自定义数据
+            </summary>
+        </member>
+        <member name="T:Common.Enum.GenderEnum">
+            <summary>
+            性别枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.GenderEnum.Male">
+            <summary>
+            男
+            </summary>
+        </member>
+        <member name="F:Common.Enum.GenderEnum.Female">
+            <summary>
+            女
+            </summary>
+        </member>
+        <member name="F:Common.Enum.GenderEnum.Other">
+            <summary>
+            其他
+            </summary>
+        </member>
+        <member name="T:Common.Enum.MenuTypeEnum">
+            <summary>
+            系统菜单类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MenuTypeEnum.Dir">
+            <summary>
+            目录
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MenuTypeEnum.Menu">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MenuTypeEnum.Btn">
+            <summary>
+            按钮
+            </summary>
+        </member>
+        <member name="T:Common.Enum.MessageTypeEnum">
+            <summary>
+            消息类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MessageTypeEnum.Info">
+            <summary>
+            普通信息
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MessageTypeEnum.Success">
+            <summary>
+            成功提示
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MessageTypeEnum.Warning">
+            <summary>
+            警告提示
+            </summary>
+        </member>
+        <member name="F:Common.Enum.MessageTypeEnum.Error">
+            <summary>
+            错误提示
+            </summary>
+        </member>
+        <member name="T:Common.Enum.NoticeStatusEnum">
+            <summary>
+            通知公告状态枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeStatusEnum.DRAFT">
+            <summary>
+            草稿
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeStatusEnum.PUBLIC">
+            <summary>
+            发布
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeStatusEnum.CANCEL">
+            <summary>
+            撤回
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeStatusEnum.DELETED">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:Common.Enum.NoticeTypeEnum">
+            <summary>
+            通知公告状类型枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeTypeEnum.NOTICE">
+            <summary>
+            通知
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeTypeEnum.ANNOUNCEMENT">
+            <summary>
+            公告
+            </summary>
+        </member>
+        <member name="T:Common.Enum.NoticeUserStatusEnum">
+            <summary>
+            通知公告用户状态枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeUserStatusEnum.UNREAD">
+            <summary>
+            未读
+            </summary>
+        </member>
+        <member name="F:Common.Enum.NoticeUserStatusEnum.READ">
+            <summary>
+            已读
+            </summary>
+        </member>
+        <member name="T:Common.Enum.StatusEnum">
+            <summary>
+            通用状态枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.StatusEnum.Enable">
+            <summary>
+            启用
+            </summary>
+        </member>
+        <member name="F:Common.Enum.StatusEnum.Disable">
+            <summary>
+            停用
+            </summary>
+        </member>
+        <member name="T:Common.Enum.YesNoEnum">
+            <summary>
+            是否枚举
+            </summary>
+        </member>
+        <member name="F:Common.Enum.YesNoEnum.Y">
+            <summary>
+            是
+            </summary>
+        </member>
+        <member name="F:Common.Enum.YesNoEnum.N">
+            <summary>
+            否
+            </summary>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.Encrypt(System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.Decrypt(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM2Encrypt(System.String)">
+            <summary>
+            SM2加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM2Decrypt(System.String)">
+            <summary>
+            SM2解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM4EncryptECB(System.String)">
+            <summary>
+            SM4加密（ECB）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM4DecryptECB(System.String)">
+            <summary>
+            SM4解密（ECB）
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM4EncryptCBC(System.String)">
+            <summary>
+            SM4加密（CBC）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.CryptogramUtil.SM4DecryptCBC(System.String)">
+            <summary>
+            SM4解密（CBC）
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.DateUtils.GetTomorrowFirst">
+            获取明天的0.0.0
+        </member>
+        <member name="M:Common.Util.DateUtils.GetFormattedTime(System.Byte,System.Byte)">
+            <summary>
+            组装只包含时分部分的时间
+            </summary>
+            <param name="hour"></param>
+            <param name="minute"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GM.SignSm3WithSm2(System.Byte[],System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            
+             @param msg
+             @param userId
+             @param privateKey
+             @return r||s，直接拼接byte数组的rs
+        </member>
+        <member name="M:Common.Util.GM.SignSm3WithSm2Asn1Rs(System.Byte[],System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            @param msg
+            @param userId
+            @param privateKey
+            @return rs in <b>asn1 format</b>
+        </member>
+        <member name="M:Common.Util.GM.VerifySm3WithSm2(System.Byte[],System.Byte[],System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            
+             @param msg
+             @param userId
+             @param rs r||s，直接拼接byte数组的rs
+             @param publicKey
+             @return
+        </member>
+        <member name="M:Common.Util.GM.VerifySm3WithSm2Asn1Rs(System.Byte[],System.Byte[],System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            
+             @param msg
+             @param userId
+             @param rs in <b>asn1 format</b>
+             @param publicKey
+             @return
+        </member>
+        <member name="M:Common.Util.GM.ChangeC1C2C3ToC1C3C2(System.Byte[])">
+            bc加解密使用旧标c1||c2||c3，此方法在加密后调用，将结果转化为c1||c3||c2
+            @param c1c2c3
+            @return
+        </member>
+        <member name="M:Common.Util.GM.ChangeC1C3C2ToC1C2C3(System.Byte[])">
+            bc加解密使用旧标c1||c3||c2，此方法在解密前调用，将密文转化为c1||c2||c3再去解密
+            @param c1c3c2
+            @return
+        </member>
+        <member name="M:Common.Util.GM.Sm2Decrypt(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            c1||c3||c2
+            @param data
+            @param key
+            @return
+        </member>
+        <member name="M:Common.Util.GM.Sm2Encrypt(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            c1||c3||c2
+            @param data
+            @param key
+            @return
+        </member>
+        <member name="M:Common.Util.GM.Sm2EncryptOld(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            c1||c2||c3
+            @param data
+            @param key
+            @return
+        </member>
+        <member name="M:Common.Util.GM.Sm2DecryptOld(System.Byte[],Org.BouncyCastle.Crypto.AsymmetricKeyParameter)">
+            c1||c2||c3
+            @param data
+            @param key
+            @return
+        </member>
+        <member name="M:Common.Util.GM.Sm3(System.Byte[])">
+            @param bytes
+            @return
+        </member>
+        <member name="M:Common.Util.GM.RsAsn1ToPlainByteArray(System.Byte[])">
+            BC的SM3withSM2签名得到的结果的rs是asn1格式的，这个方法转化成直接拼接r||s
+            @param rsDer rs in asn1 format
+            @return sign result in plain byte array
+        </member>
+        <member name="M:Common.Util.GM.RsPlainByteArrayToAsn1(System.Byte[])">
+            BC的SM3withSM2验签需要的rs是asn1格式的，这个方法将直接拼接r||s的字节数组转化成asn1格式
+            @param sign in plain byte array
+            @return rs result in asn1 format
+        </member>
+        <member name="M:Common.Util.GM.Join(System.Byte[][])">
+             字节数组拼接
+            
+             @param params
+             @return
+        </member>
+        <member name="M:Common.Util.GM.KDF(System.Byte[],System.Int32)">
+             密钥派生函数
+            
+             @param Z
+             @param klen
+             生成klen字节数长度的密钥
+             @return
+        </member>
+        <member name="M:Common.Util.GM.ReadSm2File(System.Byte[],System.String)">
+            cfca官网CSP沙箱导出的sm2文件
+            @param pem 二进制原文
+            @param pwd 密码
+            @return
+        </member>
+        <member name="M:Common.Util.GM.ReadSm2X509Cert(System.Byte[])">
+            
+             @param cert
+             @return
+        </member>
+        <member name="T:Common.Util.GMUtil">
+            <summary>
+            GM工具类
+            </summary>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM2Encrypt(System.String,System.String)">
+            <summary>
+            SM2加密
+            </summary>
+            <param name="publicKeyHex"></param>
+            <param name="data_string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM2Decrypt(System.String,System.String)">
+            <summary>
+            SM2解密
+            </summary>
+            <param name="privateKey_string"></param>
+            <param name="encryptedData_string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM4EncryptECB(System.String,System.String)">
+            <summary>
+            SM4加密（ECB）
+            </summary>
+            <param name="key_string"></param>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM4DecryptECB(System.String,System.String)">
+            <summary>
+            SM4解密（ECB）
+            </summary>
+            <param name="key_string"></param>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM4EncryptCBC(System.String,System.String,System.String)">
+            <summary>
+            SM4加密（CBC）
+            </summary>
+            <param name="key_string"></param>
+            <param name="iv_string"></param>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.SM4DecryptCBC(System.String,System.String,System.String)">
+            <summary>
+            SM4解密（CBC）
+            </summary>
+            <param name="key_string"></param>
+            <param name="iv_string"></param>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.GMUtil.HandleSm4Padding(System.Byte[],System.Int32)">
+            <summary>
+            补足 16 进制字符串的 0 字符，返回不带 0x 的16进制字符串
+            </summary>
+            <param name="input"></param>
+            <param name="mode">1表示加密，0表示解密</param>
+            <returns></returns>
+        </member>
+        <member name="T:Common.Util.HttpUtil">
+            <summary>
+            http工具类
+            </summary>
+        </member>
+        <member name="M:Common.Util.HttpUtil.SendPostRequest``1(``0,System.String)">
+            <summary>
+            发送post请求
+            </summary>
+            <param name="data"></param>
+            <param name="url"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Common.Util.JsonUtil.ObjToJson(System.Object,System.Boolean)">
+            <summary>
+            对象序列化
+            </summary>
+            <param name="obj">对象</param>
+            <param name="isUseTextJson">是否使用textjson</param>
+            <returns>返回json字符串</returns>
+        </member>
+        <member name="M:Common.Util.JsonUtil.JsonToObj``1(System.String,System.Boolean)">
+            <summary>
+            json反序列化obj
+            </summary>
+            <typeparam name="T">反序列类型</typeparam>
+            <param name="strJson">json</param>
+            <param name="isUseTextJson">是否使用textjson</param>
+            <returns>返回对象</returns>
+        </member>
+        <member name="M:Common.Util.JsonUtil.GetJSON``1(System.Object)">
+            <summary>
+            转换对象为JSON格式数据
+            </summary>
+            <typeparam name="T">类</typeparam>
+            <param name="obj">对象</param>
+            <returns>字符格式的JSON数据</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Common.Util.JsonUtil.JSON``1(System.Collections.Generic.List{``0})" -->
+        <member name="M:Common.Util.JsonUtil.ParseFormByJson``1(System.String)">
+            <summary>
+            JSON格式字符转换为T类型的对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="jsonStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.JsonUtil.GetValueLength(System.String,System.Boolean,System.Int32@)">
+            <summary>
+            获取值的长度（当Json值嵌套以"{"或"["开头时）
+            </summary>
+        </member>
+        <member name="M:Common.Util.JsonUtil.SetCharState(System.Char,Common.Util.CharState@)">
+            <summary>
+            设置字符状态(返回true则为关键词，返回false则当为普通字符处理）
+            </summary>
+        </member>
+        <member name="T:Common.Util.CharState">
+            <summary>
+            字符状态
+            </summary>
+        </member>
+        <member name="F:Common.Util.CharState.arrayStart">
+            <summary>
+            数组开始【仅第一开头才算】，值嵌套的以【childrenStart】来标识。
+            </summary>
+        </member>
+        <member name="F:Common.Util.CharState.state">
+            <summary>
+            【0 初始状态，或 遇到“,”逗号】；【1 遇到“：”冒号】
+            </summary>
+        </member>
+        <member name="F:Common.Util.CharState.keyStart">
+            <summary>
+            【-1 取值结束】【0 未开始】【1 无引号开始】【2 单引号开始】【3 双引号开始】
+            </summary>
+        </member>
+        <member name="F:Common.Util.CharState.valueStart">
+            <summary>
+            【-1 取值结束】【0 未开始】【1 无引号开始】【2 单引号开始】【3 双引号开始】
+            </summary>
+        </member>
+        <member name="M:Common.Util.MD5Util.MD5Encrypt16(System.String)">
+            <summary>
+            16位MD5加密
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.MD5Util.MD5Encrypt32(System.String)">
+            <summary>
+            32位MD5加密
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.MD5Util.MD5Encrypt64(System.String)">
+            <summary>
+            64位MD5加密
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.MD5Util.Sha1(System.String,System.String)">
+            <summary>
+            Sha1加密
+            </summary>
+            <param name="str">要加密的字符串</param>
+            <returns>加密后的十六进制的哈希散列（字符串）</returns>
+        </member>
+        <member name="M:Common.Util.MD5Util.Sha256(System.String,System.String)">
+            <summary>
+            Sha256加密
+            </summary>
+            <param name="str">要加密的字符串</param>
+            <returns>加密后的十六进制的哈希散列（字符串）</returns>
+        </member>
+        <member name="T:Common.Util.UploadOptions">
+            <summary>
+            文件上传配置选项
+            </summary>
+        </member>
+        <member name="P:Common.Util.UploadOptions.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:Common.Util.UploadOptions.MaxSize">
+            <summary>
+            大小
+            </summary>
+        </member>
+        <member name="P:Common.Util.UploadOptions.ContentType">
+            <summary>
+            上传格式
+            </summary>
+        </member>
+        <member name="P:Common.Util.UploadOptions.EnableMd5">
+            <summary>
+            启用文件MD5验证
+            </summary>
+            <remarks>防止重复上传</remarks>
+        </member>
+        <member name="T:Common.Util.VerifyFileExtensionName">
+            <summary>
+            验证文件类型
+            </summary>
+        </member>
+        <member name="M:Common.Util.VerifyFileExtensionName.IsSameType(System.IO.Stream,System.String)">
+            <summary>
+            文件格式和文件内容格式是否一致
+            </summary>
+            <param name="stream"></param>
+            <param name="suffix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Util.VerifyFileExtensionName.GetFileHeader(System.Byte[])">
+            根据文件转换成的字节数组获取文件头信息
+            @param 文件路径
+            @return 文件头信息
+        </member>
+        <member name="M:Common.Util.VerifyFileExtensionName.BytesToHexString(System.Byte[])">
+            将要读取文件头信息的文件的byte数组转换成string类型表示
+            下面这段代码就是用来对文件类型作验证的方法，
+            将字节数组的前四位转换成16进制字符串，并且转换的时候，要先和0xFF做一次与运算。
+            这是因为，整个文件流的字节数组中，有很多是负数，进行了与运算后，可以将前面的符号位都去掉，
+            这样转换成的16进制字符串最多保留两位，如果是正数又小于10，那么转换后只有一位，
+            需要在前面补0，这样做的目的是方便比较，取完前四位这个循环就可以终止了
+            @param src要读取文件头信息的文件的byte数组
+            @return 文件头信息
+        </member>
+    </members>
+</doc>

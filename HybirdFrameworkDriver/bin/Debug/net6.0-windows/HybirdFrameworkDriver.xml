@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HybirdFrameworkDriver</name>
+    </assembly>
+    <members>
+        <member name="T:HybirdFrameworkDriver.ModbusTcpMaster.ModbusDecoder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1.#ctor(System.Int32,System.Int32,System.Int32,HybirdFrameworkDriver.ModbusTcpMaster.ModbusDataType,System.Double,System.Int32,System.Double)">
+            <summary>
+            </summary>
+            <param name="registerNo">寄存器编号</param>
+            <param name="start">根据类型：Register为第几个寄存器</param>
+            <param name="length">根据类型：Register 为 几个寄存器(2byte)</param>
+            <param name="type">Register/Bit</param>
+            <param name="scale">精度</param>
+            <param name="round">保留几位小数</param>
+            <param name="offset">偏移量</param>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1.RegisterNo">
+            <summary>
+                寄存器编号
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1.Start">
+            <summary>
+                数据起始地址
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1.Length">
+            <summary>
+                数据域长度
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusProperty`1.Type">
+            <summary>
+                数据类型
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.ByteSeq">
+            <summary>
+            字节序
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.WordSeq">
+            <summary>
+            字序
+            </summary>
+        </member>
+        <member name="P:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.AutoReConnect">
+            <summary>
+            自动重连开关
+            </summary>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.ReadCoil(System.String)">
+            <summary>
+            读取线圈，需要指定起始地址，如果富文本地址不指定，默认使用的功能码是 0x01<br />
+            To read the coil, you need to specify the start address. If the rich text address is not specified, the default function code is 0x01.
+            </summary>
+            <param name="address">起始地址，格式为"1234"</param>
+            <returns>带有成功标志的bool对象</returns>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.ReadCoil(System.String,System.UInt16)">
+            <summary>
+            批量的读取线圈，需要指定起始地址，读取长度，如果富文本地址不指定，默认使用的功能码是 0x01<br />
+            For batch reading coils, you need to specify the start address and read length. If the rich text address is not specified, the default function code is 0x01.
+            </summary>
+            <param name="address">起始地址，格式为"1234"</param>
+            <param name="length">读取长度</param>
+            <returns>带有成功标志的bool数组对象</returns>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.ReadDiscrete(System.String)">
+            <summary>
+            读取输入线圈，需要指定起始地址，如果富文本地址不指定，默认使用的功能码是 0x02<br />
+            To read the input coil, you need to specify the start address. If the rich text address is not specified, the default function code is 0x02.
+            </summary>
+            <param name="address">起始地址，格式为"1234"</param>
+            <returns>带有成功标志的bool对象</returns>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.ReadDiscrete(System.String,System.UInt16)">
+            <summary>
+            批量的读取输入点，需要指定起始地址，读取长度，如果富文本地址不指定，默认使用的功能码是 0x02<br />
+            To read input points in batches, you need to specify the start address and read length. If the rich text address is not specified, the default function code is 0x02
+            </summary>
+            <param name="address">起始地址，格式为"1234"</param>
+            <param name="length">读取长度</param>
+            <returns>带有成功标志的bool数组对象</returns>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.Write(System.String,System.Byte[])">
+            <summary>
+            将数据写入到Modbus的寄存器上去，需要指定起始地址和数据内容，如果富文本地址不指定，默认使用的功能码是 0x10<br />
+            To write data to Modbus registers, you need to specify the start address and data content. If the rich text address is not specified, the default function code is 0x10
+            </summary>
+            <param name="address">起始地址，比如"100"，"x=4;100"，"s=1;100","s=1;x=4;100"</param>
+            <param name="value">写入的数据，长度根据data的长度来指示</param>
+            <returns>返回写入结果</returns>
+            <remarks>富地址格式，支持携带站号信息，功能码信息，具体参照类的示例代码</remarks>
+            <example>
+            此处演示批量写入的示例
+            <code lang="cs" source="HslCommunication_Net45.Test\Documentation\Samples\Modbus\Modbus.cs" region="WriteExample1" title="Write示例" />
+            </example>
+        </member>
+        <member name="M:HybirdFrameworkDriver.ModbusTcpMaster.ModbusTcpMaster.WriteRegisterOneBit(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+                写寄存器中的一个bit
+            </summary>
+            <param name="addr"></param>
+            <param name="location"></param>
+            <param name="boolResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HybirdFrameworkDriver.Session.ChannelUtils.AddChannelSession(DotNetty.Transport.Channels.IChannel,HybirdFrameworkDriver.Session.IoSession)">
+            添加新的会话
+            @param channel
+            @param session
+            @return
+        </member>
+        <member name="T:HybirdFrameworkDriver.TcpServer.TcpServer`3">
+            <summary>
+                netty server
+            </summary>
+        </member>
+        <member name="M:HybirdFrameworkDriver.TcpServer.TcpServer`3.Dispose">
+            <summary>
+                ??netty
+            </summary>
+        </member>
+    </members>
+</doc>

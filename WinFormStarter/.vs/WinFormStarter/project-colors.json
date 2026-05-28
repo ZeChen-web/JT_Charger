@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7c5d10aa-5c96-46ca-9937-70e52e0fc7b9": {
+      "ProjectGuid": "7c5d10aa-5c96-46ca-9937-70e52e0fc7b9",
+      "DisplayName": "WinFormStarter",
+      "ColorIndex": 0
+    },
+    "1c50123c-d8ec-43a2-ae00-9ce97175c709": {
+      "ProjectGuid": "1c50123c-d8ec-43a2-ae00-9ce97175c709",
+      "DisplayName": "WinFormStarter",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "杂项文件",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}

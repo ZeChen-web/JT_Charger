@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="7.1.0"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0"/>
+        <PackageReference Include="log4net" Version="2.0.15"/>
+        <PackageReference Include="SqlSugar.IOC" Version="2.0.0"/>
+        <PackageReference Include="SqlSugarCore" Version="5.1.4.115"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="log4net.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Entity\Entity.csproj"/>
+        <ProjectReference Include="..\Repository\Repository.csproj"/>
+        <ProjectReference Include="..\Service\Service.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="HybirdFrameworkCore">
+        <HintPath>..\Common\lib\HybirdFrameworkCore.dll</HintPath>
+      </Reference>
+      <Reference Include="HybirdFrameworkDriver">
+        <HintPath>..\Common\lib\HybirdFrameworkDriver.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

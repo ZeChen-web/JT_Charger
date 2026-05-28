@@ -1,0 +1,1116 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Repository</name>
+    </assembly>
+    <members>
+        <member name="M:Repository.BaseRepository`1.QueryById(System.Object,System.Boolean)">
+            <summary>
+                根据主值查询单条数据
+            </summary>
+            <param name="pkValue">主键值</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>泛型实体</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByIdAsync(System.Object,System.Boolean)">
+            <summary>
+                根据主值查询单条数据
+            </summary>
+            <param name="objId">Id（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>数据实体</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByIDs(System.Object[],System.Boolean)">
+            <summary>
+                根据主值列表查询单条数据
+            </summary>
+            <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
+            <returns>数据实体列表</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByIDsAsync(System.Object[],System.Boolean)">
+            <summary>
+                根据主值列表查询单条数据
+            </summary>
+            <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
+            <returns>数据实体列表</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByIDs(System.Int32[],System.Boolean)">
+            <summary>
+                根据主值列表查询单条数据
+            </summary>
+            <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
+            <returns>数据实体列表</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryIPageByCause(HybirdFrameworkCore.Entity.QueryPageModel,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            根据条件查询表单数据(分页)
+            </summary>
+            <param name="page"> 页数</param>
+            <param name="pageSize">每页几条数据</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryIPageByCauseAsync(HybirdFrameworkCore.Entity.QueryPageModel,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            根据条件查询表单数据(分页) 异步
+            </summary>
+            <param name="page"></param>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryIPage(HybirdFrameworkCore.Entity.QueryPageModel)">
+            <summary>
+            查询表单所有数据(分页)
+            </summary>
+            <param name="page"> 页数</param>
+            <param name="pageSize">每页几条数据</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryIPageAsync(HybirdFrameworkCore.Entity.QueryPageModel)">
+            <summary>
+            查询表单所有数据(分页) 异步
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByIDsAsync(System.Int32[],System.Boolean)">
+            <summary>
+                根据主值列表查询单条数据
+            </summary>
+            <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
+            <returns>数据实体列表</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Query(System.Boolean)">
+            <summary>
+                查询表单所有数据(无分页,请慎用)
+            </summary>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryAsync(System.Boolean)">
+            <summary>
+                查询表单所有数据(无分页,请慎用)
+            </summary>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClause(System.String,System.String,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="strWhere">条件</param>
+            <param name="orderBy">排序字段，如name asc,age desc</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>泛型实体集合</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClauseAsync(System.String,System.String,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="strWhere">条件</param>
+            <param name="orderBy">排序字段，如name asc,age desc</param>
+            <returns>泛型实体集合</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderBy">排序字段，如name asc,age desc</param>
+            <returns>泛型实体集合</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.String,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderBy">排序字段，如name asc,age desc</param>
+            <returns>泛型实体集合</returns>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>泛型实体集合</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>泛型实体集合</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询一定数量数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="take">获取数量</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32,System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询一定数量数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="take">获取数量</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32,System.String,System.Boolean)">
+            <summary>
+                根据条件查询一定数量数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="take">获取数量</param>
+            <param name="strOrderByFileds">排序字段，如name asc,age desc</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryListByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32,System.String,System.Boolean)">
+            <summary>
+                根据条件查询一定数量数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="take">获取数量</param>
+            <param name="strOrderByFileds">排序字段，如name asc,age desc</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByClause(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByClauseAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}},SqlSugar.OrderByType,System.Boolean)">
+            <summary>
+                根据条件查询数据
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="orderByPredicate">排序字段</param>
+            <param name="orderByType">排序顺序</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryByClauseAsync``3(System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Object}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2}})">
+             <summary>
+            
+             </summary>
+             <typeparam name="T"></typeparam>
+             <typeparam name="T2"></typeparam>
+             <typeparam name="TResult"></typeparam>
+             <param name="joinExpression"></param>
+             <param name="whereExpression"></param>
+             <param name="orderExpression"></param>
+             <param name="selectExpression"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Insert(`0)">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertOrUpdate(`0)">
+            <summary>
+                写入或者更新实体数据
+            </summary>
+            <param name="entity">实体数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertAsync(`0)">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Insert(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体数据</param>
+            <param name="insertColumns">插入的列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertAsync(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体数据</param>
+            <param name="insertColumns">插入的列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertGuid(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体类</param>
+            <param name="insertColumns">需插入的字段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertGuidAsync(`0,System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+                写入实体数据
+            </summary>
+            <param name="entity">实体类</param>
+            <param name="insertColumns">需插入的字段</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Insert(System.Collections.Generic.List{`0})">
+            <summary>
+                批量写入实体数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertAsync(System.Collections.Generic.List{`0})">
+            <summary>
+                批量写入实体数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.InsertCommandAsync(System.Collections.Generic.List{`0})">
+            <summary>
+                批量写入实体数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(System.Collections.Generic.List{`0})">
+            <summary>
+                批量更新实体数据
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(System.Collections.Generic.List{`0})">
+            <summary>
+                批量更新实体数据
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(`0)">
+            <summary>
+                更新实体数据
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(`0)">
+            <summary>
+                更新实体数据
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(`0,System.String)">
+            <summary>
+                根据手写条件更新
+            </summary>
+            <param name="entity"></param>
+            <param name="strWhere"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(`0,System.String)">
+            <summary>
+                根据手写条件更新
+            </summary>
+            <param name="entity"></param>
+            <param name="strWhere"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(System.String,SqlSugar.SugarParameter[])">
+            <summary>
+                根据手写sql语句更新数据
+            </summary>
+            <param name="strSql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(System.String,SqlSugar.SugarParameter[])">
+            <summary>
+                根据手写sql语句更新数据
+            </summary>
+            <param name="strSql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(System.Linq.Expressions.Expression{System.Func{`0,`0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                更新某个字段
+            </summary>
+            <param name="columns">lamdba表达式,如it => new Student() { Name = "a", CreateTime = DateTime.Now }</param>
+            <param name="where">lamdba判断</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(System.Linq.Expressions.Expression{System.Func{`0,`0}},System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                更新某个字段
+            </summary>
+            <param name="columns">lamdba表达式,如it => new Student() { Name = "a", CreateTime = DateTime.Now }</param>
+            <param name="where">lamdba判断</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.UpdateAsync(`0,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+                根据条件更新
+            </summary>
+            <param name="entity"></param>
+            <param name="lstColumns"></param>
+            <param name="lstIgnoreColumns"></param>
+            <param name="strWhere"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Update(`0,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+                根据条件更新
+            </summary>
+            <param name="entity"></param>
+            <param name="lstColumns"></param>
+            <param name="lstIgnoreColumns"></param>
+            <param name="strWhere"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Delete(`0)">
+            <summary>
+                删除数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteAsync(`0)">
+            <summary>
+                删除数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Delete(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+                删除数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteAsync(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+                删除数据
+            </summary>
+            <param name="entity">实体类</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteUserRoleByRoleId(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Int64}},System.Action{System.Int64})">
+            <summary>
+            新增方法
+            该方法用于：根据角色Id删除用户角色
+            </summary>
+            <param name="predicate"></param>
+            <param name="selectExpression"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Delete(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                删除数据
+            </summary>
+            <param name="where">过滤条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+                删除数据
+            </summary>
+            <param name="where">过滤条件</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteById(System.Object)">
+            <summary>
+                删除指定ID的数据
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdAsync(System.Object)">
+            <summary>
+                删除指定ID的数据
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Int32[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Int32[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Int64[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Int64[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Guid[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Guid[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.String[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.String[])">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Collections.Generic.List{System.Int32})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Collections.Generic.List{System.Int32})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Collections.Generic.List{System.String})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Collections.Generic.List{System.String})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Collections.Generic.List{System.Guid})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Collections.Generic.List{System.Guid})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIds(System.Collections.Generic.List{System.Int64})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.DeleteByIdsAsync(System.Collections.Generic.List{System.Int64})">
+            <summary>
+                删除指定ID集合的数据(批量删除)
+            </summary>
+            <param name="ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.Exists(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                判断数据是否存在
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.ExistsAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                判断数据是否存在
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetCount(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                获取数据总数
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetCountAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
+            <summary>
+                获取数据总数
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSum(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Int32}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSumAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Int32}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSum(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSumAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSum(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Single}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.GetSumAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Single}},System.Boolean)">
+            <summary>
+                获取数据某个字段的合计
+            </summary>
+            <param name="predicate">条件表达式树</param>
+            <param name="field">字段</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuch``3(System.Linq.Expressions.Expression{System.Func{``0,``1,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-2表查询
+            </summary>
+            <typeparam name="T1">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuchAsync``3(System.Linq.Expressions.Expression{System.Func{``0,``1,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-多表查询
+            </summary>
+            <typeparam name="T1">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuchFirst``3(System.Linq.Expressions.Expression{System.Func{``0,``1,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-二表查询
+            </summary>
+            <typeparam name="T1">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuchFirstAsync``3(System.Linq.Expressions.Expression{System.Func{``0,``1,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2}},System.Linq.Expressions.Expression{System.Func{``0,``1,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-二表查询
+            </summary>
+            <typeparam name="T1">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuch``4(System.Linq.Expressions.Expression{System.Func{``0,``1,``2,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,``3}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-三表查询
+            </summary>
+            <typeparam name="T">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="T3">实体3</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuch``5(System.Linq.Expressions.Expression{System.Func{``0,``1,``2,``3,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,``3,``4}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,``3,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-4表查询
+            </summary>
+            <typeparam name="T">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="T3">实体3</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <member name="M:Repository.BaseRepository`1.QueryMuchAsync``4(System.Linq.Expressions.Expression{System.Func{``0,``1,``2,System.Object[]}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,``3}},System.Linq.Expressions.Expression{System.Func{``0,``1,``2,System.Boolean}},System.Boolean)">
+            <summary>
+                查询-三表查询
+            </summary>
+            <typeparam name="T">实体1</typeparam>
+            <typeparam name="T2">实体2</typeparam>
+            <typeparam name="T3">实体3</typeparam>
+            <typeparam name="TResult">返回对象</typeparam>
+            <param name="joinExpression">关联表达式 (join1,join2) => new object[] {JoinType.Left,join1.UserNo==join2.UserNo}</param>
+            <param name="selectExpression">返回表达式 (s1, s2) => new { Id =s1.UserNo, Id1 = s2.UserNo}</param>
+            <param name="whereLambda">查询表达式 (w1, w2) =>w1.UserNo == "")</param>
+            <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+            <returns>值</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Repository.BaseRepository`1.SqlQuery(System.String,System.Collections.Generic.List{SqlSugar.SugarParameter})" -->
+        <!-- Badly formed XML comment ignored for member "M:Repository.BaseRepository`1.SqlQueryable(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Repository.BaseRepository`1.SqlQueryable2(System.String,SqlSugar.SugarParameter[],System.Int32,System.Boolean)" -->
+        <member name="M:Repository.BaseRepository`1.AddNoLockHint(System.String)">
+            <summary>
+            在SQL中添加NOLOCK提示
+            </summary>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            实体假删除 _rep.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDelete``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,System.Collections.Generic.List{``0})">
+            <summary>
+            实体集合批量假删除 _rep.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDelete``1(SqlSugar.ISqlSugarClient,System.Collections.Generic.List{``0})">
+            <summary>
+            实体集合批量假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            实体假删除异步 _rep.FakeDeleteAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,System.Collections.Generic.List{``0})">
+            <summary>
+            实体集合批量假删除异步 _rep.FakeDeleteAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISqlSugarClient,System.Collections.Generic.List{``0})">
+            <summary>
+            实体集合批量假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.OrderBuilder``1(SqlSugar.ISugarQueryable{``0},HybirdFrameworkCore.Entity.QueryPageModel,System.String,System.String,System.Boolean)">
+            <summary>
+            排序方式(默认降序)
+            </summary>
+            <param name="queryable"></param>
+            <param name="pageInput"> </param>
+            <param name="prefix"> </param>
+            <param name="defaultSortField"> 默认排序字段 </param>
+            <param name="descSort"> 是否降序 </param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.AS``1(SqlSugar.ISugarQueryable{``0})">
+            <summary>
+            多库查询
+            </summary>
+            <param name="queryable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.AS``2(SqlSugar.ISugarQueryable{``0,``1})">
+            <summary>
+            多库查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <param name="queryable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.AS``1(SqlSugar.IUpdateable{``0})">
+            <summary>
+            多库更新
+            </summary>
+            <param name="updateable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.AS``1(SqlSugar.IInsertable{``0})">
+            <summary>
+            多库新增
+            </summary>
+            <param name="insertable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.AS``1(SqlSugar.IDeleteable{``0})">
+            <summary>
+            多库删除
+            </summary>
+            <param name="deleteable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.GetTableInfo``1">
+            <summary>
+            根据实体类型获取表信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.RunWithoutFilter(SqlSugar.ISugarRepository,System.Action)">
+            <summary>
+            禁用过滤器-适用于更新和删除操作（只对当前请求有效，禁止使用异步）
+            </summary>
+            <param name="repository"></param>
+            <param name="action">禁止异步</param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.IgnoreTenant``1(SqlSugar.ISugarQueryable{``0},System.Boolean)">
+            <summary>
+            忽略租户
+            </summary>
+            <param name="queryable"></param>
+            <param name="ignore">是否忽略 默认true</param>
+            <returns> </returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.Where``1(``0,System.Func{``0,System.Boolean})">
+            <summary>
+            导航+子表过滤 创建一个扩展函数，默认是Class不支持Where
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="thisValue"></param>
+            <param name="whereExpression"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.WhereIF``1(``0,System.Boolean,System.Func{``0,System.Boolean})">
+            <summary>
+            导航+子表过滤 创建一个扩展函数，默认是Class不支持WhereIF
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="thisValue"></param>
+            <param name="isWhere"></param>
+            <param name="whereExpression"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.RepositoryExtension.OnlyUpdateColumn``2(SqlSugar.IUpdateable{``0})">
+            <summary>
+            只更新某些列
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="R"></typeparam>
+            <param name="updateable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.Station.BinGunInfoRepository.QueryByBinNo(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="binNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.Station.BinInfoRepository.UpdateStatus(System.Int32)">
+            <summary>
+            禁用仓位
+            </summary>
+            <param name="id"></param>
+            <returns>修改结果</returns>
+        </member>
+        <member name="M:Repository.Station.BinInfoRepository.QueryByBinNo(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="binNo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.Station.ChargeOrderRepository.SaveChargeGunOrder(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            创建充电订单
+            </summary>
+            <param name="chargeOrder">订单编号</param>
+            <param name="chargeOrderNo">云平台订单编号</param>
+            <param name="chargerNo">充电机编号</param>
+            <param name="chargerGunNo">充电枪编号</param>
+            <param name="outChargerGunNo">站外充电枪编号，站外1枪或2枪</param>
+        </member>
+        <member name="M:Repository.Station.ChargeOrderRepository.QueryBySwapOrderAndBatterySn(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="swapOrderNo"></param>
+            <param name="batteryNo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Repository.Station.ElecPriceModelVersionDetailRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Repository.Station.ElecPriceModelVersionDetailRepository.#ctor(SqlSugar.ISqlSugarClient)">
+            <summary>
+            
+            </summary>
+            <param name="sqlSugar"></param>
+        </member>
+        <member name="T:Repository.Station.ElecPriceModelVersionRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Repository.Station.ElecPriceModelVersionRepository.#ctor(SqlSugar.ISqlSugarClient)">
+            <summary>
+            
+            </summary>
+            <param name="sqlSugar"></param>
+        </member>
+        <member name="M:Repository.Station.EquipAlarmDefineRepository.SelectByEquipCodeAndErrorCode(System.Int32,System.String)">
+             <summary>
+            
+             </summary>
+             <param name="equipTypeCode">0-充电机;1-电表；2-水冷；3-plc；</param>
+             <param name="equipCode"></param>
+             <param name="errorCode"></param>
+             <returns></returns>
+        </member>
+        <member name="M:Repository.Station.SwapOrderBatteryRepository.QueryLatestOrderNoByBatterySn(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="batterySn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Repository.UnitOfWork.UnitOfWork.GetDbClient">
+            <summary>
+                获取DB，保证唯一性
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
