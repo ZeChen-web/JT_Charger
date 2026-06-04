@@ -23,7 +23,7 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
             client.PileCode = msg.PileCode;
             client.IsLoggedIn = true;
 
-            var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
+            var resp = new V14DLoginResp(msg.PileCode, 0x01) { SeqNo = msg.SeqNo };
             ctx.Channel.WriteAndFlushAsync(resp);
         }
     }

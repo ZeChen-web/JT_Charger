@@ -5,10 +5,14 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>11.5 二维码应答 (0x9B, 上行)</summary>
 public class V14DQRCodeReplyReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.QRCodeReply;
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    public byte Result { get; set; } // 0x00失败 0x01成功
+    /// <summary>处理结果，1 字节 BIN；具体取值按当前报文定义。</summary>
+    public byte Result { get; set; }
     public V14DQRCodeReplyReq() { }
     public V14DQRCodeReplyReq(byte[] body)
     {

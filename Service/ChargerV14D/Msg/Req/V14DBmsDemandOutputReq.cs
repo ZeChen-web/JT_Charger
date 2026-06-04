@@ -5,21 +5,36 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>7.9 充电过程BMS需求与充电机输出 (0x23, 上行, 15秒周期)</summary>
 public class V14DBmsDemandOutputReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.BmsDemandOutput;
+    /// <summary>交易流水号，16 字节 BCD。</summary>
     public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    public ushort BmsVoltageDemand { get; set; }       // 2B 0.1V/位
-    public ushort BmsCurrentDemand { get; set; }        // 2B 0.1A/位, -400A
-    public byte BmsChargeMode { get; set; }              // 1B 0x01恒压 0x02恒流
-    public ushort BmsVoltageMeasured { get; set; }       // 2B 0.1V/位
-    public ushort BmsCurrentMeasured { get; set; }       // 2B 0.1A/位, -400A
-    public ushort BmsMaxCellVoltageGroup { get; set; }   // 2B 高12位电压, 低4位组号
-    public byte BmsSoc { get; set; }                     // 1B 1%/位
-    public ushort BmsRemainTime { get; set; }            // 2B 分钟
-    public ushort PileOutputVoltage { get; set; }        // 2B 0.1V/位
-    public ushort PileOutputCurrent { get; set; }        // 2B 0.1A/位, -400A
-    public ushort AccumulatedChargeTime { get; set; }    // 2B 分钟
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort BmsVoltageDemand { get; set; }
+    /// <summary>电流字段，按协议精度换算。</summary>
+    public ushort BmsCurrentDemand { get; set; }
+    /// <summary>BMS 充电模式，1 字节 BIN；0x01 恒压，0x02 恒流。</summary>
+    public byte BmsChargeMode { get; set; }
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort BmsVoltageMeasured { get; set; }
+    /// <summary>电流字段，按协议精度换算。</summary>
+    public ushort BmsCurrentMeasured { get; set; }
+    /// <summary>最高单体动力蓄电池电压及组号，2 字节 BIN；高 12 位电压，低 4 位组号。</summary>
+    public ushort BmsMaxCellVoltageGroup { get; set; }
+    /// <summary>SOC 字段，按协议精度换算。</summary>
+    public byte BmsSoc { get; set; }
+    /// <summary>BMS 估算剩余充电时间，2 字节 BIN，单位分钟。</summary>
+    public ushort BmsRemainTime { get; set; }
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort PileOutputVoltage { get; set; }
+    /// <summary>电流字段，按协议精度换算。</summary>
+    public ushort PileOutputCurrent { get; set; }
+    /// <summary>时间字段，按协议格式解析。</summary>
+    public ushort AccumulatedChargeTime { get; set; }
 
     public V14DBmsDemandOutputReq() { }
     public V14DBmsDemandOutputReq(byte[] body)

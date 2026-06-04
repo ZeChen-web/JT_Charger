@@ -5,9 +5,12 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>11.2 远程重启应答 (0x91, 上行)</summary>
 public class V14DRemoteRestartReplyReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.RemoteRestartReply;
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
-    public byte Result { get; set; } // 0x00失败 0x01成功
+    /// <summary>处理结果，1 字节 BIN；具体取值按当前报文定义。</summary>
+    public byte Result { get; set; }
     public V14DRemoteRestartReplyReq() { }
     public V14DRemoteRestartReplyReq(byte[] body)
     {

@@ -2,13 +2,16 @@ using Service.ChargerV14D.Common;
 
 namespace Service.ChargerV14D.Msg.Resp;
 
-/// <summary>8.11 离线卡数据同�?(0x44, 下行)</summary>
+/// <summary>8.11 离线卡数据同步命令报文 (0x44，下行)。</summary>
 public class V14DCardSyncCmd : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.CardSync;
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>卡数量，1 字节 BIN。</summary>
     public byte CardCount { get; set; }
-    // 每张�? 8B逻辑卡号 + 8B物理卡号 = 16B/�?
+    /// <summary>卡数据列表；每张卡包含 8 字节逻辑卡号和 8 字节物理卡号。</summary>
     public List<(string LogicCard, string PhysicalCard)> Cards { get; set; } = new();
 
     public V14DCardSyncCmd() { }

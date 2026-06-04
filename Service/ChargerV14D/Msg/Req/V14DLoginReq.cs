@@ -3,35 +3,34 @@ using Service.ChargerV14D.Common;
 
 namespace Service.ChargerV14D.Msg.Req;
 
-/// <summary>
-/// 6.1 充电桩登录认�?(帧类�?0x01, 上行)
-/// </summary>
+/// <summary>6.1 登录认证报文 (0x01，上行)。</summary>
 public class V14DLoginReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.Login;
 
-    /// <summary>桩编�?(7字节BCD, 不足7位补0)</summary>
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
 
-    /// <summary>桩类�?(0=直流, 1=交流)</summary>
+    /// <summary>桩类型，1 字节 BIN。</summary>
     public byte PileType { get; set; }
 
-    /// <summary>充电枪数�?/summary>
+    /// <summary>充电枪数量，1 字节 BIN。</summary>
     public byte GunCount { get; set; }
 
-    /// <summary>通信协议版本 (版本号乘10, V1.4=0x0E)</summary>
+    /// <summary>协议版本号，8 字节 ASCII，右补 0。</summary>
     public byte ProtocolVersion { get; set; }
 
-    /// <summary>程序版本 (8字节ASCII, 不足8位补�?</summary>
+    /// <summary>程序版本号，10 字节 ASCII，右补 0。</summary>
     public string ProgramVersion { get; set; } = "";
 
-    /// <summary>网络链接类型</summary>
+    /// <summary>网络类型，1 字节 BIN。</summary>
     public byte NetworkType { get; set; }
 
-    /// <summary>SIM卡号 (10字节BCD, 不足10位补�?</summary>
+    /// <summary>SIM 卡号，10 字节 BCD。</summary>
     public string SimCard { get; set; } = "";
 
-    /// <summary>杩愯惀鍟?/summary>
+    /// <summary>运营商，1 字节 BIN。</summary>
     public byte Operator { get; set; }
 
     public V14DLoginReq() { }

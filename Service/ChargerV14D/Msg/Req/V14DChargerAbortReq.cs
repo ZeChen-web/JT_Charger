@@ -5,13 +5,20 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>7.8 充电阶段充电机中止 (0x21, 上行)</summary>
 public class V14DChargerAbortReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.ChargerAbort;
+    /// <summary>交易流水号，16 字节 BCD。</summary>
     public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    public byte ChargerStopReason { get; set; }       // 1B 充电机中止充电原因
-    public ushort ChargerStopFaultReason { get; set; } // 2B 充电机中止充电故障原因
-    public byte ChargerStopErrorReason { get; set; }   // 1B 充电机中止充电错误原因
+    /// <summary>充电机中止充电原因，1 字节 BIN。</summary>
+    public byte ChargerStopReason { get; set; }
+    /// <summary>充电机中止充电故障原因，2 字节 BIN。</summary>
+    public ushort ChargerStopFaultReason { get; set; }
+    /// <summary>充电机中止充电错误原因，1 字节 BIN。</summary>
+    public byte ChargerStopErrorReason { get; set; }
 
     public V14DChargerAbortReq() { }
     public V14DChargerAbortReq(byte[] body)

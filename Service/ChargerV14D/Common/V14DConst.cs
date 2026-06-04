@@ -13,8 +13,8 @@ public static class V14DConst
     /// <summary>加密标志：3DES</summary>
     public const byte Encrypt3DES = 0x01;
 
-    /// <summary>最小帧长度: 0x68 + DataLen(2) + SeqNo(2) + EncryptFlag(1) + FrameType(1) + CRC(2) = 9</summary>
-    public const int MinFrameLength = 9;
+    /// <summary>最小帧长度: 0x68 + DataLen(1) + SeqNo(2) + EncryptFlag(1) + FrameType(1) + CRC(2) = 8</summary>
+    public const int MinFrameLength = 8;
 
     /// <summary>最大数据域长度</summary>
     public const int MaxDataLen = 200;

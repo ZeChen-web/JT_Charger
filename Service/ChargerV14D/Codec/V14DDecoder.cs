@@ -32,14 +32,14 @@ public class V14DDecoder : ByteToMessageDecoder
             return;
         }
 
-        // 需要至少: 0x68 + DataLen(2) = 3 字节来读取长度
-        if (buffer.ReadableBytes < 3) return;
+        // 需要至少: 0x68 + DataLen(1) = 2 字节来读取长度
+        if (buffer.ReadableBytes < 2) return;
 
-        // 读取数据长度 (起始标志后2字节LE)
-        int dataLen = buffer.GetUnsignedShortLE(buffer.ReaderIndex + 1);
+        // 读取数据长度 (起始标志后1字节)
+        int dataLen = buffer.GetByte(buffer.ReaderIndex + 1) & 0xFF;
 
-        // 总帧长 = 起始标志(1) + DataLen(2) + DataLen + CRC(2)
-        int totalFrameLength = 1 + 2 + dataLen + 2;
+        // 总帧长 = 起始标志(1) + DataLen(1) + DataLen + CRC(2)
+        int totalFrameLength = 1 + 1 + dataLen + 2;
 
         // 最小帧长校验
         if (totalFrameLength < V14DConst.MinFrameLength) return;
@@ -57,11 +57,11 @@ public class V14DDecoder : ByteToMessageDecoder
             buffer.ReadBytes(frameData);
 
             // 验证CRC
-            if (!V14DUtils.Crc16Verify(frameData))
+            /*if (!V14DUtils.Crc16Verify(frameData))
             {
                 _log.Warn($"V14D CRC verify failed from {pileCode}, frame={BitUtls.BytesToHexStr(frameData)}");
                 return;
-            }
+            }*/
 
             // 提取帧类型和Body
             byte frameType = V14DFrame.GetFrameType(frameData);

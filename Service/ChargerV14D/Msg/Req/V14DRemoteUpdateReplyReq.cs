@@ -5,9 +5,12 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>11.4 远程更新应答 (0x93, 上行)</summary>
 public class V14DRemoteUpdateReplyReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.RemoteUpdateReply;
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
-    public byte UpgradeStatus { get; set; } // 0x00成功 0x01编号错 0x02型号不匹配 0x03下载超时
+    /// <summary>升级状态，1 字节 BIN；按协议升级状态定义。</summary>
+    public byte UpgradeStatus { get; set; }
     public V14DRemoteUpdateReplyReq() { }
     public V14DRemoteUpdateReplyReq(byte[] body)
     {

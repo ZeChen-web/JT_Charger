@@ -17,7 +17,7 @@ public class V14DBillingModelVerifyHandler : SimpleChannelInboundHandler<V14DBil
         if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
         {
             Log.Info($"V14D BillingModelVerify from {sn}, modelNo={msg.ModelNo}");
-            // 回复计费模型一致
+            // TODO::回复计费模型一致
             var resp = new V14DBillingModelVerifyResp(msg.PileCode, msg.ModelNo, 0x00) { SeqNo = msg.SeqNo };
             ctx.Channel.WriteAndFlushAsync(resp);
         }

@@ -94,10 +94,10 @@ public static class V14DUtils
     /// <returns>CRC是否正确</returns>
     public static bool Crc16Verify(byte[] frame)
     {
-        // frame完整格式: StartFlag(1) + DataLen(2) + [SeqNo(2)+EncryptFlag(1)+FrameType(1)+Body(N)] + CRC(2)
+        // frame完整格式: StartFlag(1) + DataLen(1) + [SeqNo(2)+EncryptFlag(1)+FrameType(1)+Body(N)] + CRC(2)
         // CRC覆盖从SeqNo到Body结束的数据
-        int dataLen = BitConverter.ToUInt16(frame, 1);
-        int dataStart = 3; // SeqNo起始位置 (跳过StartFlag+DataLen)
+        int dataLen = frame[1];
+        int dataStart = 2; // SeqNo起始位置 (跳过StartFlag+DataLen)
         int dataLength = dataLen; // 就是DataLen的值
         ushort expectedCrc = BitConverter.ToUInt16(frame, dataStart + dataLen);
         ushort actualCrc = Crc16(frame, dataStart, dataLength);

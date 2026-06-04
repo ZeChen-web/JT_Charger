@@ -5,24 +5,42 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>7.3 充电握手 (0x15, 上行) GBT-27930充电桩与BMS充电握手阶段报文</summary>
 public class V14DChargeHandshakeReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.ChargeHandshake;
-    public string TransactionSN { get; set; } = "";     // 16B BCD
-    public string PileCode { get; set; } = "";           // 7B BCD
-    public byte Gun { get; set; }                         // 1B
-    public byte[] BmsProtocolVer { get; set; } = new byte[3]; // 3B BMS协议版本
-    public byte BmsBatType { get; set; }                  // 1B 电池类型
-    public ushort BmsRatedCapacity { get; set; }          // 2B 0.1Ah/位
-    public ushort BmsRatedVoltage { get; set; }           // 2B 0.1V/位
-    public byte[] BmsManufacturer { get; set; } = new byte[4]; // 4B ASCII
-    public byte[] BmsBatSN { get; set; } = new byte[4];   // 4B BIN
-    public byte BmsYear { get; set; }                      // 1B (1985偏移)
-    public byte BmsMonth { get; set; }                     // 1B
-    public byte BmsDay { get; set; }                       // 1B
-    public byte[] BmsChargeCount { get; set; } = new byte[3]; // 3B
-    public byte BmsOwnership { get; set; }                 // 1B
-    public byte Reserve { get; set; }                      // 1B
-    public byte[] VinCode { get; set; } = new byte[17];   // 17B VIN
-    public byte[] BmsSoftwareVer { get; set; } = new byte[8]; // 8B
+    /// <summary>交易流水号，16 字节 BCD。</summary>
+    public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
+    public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
+    public byte Gun { get; set; }
+    /// <summary>BMS 通信协议版本号，3 字节 BIN。</summary>
+    public byte[] BmsProtocolVer { get; set; } = new byte[3];
+    /// <summary>电池类型，1 字节 BIN。</summary>
+    public byte BmsBatType { get; set; }
+    /// <summary>电池额定容量，2 字节 BIN，0.1Ah/位。</summary>
+    public ushort BmsRatedCapacity { get; set; }
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort BmsRatedVoltage { get; set; }
+    /// <summary>电池生产厂商名称，4 字节 ASCII。</summary>
+    public byte[] BmsManufacturer { get; set; } = new byte[4];
+    /// <summary>BMS/电池编号，4 字节 BIN，厂商自定义。</summary>
+    public byte[] BmsBatSN { get; set; } = new byte[4];
+    /// <summary>电池组生产年份，1 字节 BIN，偏移 1985。</summary>
+    public byte BmsYear { get; set; }
+    /// <summary>电池组生产月份，1 字节 BIN。</summary>
+    public byte BmsMonth { get; set; }
+    /// <summary>电池组生产日期，1 字节 BIN。</summary>
+    public byte BmsDay { get; set; }
+    /// <summary>电池组充电次数，3 字节 BIN。</summary>
+    public byte[] BmsChargeCount { get; set; } = new byte[3];
+    /// <summary>电池组产权标识，1 字节 BIN。</summary>
+    public byte BmsOwnership { get; set; }
+    /// <summary>保留字段，按协议默认置 0。</summary>
+    public byte Reserve { get; set; }
+    /// <summary>车辆 VIN，17 字节 ASCII，右补 0。</summary>
+    public byte[] VinCode { get; set; } = new byte[17];
+    /// <summary>BMS 软件版本号，8 字节 ASCII，右补 0。</summary>
+    public byte[] BmsSoftwareVer { get; set; } = new byte[8];
 
     public V14DChargeHandshakeReq() { }
     public V14DChargeHandshakeReq(byte[] body)

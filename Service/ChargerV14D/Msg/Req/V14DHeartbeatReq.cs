@@ -7,15 +7,16 @@ namespace Service.ChargerV14D.Msg.Req;
 /// </summary>
 public class V14DHeartbeatReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.Heartbeat;
 
-    /// <summary>桩编码 (7字节BCD)</summary>
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
 
-    /// <summary>枪号</summary>
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte GunNo { get; set; }
 
-    /// <summary>枪状态 0x00=正常 0x01=故障</summary>
+    /// <summary>枪状态，1 字节 BIN；表示当前充电枪工作状态。</summary>
     public byte GunStatus { get; set; }
 
     public V14DHeartbeatReq() { }

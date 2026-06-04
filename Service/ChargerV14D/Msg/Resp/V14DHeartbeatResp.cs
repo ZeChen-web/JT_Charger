@@ -7,15 +7,16 @@ namespace Service.ChargerV14D.Msg.Resp;
 /// </summary>
 public class V14DHeartbeatResp : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.HeartbeatResp;
 
-    /// <summary>桩编码 (7字节BCD)</summary>
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
 
-    /// <summary>枪号</summary>
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte GunNo { get; set; }
 
-    /// <summary>心跳应答 (置0)</summary>
+    /// <summary>应答结果，1 字节 BIN；心跳应答默认置 0。</summary>
     public byte Response { get; set; } = 0;
 
     public V14DHeartbeatResp() { }

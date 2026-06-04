@@ -8,6 +8,8 @@ using HybirdFrameworkCore.Job;
 using HybirdFrameworkCore.Redis;
 using log4net;
 using Service.Charger.Client;
+using Service.Charger.Server;
+using Service.ChargerV14D.Client;
 using Service.RealTime;
 using SqlSugar;
 using SqlSugar.IOC;
@@ -101,7 +103,10 @@ foreach (var s in list.Split(";"))
 
 
 AppInfo.Container = app.Services.GetAutofacRoot();
-ClientMgr.InitClient();
+//ClientMgr.InitClient();
+//V14DClientMgr.InitClient();
+
+ServerMgr.InitServer(2408);
 
 TaskInit.Init();
 QuartzSchedulerFactory.Init();

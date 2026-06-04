@@ -5,18 +5,30 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>7.5 充电结束 (0x19, 上行) GBT-27930</summary>
 public class V14DChargeEndReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.ChargeEnd;
+    /// <summary>交易流水号，16 字节 BCD。</summary>
     public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    public byte BmsEndSoc { get; set; }                 // 1B 1%/位
-    public ushort BmsMinCellVoltage { get; set; }       // 2B 0.01V/位
-    public ushort BmsMaxCellVoltage { get; set; }       // 2B 0.01V/位
-    public byte BmsMinTemp { get; set; }                // 1B 1C/位 -50C偏移
-    public byte BmsMaxTemp { get; set; }                // 1B 1C/位 -50C偏移
-    public ushort ChargeTime { get; set; }              // 2B 分钟
-    public ushort OutputEnergy { get; set; }            // 2B 0.1kWh/位
-    public uint ChargerNo { get; set; }                 // 4B 充电机编号
+    /// <summary>结束时 BMS SOC，1 字节 BIN，1%/位。</summary>
+    public byte BmsEndSoc { get; set; }
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort BmsMinCellVoltage { get; set; }
+    /// <summary>电压字段，按协议精度换算。</summary>
+    public ushort BmsMaxCellVoltage { get; set; }
+    /// <summary>温度字段，按协议偏移和精度换算。</summary>
+    public byte BmsMinTemp { get; set; }
+    /// <summary>温度字段，按协议偏移和精度换算。</summary>
+    public byte BmsMaxTemp { get; set; }
+    /// <summary>时间字段，按协议格式解析。</summary>
+    public ushort ChargeTime { get; set; }
+    /// <summary>输出电量，2 字节 BIN，0.1kWh/位。</summary>
+    public ushort OutputEnergy { get; set; }
+    /// <summary>充电机编号，4 字节 BIN。</summary>
+    public uint ChargerNo { get; set; }
 
     public V14DChargeEndReq() { }
     public V14DChargeEndReq(byte[] body)

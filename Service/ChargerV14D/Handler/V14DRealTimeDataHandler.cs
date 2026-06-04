@@ -4,6 +4,7 @@ using log4net;
 using Service.Charger.Handler;
 using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
+using Service.ChargerV14D.Msg.Resp;
 
 namespace Service.ChargerV14D.Handler;
 
@@ -20,6 +21,8 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
             client.RealTimeData = msg;
             client.PileStatus = msg.Status;
             Log.Debug($"V14D RealTimeData from {sn}, status={msg.Status}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
+            V14DReadRealTimeDataCmd readCmd = new V14DReadRealTimeDataCmd(msg.PileCode, msg.Gun);
+            ctx.Channel.WriteAndFlushAsync(readCmd);
         }
     }
 }

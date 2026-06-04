@@ -5,8 +5,11 @@ namespace Service.ChargerV14D.Msg.Resp;
 /// <summary>7.2 读取实时监测数据 (0x12, 下行)</summary>
 public class V14DReadRealTimeDataCmd : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.ReadRealTimeData;
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
 
     public V14DReadRealTimeDataCmd() { }

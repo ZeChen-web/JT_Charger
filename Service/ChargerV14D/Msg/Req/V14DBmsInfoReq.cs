@@ -5,22 +5,39 @@ namespace Service.ChargerV14D.Msg.Req;
 /// <summary>7.10 充电过程BMS信息 (0x25, 上行, 15秒周期)</summary>
 public class V14DBmsInfoReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.BmsInfo;
+    /// <summary>交易流水号，16 字节 BCD。</summary>
     public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
     public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    public byte BmsMaxCellVoltageNo { get; set; }        // 1B 1/位, 1偏移
-    public byte BmsMaxTemp { get; set; }                  // 1B 1C/位, -50C
-    public byte MaxTempPointNo { get; set; }               // 1B 1/位, 1偏移
-    public byte BmsMinTemp { get; set; }                  // 1B 1C/位, -50C
-    public byte MinTempPointNo { get; set; }               // 1B 1/位, 1偏移
-    public byte BmsCellVoltageAlarm { get; set; }          // 2位
-    public byte BmsSocAlarm { get; set; }                  // 2位
-    public byte BmsOverCurrent { get; set; }               // 2位
-    public byte BmsOverTemp { get; set; }                  // 2位
-    public byte BmsInsulation { get; set; }                // 2位
-    public byte BmsConnectorStatus { get; set; }           // 2位
-    public byte ChargeForbidden { get; set; }              // 2位
+    /// <summary>最高单体动力蓄电池电压所在编号，1 字节 BIN，1 偏移。</summary>
+    public byte BmsMaxCellVoltageNo { get; set; }
+    /// <summary>温度字段，按协议偏移和精度换算。</summary>
+    public byte BmsMaxTemp { get; set; }
+    /// <summary>最高温度检测点编号，1 字节 BIN，1 偏移。</summary>
+    public byte MaxTempPointNo { get; set; }
+    /// <summary>温度字段，按协议偏移和精度换算。</summary>
+    public byte BmsMinTemp { get; set; }
+    /// <summary>最低温度检测点编号，1 字节 BIN，1 偏移。</summary>
+    public byte MinTempPointNo { get; set; }
+    /// <summary>单体动力蓄电池电压过高/过低告警，2 bit。</summary>
+    public byte BmsCellVoltageAlarm { get; set; }
+    /// <summary>整车动力蓄电池 SOC 过高/过低告警，2 bit。</summary>
+    public byte BmsSocAlarm { get; set; }
+    /// <summary>动力蓄电池充电过电流告警，2 bit。</summary>
+    public byte BmsOverCurrent { get; set; }
+    /// <summary>动力蓄电池温度过高告警，2 bit。</summary>
+    public byte BmsOverTemp { get; set; }
+    /// <summary>动力蓄电池绝缘状态，2 bit。</summary>
+    public byte BmsInsulation { get; set; }
+    /// <summary>动力蓄电池组输出连接器连接状态，2 bit。</summary>
+    public byte BmsConnectorStatus { get; set; }
+    /// <summary>BMS 禁止充电状态，2 bit。</summary>
+    public byte ChargeForbidden { get; set; }
+    /// <summary>保留字段，按协议默认置 0。</summary>
     public byte Reserve { get; set; }
 
     public V14DBmsInfoReq() { }

@@ -2,13 +2,17 @@ using Service.ChargerV14D.Common;
 
 namespace Service.ChargerV14D.Msg.Resp;
 
-/// <summary>11.6 下发二维�?(0x9C, 下行)</summary>
+/// <summary>11.6 二维码下发命令报文 (0x9C，下行)。</summary>
 public class V14DQRCodeDistributeCmd : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.QRCodeDistribute;
+    /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
+    /// <summary>二维码 URL 长度，2 字节 BIN。</summary>
     public ushort UrlLength { get; set; }
-    public string Url { get; set; } = ""; // 最�?00字节
+    /// <summary>二维码 URL，ASCII 编码，最长 200 字节。</summary>
+    public string Url { get; set; } = "";
 
     public V14DQRCodeDistributeCmd() { }
     public override byte[] GetBodyBytes()

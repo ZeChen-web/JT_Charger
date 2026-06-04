@@ -2,56 +2,91 @@ using Service.ChargerV14D.Common;
 
 namespace Service.ChargerV14D.Msg.Req;
 
-/// <summary>
-/// 8.7 交易记录 (帧类�?0x3F, 上行)
-/// Body大小: ~160字节
-/// </summary>
+/// <summary>8.7 交易记录报文 (0x3F，上行)。</summary>
 public class V14DTransactionRecordReq : V14DFrame
 {
+    /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.TransactionRecord;
 
-    public string TransactionSN { get; set; } = "";       // 16B BCD
-    public string PileCode { get; set; } = "";             // 7B BCD
-    public byte Gun { get; set; }                          // 1B
-    public byte[] StartTime { get; set; } = new byte[7];   // 7B CP56Time2a
-    public byte[] EndTime { get; set; } = new byte[7];     // 7B CP56Time2a
-    public uint PeakRate { get; set; }                     // 4B (5位小�?
-    public uint PeakKWH { get; set; }                      // 4B (4位小�?
-    public uint PeakLossKWH { get; set; }                  // 4B (4位小�?
-    public uint PeakAmount { get; set; }                   // 4B (4位小�?
-    public uint ShoulderRate { get; set; }                 // 4B
-    public uint ShoulderKWH { get; set; }                  // 4B
-    public uint ShoulderLossKWH { get; set; }              // 4B
-    public uint ShoulderAmount { get; set; }               // 4B
-    public uint FlatRate { get; set; }                     // 4B
-    public uint FlatKWH { get; set; }                      // 4B
-    public uint FlatLossKWH { get; set; }                  // 4B
-    public uint FlatAmount { get; set; }                   // 4B
-    public uint ValleyRate { get; set; }                   // 4B
-    public uint ValleyKWH { get; set; }                    // 4B
-    public uint ValleyLossKWH { get; set; }                // 4B
-    public uint ValleyAmount { get; set; }                 // 4B
-    public uint MeterStart { get; set; }                   // 4B (4位小�?
-    public uint MeterEnd { get; set; }                     // 4B (4位小�?
-    public uint TotalKWH { get; set; }                     // 4B (4位小�?
-    public uint TotalLossKWH { get; set; }                 // 4B (4位小�?
-    public uint TotalAmount { get; set; }                  // 4B (4位小�?
-    public string VIN { get; set; } = "";                  // 17B ASCII
-    public byte TradeFlag { get; set; }                    // 1B
-    public byte[] TradeTime { get; set; } = new byte[7];   // 7B CP56Time2a
-    public byte StopReason { get; set; }                   // 1B
-    public string PhysicalCard { get; set; } = "";         // 8B BIN
+    /// <summary>交易流水号，16 字节 BCD。</summary>
+    public string TransactionSN { get; set; } = "";
+    /// <summary>桩编号，7 字节 BCD；不足 7 位左补 0。</summary>
+    public string PileCode { get; set; } = "";
+    /// <summary>枪号，1 字节 BIN。</summary>
+    public byte Gun { get; set; }
+    /// <summary>充电开始时间，7 字节 CP56Time2a 格式。</summary>
+    public byte[] StartTime { get; set; } = new byte[7];
+    /// <summary>充电结束时间，7 字节 CP56Time2a 格式。</summary>
+    public byte[] EndTime { get; set; } = new byte[7];
+    /// <summary>尖费率，4 字节 BIN，精确到 5 位小数。</summary>
+    public uint PeakRate { get; set; }
+    /// <summary>尖时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint PeakKWH { get; set; }
+    /// <summary>尖时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint PeakLossKWH { get; set; }
+    /// <summary>尖时段金额，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint PeakAmount { get; set; }
+    /// <summary>峰费率，4 字节 BIN，精确到 5 位小数。</summary>
+    public uint ShoulderRate { get; set; }
+    /// <summary>峰时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ShoulderKWH { get; set; }
+    /// <summary>峰时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ShoulderLossKWH { get; set; }
+    /// <summary>峰时段金额，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ShoulderAmount { get; set; }
+    /// <summary>平费率，4 字节 BIN，精确到 5 位小数。</summary>
+    public uint FlatRate { get; set; }
+    /// <summary>平时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint FlatKWH { get; set; }
+    /// <summary>平时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint FlatLossKWH { get; set; }
+    /// <summary>平时段金额，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint FlatAmount { get; set; }
+    /// <summary>谷费率，4 字节 BIN，精确到 5 位小数。</summary>
+    public uint ValleyRate { get; set; }
+    /// <summary>谷时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ValleyKWH { get; set; }
+    /// <summary>谷时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ValleyLossKWH { get; set; }
+    /// <summary>谷时段金额，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint ValleyAmount { get; set; }
+    /// <summary>开始电表读数，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint MeterStart { get; set; }
+    /// <summary>结束电表读数，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint MeterEnd { get; set; }
+    /// <summary>电量字段，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint TotalKWH { get; set; }
+    /// <summary>电量字段，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint TotalLossKWH { get; set; }
+    /// <summary>金额字段，4 字节 BIN，精确到 4 位小数。</summary>
+    public uint TotalAmount { get; set; }
+    /// <summary>车辆 VIN，17 字节 ASCII，右补 0。</summary>
+    public string VIN { get; set; } = "";
+    /// <summary>交易标识，1 字节 BIN；按协议定义表示交易类型/状态。</summary>
+    public byte TradeFlag { get; set; }
+    /// <summary>交易时间，7 字节 CP56Time2a 格式。</summary>
+    public byte[] TradeTime { get; set; } = new byte[7];
+    /// <summary>停机原因，1 字节 BIN；按 V1.4D 故障及停机原因优化定义。</summary>
+    public byte StopReason { get; set; }
+    /// <summary>物理卡号，8 字节 ASCII/BIN，右补 0。</summary>
+    public string PhysicalCard { get; set; } = "";
 
-    // 计算属�? 时间
+    /// <summary>时间字段，按协议格式解析。</summary>
     public DateTime StartDateTime => V14DUtils.CP56Time2aToDateTime(StartTime);
+    /// <summary>时间字段，按协议格式解析。</summary>
     public DateTime EndDateTime => V14DUtils.CP56Time2aToDateTime(EndTime);
+    /// <summary>时间字段，按协议格式解析。</summary>
     public DateTime TradeDateTime => V14DUtils.CP56Time2aToDateTime(TradeTime);
 
-    // 计算属�? 金额/电量 (带小数位)
+    /// <summary>按协议精度或格式换算后的只读值。</summary>
     public float PeakRateValue => PeakRate * 0.00001f;
+    /// <summary>按协议精度或格式换算后的只读值。</summary>
     public float PeakKWHValue => PeakKWH * 0.0001f;
+    /// <summary>按协议精度或格式换算后的只读值。</summary>
     public float PeakAmountValue => PeakAmount * 0.0001f;
+    /// <summary>按协议精度或格式换算后的只读值。</summary>
     public float TotalKWHValue => TotalKWH * 0.0001f;
+    /// <summary>按协议精度或格式换算后的只读值。</summary>
     public float TotalAmountValue => TotalAmount * 0.0001f;
 
     public V14DTransactionRecordReq() { }
