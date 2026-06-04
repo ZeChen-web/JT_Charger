@@ -1,10 +1,8 @@
-﻿using Autofac;
+﻿/*using Autofac;
 using DotNetty.Handlers.Logging;
 using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkCore.Entity;
 using Newtonsoft.Json;
-using Service.Charger.Client;
-using Service.Charger.Msg.Host.Req;
 using Timer = System.Windows.Forms.Timer;
 
 namespace WinFormStarter;
@@ -268,4 +266,4 @@ public partial class Form2 : Form
     {
         DisplayData();
     }
-}
+}*/

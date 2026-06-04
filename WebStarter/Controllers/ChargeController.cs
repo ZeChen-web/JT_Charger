@@ -5,8 +5,9 @@ using Entity.Dto.Resp;
 using HybirdFrameworkCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Station;
-using Service.Charger;
-using Service.Charger.Client;
+using Service.ChargerV14D;
+using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Server;
 using Service.Station;
 
 namespace WebStarter.Controllers;
@@ -19,11 +20,11 @@ namespace WebStarter.Controllers;
 [Route("api/[controller]")]
 public class ChargeController : ControllerBase
 {
-    private ChargerService _chargerService;
+    private V14DChargeService _chargerService;
     private BinInfoService _binInfoService;
     private EquipInfoRepository _equipInfoRepository;
 
-    public ChargeController(ChargerService chargerService, BinInfoService binInfoService,EquipInfoRepository equipInfoRepository)
+    public ChargeController(V14DChargeService chargerService, BinInfoService binInfoService,EquipInfoRepository equipInfoRepository)
     {
         _chargerService = chargerService;
         _binInfoService = binInfoService;
@@ -38,7 +39,7 @@ public class ChargeController : ControllerBase
     [Route("GetChargerCodeList")]
     public async Task<Result<List<string>>> GetChargerCodeList()
     {
-        List<string> keysList = new List<string>(ClientMgr.Dictionary.Keys);
+        List<string> keysList = new List<string>(ServerMgr.Dictionary.Keys);
         return Result<List<string>>.Success(keysList);
     }
 
@@ -51,12 +52,12 @@ public class ChargeController : ControllerBase
     [Route("ChargerSendAuth/{code}")]
     public Result<bool> ChargerSendAuth(string code)
     {
-        ChargerClient? chargerClient = ClientMgr.GetBySn(code);
+        V14DChargerClient? chargerClient = ServerMgr.GetBySn(code);
 
         if (chargerClient != null)
         {
-            chargerClient.SendAuth();
-            return Result<bool>.Success(true);
+            // TODO: V14D鉴权需通过计费模型验证流程实现
+            return Result<bool>.Fail("V14D协议暂不支持独立鉴权指令，请使用计费模型验证");
         }
 
         return Result<bool>.Fail("充电机未连接");
@@ -78,12 +79,11 @@ public class ChargeController : ControllerBase
         }
 
         string _code = _binInfoService.QueryByClause(i => i.Code == code).ChargerNo;
-        ChargerClient? chargerClient = ClientMgr.GetBySn(_code);
+        V14DChargerClient? chargerClient = ServerMgr.GetBySn(_code);
 
         if (chargerClient != null)
         {
-            chargerClient.SendPowerRegulation(power);
-          
+            chargerClient.SendParamSet(chargerClient.PileCode, 1, 1, (byte)power);
             _equipInfoRepository.Update(i => i.ChargePower == power, it => it.Code == _code);
             return Result<bool>.Success(true);
         }
@@ -133,8 +133,8 @@ public class ChargeController : ControllerBase
     [Route("GetBinPowers")]
     public Result<float[]> GetBinPowers()
     {
-        float[] results = ClientMgr.Dictionary.Values
-            .Select(chargerClient => chargerClient.RealTimeChargePower)
+        float[] results = ServerMgr.Dictionary.Values
+            .Select(chargerClient => chargerClient.ChargePower)
             .ToArray();
         return Result<float[]>.Success(results);
     }
@@ -148,7 +148,11 @@ public class ChargeController : ControllerBase
     [Route("StartChargeByBinNo/{binNo}")]
     public Result<bool> StartChargeByBinNo(string binNo)
     {
-        return _chargerService.StartChargeByBinNo(binNo);
+        var binInfo = _binInfoService.QueryByClause(i => i.Code == binNo);
+        if (binInfo == null)
+            return Result<bool>.Fail("仓位不存在");
+        /*return */_chargerService.StartCharge(binInfo.ChargerNo, 1, 100, 0);
+        return Result<bool>.Success(true);
     }
 
     /// <summary>
@@ -160,9 +164,12 @@ public class ChargeController : ControllerBase
     [Route("StopChargeByBinNo/{binNo}")]
     public Result<bool> StopChargeByBinNo(string binNo)
     {
-        return _chargerService.StopChargeByBinNo(binNo);
+        var binInfo = _binInfoService.QueryByClause(i => i.Code == binNo);
+        if (binInfo == null)
+            return Result<bool>.Fail("仓位不存在");
+        return _chargerService.StopCharge(binInfo.ChargerNo, 1);
     }
-    
+
     /// <summary>
     /// 下发电价配置
     /// </summary>
@@ -171,7 +178,8 @@ public class ChargeController : ControllerBase
     [Route("DistributeElecPriceForCharge/{Version}")]
     public Result<bool> DistributeElecPriceForCharge(int Version)
     {
-        return _chargerService.DistributeElecPriceForCharge(Version);
+        // TODO: V14D协议需使用DistributeBillingModel接口
+        return Result<bool>.Fail("V14D协议请使用计费模型下发接口");
     }
     //BatteryStatusInfo
 
@@ -183,7 +191,8 @@ public class ChargeController : ControllerBase
     [Route("BatteryStatusInfo")]
     public Result<BatteryStatusInfoResp> BatteryStatusInfo()
     {
-        return _chargerService.BatteryStatusInfo();
+        // TODO: V14D协议需重新实现
+        return Result<BatteryStatusInfoResp>.Fail("V14D协议暂未实现");
     }
 
     /// <summary>
@@ -194,6 +203,7 @@ public class ChargeController : ControllerBase
     [Route("BatteryInfo/{chargeNo}")]
     public Result<BatteryInfoResp> BatteryInfo(string chargeNo)
     {
-        return _chargerService.BatteryInfo(chargeNo);
-    } 
+        // TODO: V14D协议需重新实现
+        return Result<BatteryInfoResp>.Fail("V14D协议暂未实现");
+    }
 }

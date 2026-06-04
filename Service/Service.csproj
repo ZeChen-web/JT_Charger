@@ -52,6 +52,15 @@
 
     <ItemGroup>
       <Compile Remove="Charger\MyTask\UpBatDataInfoTask.cs" />
+      <Compile Remove="Charger\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Charger\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Charger\**" />
     </ItemGroup>
 
 </Project>

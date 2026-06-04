@@ -4,8 +4,6 @@ using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkCore.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Service.Charger.Client;
-using Service.Charger.Msg.Charger.Req;
 using Service.System;
 
 namespace WebStarter.Controllers.Test;
@@ -33,8 +31,7 @@ public class WeatherForecastController : ControllerBase
         _logger.LogInformation("this is a hello world");
 
         RedisHelper redisHelper = AppInfo.Container.Resolve<RedisHelper>();
-        redisHelper.PublishAsync("UploadTelemetryData", JsonConvert.SerializeObject(new UploadTelemetryData()));
-        
+        redisHelper.PublishAsync("UploadTelemetryData", JsonConvert.SerializeObject(new { }));
 
         _logger.LogInformation("this is two hello world");
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast

@@ -1,18 +1,17 @@
 using System.Collections.Concurrent;
-using System.Threading.Channels;
 using Autofac;
 using DotNetty.Transport.Channels;
 using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkDriver.Session;
-using Service.Charger.Client;
-using Service.Charger.Common;
+using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Common;
 
-namespace Service.Charger.Server;
+namespace Service.ChargerV14D.Server;
 
 public class ServerMgr
 {
-    
-    public static readonly ConcurrentDictionary<string, ChargerClient> Dictionary = new();
+
+    public static readonly ConcurrentDictionary<string, V14DChargerClient> Dictionary = new();
 
     public static ChargerServer? Server;
 
@@ -21,7 +20,7 @@ public class ServerMgr
         Server = AppInfo.Container.Resolve<ChargerServer>();
         Server.Start(port);
     }
-    
+
     /// <summary>
     /// 通过channel获取server
     /// </summary>
@@ -29,9 +28,9 @@ public class ServerMgr
     /// <param name="sn"></param>
     /// <param name="server">获取不到，client则为空</param>
     /// <returns></returns>
-    public static bool TryGetClient(IChannel channel, out string sn, out ChargerClient? server)
+    public static bool TryGetClient(IChannel channel, out string sn, out V14DChargerClient? server)
     {
-        string? snt = ChannelUtils.GetAttr(channel, ChargerConst.ChargerSn);
+        string? snt = ChannelUtils.GetAttr(channel, V14DConst.PileSn);
 
         if (!string.IsNullOrWhiteSpace(snt))
         {
@@ -49,39 +48,30 @@ public class ServerMgr
         return false;
     }
 
-    public static void AddBySn(string sn, ChargerClient server)
+    public static void AddBySn(string sn, V14DChargerClient server)
     {
         if (Dictionary.ContainsKey(sn))
         {
             Dictionary[sn] = server;
-            
-
         }
         else
         {
             Dictionary.TryAdd(sn, server);
         }
-
     }
-    
-    public static ChargerClient? GetBySn(string sn)
+
+    public static V14DChargerClient? GetBySn(string sn)
     {
         Dictionary.TryGetValue(sn, out var o);
         return o;
     }
-    
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="sn"></param>
-    /// <param name="destAddr"></param>
-    public  static void SessionAttr(IChannel channel,string sn, string destAddr)
-    {
-        ChannelUtils.AddAttr(channel, ChargerConst.ChargerSn, sn);
-        ChannelUtils.AddAttr(channel, ChargerConst.EqmTypeNo, sn);
-        ChannelUtils.AddAttr(channel, ChargerConst.EqmCode, sn);
-        ChannelUtils.AddAttr(channel, ChargerConst.DestAddr, destAddr);
-    }
 
-    
+    /// <summary>
+    /// 通过sn在Servers列表中查找对应client的session，发送消息
+    /// </summary>
+    public static void SessionAttr(IChannel channel, string sn, string destAddr)
+    {
+        ChannelUtils.AddAttr(channel, V14DConst.PileSn, sn);
+        ChannelUtils.AddAttr(channel, V14DConst.PileCode, sn);
+    }
 }

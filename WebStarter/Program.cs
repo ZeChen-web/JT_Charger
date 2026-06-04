@@ -7,9 +7,7 @@ using HybirdFrameworkCore.Entity;
 using HybirdFrameworkCore.Job;
 using HybirdFrameworkCore.Redis;
 using log4net;
-using Service.Charger.Client;
-using Service.Charger.Server;
-using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Server;
 using Service.RealTime;
 using SqlSugar;
 using SqlSugar.IOC;
@@ -103,10 +101,23 @@ foreach (var s in list.Split(";"))
 
 
 AppInfo.Container = app.Services.GetAutofacRoot();
-//ClientMgr.InitClient();
-//V14DClientMgr.InitClient();
 
-ServerMgr.InitServer(2408);
+var chargerPorts = AppSettingsHelper.GetContent("ChargerServer", "Ports");
+if (!string.IsNullOrWhiteSpace(chargerPorts))
+{
+    foreach (var portStr in chargerPorts.Replace("，", ",").Split(',', StringSplitOptions.RemoveEmptyEntries))
+    {
+        if (int.TryParse(portStr.Trim(), out var port))
+        {
+            log.Info($"启动ChargerServer监听端口: {port}");
+            ServerMgr.InitServer(port);
+        }
+    }
+}
+else
+{
+    log.Warn("未配置ChargerServer监听端口，跳过启动");
+}
 
 TaskInit.Init();
 QuartzSchedulerFactory.Init();

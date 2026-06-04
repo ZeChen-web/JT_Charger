@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿/*
+using Autofac;
 using Entity.DbModel.Station;
 using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkCore.Autofac.Attribute;
@@ -93,3 +94,4 @@ public class BatteryInfoUploadTask : ITask
         _stop = false;
     }
 }
+*/

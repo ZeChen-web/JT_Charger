@@ -1,14 +1,13 @@
 using HybirdFrameworkCore.Autofac.Attribute;
 using HybirdFrameworkDriver.TcpServer;
-using Service.Charger.Codec;
-using Service.Charger.Handler;
-using Service.Charger.Msg;
-using Service.Charger.Msg.Host.Req;
+using Service.ChargerV14D.Codec;
+using Service.ChargerV14D.Handler;
+using Service.ChargerV14D.Msg;
 
-namespace Service.Charger.Server;
+namespace Service.ChargerV14D.Server;
 
 [Scope]
-public class ChargerServer : TcpServer<IBaseHandler, Decoder, Encoder>
+public class ChargerServer : TcpServer<IBaseHandler, V14DDecoder, V14DEncoder>
 {
     #region send
 
@@ -17,7 +16,7 @@ public class ChargerServer : TcpServer<IBaseHandler, Decoder, Encoder>
     /// </summary>
     /// <param name="sn">充电机编号</param>
     /// <param name="msg">消息</param>
-    public void SendShapParametersReq(string sn, APCI msg)
+    public void SendShapParametersReq(string sn, V14DFrame msg)
     {
         SessionMgr.GetSession(sn).Send(msg);
     }

@@ -4,7 +4,8 @@ using Entity.Dto.Resp;
 using HybirdFrameworkCore.Autofac.Attribute;
 using HybirdFrameworkCore.Entity;
 using Repository.Station;
-using Service.Charger.Client;
+using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Server;
 
 namespace Service.Station;
 
@@ -35,32 +36,20 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            ChargerClient? chargerClient = ClientMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = ServerMgr.GetBySn(binInfoResp.ChargerNo);
             if (chargerClient != null)
             {
-                binInfoResp.power = chargerClient.RealTimeChargePower;
+                binInfoResp.power = chargerClient.ChargePower;
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;
-                binInfoResp.ChargingTime = chargerClient.UploadTelemetryData.ChargingTime;
-                binInfoResp.EstimatedRemainingTime = chargerClient.UploadTelemetryData.EstimatedRemainingTime;
-                if (chargerClient.BatteryPackTotalElectricity != null)
-                    binInfoResp.OnceElectricCharge = chargerClient.BatteryPackTotalElectricity.OnceElectricCharge;
-                binInfoResp.BmsNeedVoltage = chargerClient.UploadTelemetryData.BmsNeedVoltage;
-                binInfoResp.BmsNeedCurrent = chargerClient.UploadTelemetryData.BmsNeedCurrent;
-                if (chargerClient.BatteryPackData != null)
-                    binInfoResp.TotalCurrent = chargerClient.BatteryPackData.TotalCurrent;
-                if (chargerClient.BatteryPackDataVoltage != null)
-                    binInfoResp.CellTemperatureMax = chargerClient.BatteryPackDataVoltage.CellTemperatureMax;
-                if (chargerClient.BatteryPackDataVoltage != null)
-                    binInfoResp.CellTemperatureMin = chargerClient.BatteryPackDataVoltage.CellTemperatureMin;
-                binInfoResp.ChargingStartTime = chargerClient.ChargingStartTime;
-                binInfoResp.ChargingStopTime = chargerClient.ChargingStopTime;
-                binInfoResp.IsAuthed = chargerClient.IsAuthed;
+                binInfoResp.IsAuthed = chargerClient.IsLoggedIn;
 
-                binInfoResp.ChargingInterfaceDetectionOneTemp = chargerClient.UploadTelemetryData.ChargingInterfaceDetectionOneTemp;
-                binInfoResp.ChargingInterfaceDetectionTwoTemp = chargerClient.UploadTelemetryData.ChargingInterfaceDetectionTwoTemp;
-                binInfoResp.ChargingInterfaceDetectionTheTemp = chargerClient.UploadTelemetryData.ChargingInterfaceDetectionTheTemp;
-                binInfoResp.ChargingInterfaceDetectionFourTemp = chargerClient.UploadTelemetryData.ChargingInterfaceDetectionFourTemp;
-
+                var realtime = chargerClient.RealTimeData;
+                if (realtime != null)
+                {
+                    binInfoResp.ChargingTime = realtime.ChargeTime;
+                    binInfoResp.EstimatedRemainingTime = realtime.RemainTime;
+                    binInfoResp.CellTemperatureMax = (short)realtime.MaxBatTempValue;
+                }
             }
         }
 
@@ -82,41 +71,25 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            ChargerClient? chargerClient = ClientMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = ServerMgr.GetBySn(binInfoResp.ChargerNo);
             if (chargerClient != null)
             {
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;
-                binInfoResp.IsAuthed = chargerClient.IsAuthed;
-                binInfoResp.Vin = chargerClient.Vin[(byte)binInfoResp.GunNo];
-                var pileUploadTelemetry = chargerClient.PileUploadTelemetry[(byte)binInfoResp.GunNo];
-                if (pileUploadTelemetry != null)
-                {
-                    binInfoResp.ChargingTime = pileUploadTelemetry.ChargingTime;
-                    binInfoResp.EstimatedRemainingTime = pileUploadTelemetry.EstimatedRemainingTime;
-                    
-                    binInfoResp.BmsNeedVoltage = pileUploadTelemetry.BmsNeedVoltage;
-                    binInfoResp.BmsNeedCurrent = pileUploadTelemetry.BmsNeedCurrent;
-                    binInfoResp.ChargingInterfaceDetectionOneTemp = pileUploadTelemetry.ChargingInterfaceDetectionOneTemp;
-                    binInfoResp.ChargingInterfaceDetectionTwoTemp = pileUploadTelemetry.ChargingInterfaceDetectionTwoTemp;
-                    binInfoResp.ChargingInterfaceDetectionTheTemp = pileUploadTelemetry.ChargingInterfaceDetectionTheTemp;
-                    binInfoResp.ChargingInterfaceDetectionFourTemp = pileUploadTelemetry.ChargingInterfaceDetectionFourTemp;
-                    binInfoResp.Power = pileUploadTelemetry.DcMeterCurrentPower;
-                    
-                }
+                binInfoResp.IsAuthed = chargerClient.IsLoggedIn;
 
-                var pileUploadRemoteSignal = chargerClient.PileUploadRemoteSignal[(byte)binInfoResp.GunNo];
-                if (pileUploadRemoteSignal!=null)
+                var realtime = chargerClient.RealTimeData;
+                if (realtime != null)
                 {
-                    binInfoResp.ChargeStationGunHolderStatus = pileUploadRemoteSignal.ChargeStationGunHolderStatus;
-                    
+                    binInfoResp.ChargingTime = realtime.ChargeTime;
+                    binInfoResp.EstimatedRemainingTime = realtime.RemainTime;
+                    binInfoResp.Power = realtime.ChargePower;
                 }
-                
             }
         }
 
         return binInfoList;
     }
-    
+
     /// <summary>
     /// 禁用仓位
     /// </summary>

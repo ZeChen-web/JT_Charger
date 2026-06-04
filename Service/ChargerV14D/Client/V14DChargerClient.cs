@@ -1,27 +1,35 @@
+using DotNetty.Transport.Channels;
 using HybirdFrameworkCore.Autofac.Attribute;
 using HybirdFrameworkCore.Entity;
 using HybirdFrameworkDriver.Session;
 using HybirdFrameworkDriver.TcpClient;
 using log4net;
-using Service.Charger.Handler;
 using Service.ChargerV14D.Codec;
 using Service.ChargerV14D.Common;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Client;
 
 /// <summary>V1.4D 协议充电桩客户端</summary>
 [Scope("InstancePerDependency")]
-public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncoder>
+public class V14DChargerClient
 {
     #region 属性
 
     /// <summary>桩序列号/标识</summary>
     public string Sn { get; set; } = "";
+    
+    public IChannel Channel { get; set; }
 
     /// <summary>桩编码 (7位BCD)</summary>
     public string PileCode { get; set; } = "";
+    
+    /// <summary>
+    /// 电池仓编号
+    /// </summary>
+    public string? BinNo { get; set; }
 
     /// <summary>设备类型编号</summary>
     public string EqmTypeNo { get; set; } = "";
@@ -59,6 +67,35 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
     /// <summary>目的地地址 (逗号分隔的字节)</summary>
     public string DestAddr { get; set; } = "";
 
+    public DateTime? HeartTime = DateTime.Now.AddSeconds(-30);
+    
+    /// <summary>
+    /// 充电机是否连接
+    /// </summary>
+    public bool Connected 
+    {
+        get
+        {
+            if ((DateTime.Now - HeartTime.Value).Seconds >= 30)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        set
+        {
+            if (value)
+            {
+                HeartTime = DateTime.Now; // 更新 HeartTime
+            }
+            else
+            {
+                HeartTime = null; // 如果不需要保持连接状态，可以选择清空 HeartTime
+            }
+        } 
+    }
+    
     #endregion
 
     private ILog Log()
@@ -93,7 +130,8 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             Balance = balance,
             StopPassword = stopPassword
         };
-        Channel.WriteAndFlushAsync(cmd);
+        
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendRemoteStartCharge tsn={transactionSN}, pile={pileCode}, gun={gun}");
         return Result<bool>.Success();
     }
@@ -105,7 +143,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DRemoteStopChargeCmd(pileCode, gun) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendRemoteStopCharge pile={pileCode}, gun={gun}");
         return Result<bool>.Success();
     }
@@ -117,7 +155,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DReadRealTimeDataCmd(pileCode, gun) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         return Result<bool>.Success();
     }
 
@@ -128,7 +166,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DParamSetCmd(pileCode, gun, allowWork, maxPower) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendParamSet pile={pileCode}, gun={gun}, allowWork={allowWork}, maxPower={maxPower}");
         return Result<bool>.Success();
     }
@@ -140,7 +178,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DTimeSyncCmd(pileCode, dt) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendTimeSync pile={pileCode}, time={dt}");
         return Result<bool>.Success();
     }
@@ -152,7 +190,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         cmd.SeqNo = V14DUtils.NextSeqNo();
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendBillingModelSet pile={cmd.PileCode}, modelNo={cmd.ModelNo}");
         return Result<bool>.Success();
     }
@@ -164,7 +202,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DLockControlCmd { PileCode = pileCode, Gun = gun, Command = command, SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         return Result<bool>.Success();
     }
 
@@ -175,7 +213,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DBatteryInBinSignalCmd(pileCode, gun, inBin) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendBatteryInBinSignal pile={pileCode}, gun={gun}, inBin={inBin}");
         return Result<bool>.Success();
     }
@@ -187,7 +225,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DRemoteRestartCmd(pileCode, executionControl) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         Log().Info($"SendRemoteRestart pile={pileCode}, exec={executionControl}");
         return Result<bool>.Success();
     }
@@ -199,7 +237,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         var cmd = new V14DVINQueryCmd(pileCode, gun) { SeqNo = V14DUtils.NextSeqNo() };
-        Channel.WriteAndFlushAsync(cmd);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(cmd);
         return Result<bool>.Success();
     }
 
@@ -210,7 +248,7 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
         resp.SeqNo = V14DUtils.NextSeqNo();
-        Channel.WriteAndFlushAsync(resp);
+        ServerMgr.Server.SessionMgr.GetSession(Sn).Send(resp);
         Log().Info($"SendConfirmStartCharge tsn={resp.TransactionSN}, result={resp.AuthResult}");
         return Result<bool>.Success();
     }
@@ -222,18 +260,17 @@ public class V14DChargerClient : TcpClient<IBaseHandler, V14DDecoder, V14DEncode
     /// <summary>建立连接</summary>
     public bool Connect()
     {
-        BaseConnect();
         Log().Info($"V14D charger {Sn} connect succeed");
         return Connected;
     }
 
-    /// <summary>设置通道属性</summary>
+    /*/// <summary>设置通道属性</summary>
     public void SessionAttr(string sn, string destAddr)
     {
         ChannelUtils.AddAttr(Channel, V14DConst.PileSn, sn);
         ChannelUtils.AddAttr(Channel, V14DConst.PileCode, sn);
         DestAddr = destAddr;
-    }
+    }*/
 
     #endregion
 }

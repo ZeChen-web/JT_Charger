@@ -8,6 +8,7 @@ using log4net;
 using Repository.Station;
 using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Common;
+using Service.ChargerV14D.Server;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
 
@@ -23,7 +24,7 @@ public class V14DChargeService
     public Result<string> StartCharge(string chargerSn, byte gun, byte socLimit, uint balance,
         string logicCardNo = "", string physicalCardNo = "", string? chargeOrderNo = null)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<string>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -59,7 +60,7 @@ public class V14DChargeService
     /// <summary>远程停止充电</summary>
     public Result<bool> StopCharge(string chargerSn, byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -72,7 +73,7 @@ public class V14DChargeService
     /// <summary>读取实时数据</summary>
     public Result<bool> ReadRealTimeData(string chargerSn, byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -82,7 +83,7 @@ public class V14DChargeService
     /// <summary>设置工作参数</summary>
     public Result<bool> SetParam(string chargerSn, byte gun, byte allowWork, byte maxPower)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -92,7 +93,7 @@ public class V14DChargeService
     /// <summary>对时</summary>
     public Result<bool> TimeSync(string chargerSn)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -102,7 +103,7 @@ public class V14DChargeService
     /// <summary>下发计费模型</summary>
     public Result<bool> DistributeBillingModel(string chargerSn, V14DBillingModelSetCmd cmd)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -113,21 +114,21 @@ public class V14DChargeService
     /// <summary>获取实时数据</summary>
     public V14DRealTimeDataReq? GetRealTimeData(string chargerSn)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         return client?.RealTimeData;
     }
 
     /// <summary>获取充电功率 (kW)</summary>
     public float GetChargePower(string chargerSn)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         return client?.ChargePower ?? 0;
     }
 
     /// <summary>发送电池在仓信号</summary>
     public Result<bool> SendBatteryInBinSignal(string chargerSn, byte gun, byte inBin)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -137,7 +138,7 @@ public class V14DChargeService
     /// <summary>远程重启充电桩</summary>
     public Result<bool> RemoteRestart(string chargerSn, bool immediate = true)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = ServerMgr.GetBySn(chargerSn);
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 

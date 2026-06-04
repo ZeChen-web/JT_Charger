@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿/*using System.ComponentModel;
 
 namespace WinFormStarter;
 
@@ -554,4 +554,4 @@ partial class Form2
     private Button btnRefreshData;
     private Label lblChargeOrderNo;
     private Label lblBatterNo;
-}
+}*/

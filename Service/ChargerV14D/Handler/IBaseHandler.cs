@@ -1,6 +1,6 @@
 ﻿using DotNetty.Transport.Channels;
 
-namespace Service.Charger.Handler;
+namespace Service.ChargerV14D.Handler;
 
 public interface IBaseHandler : IChannelHandler
 {
