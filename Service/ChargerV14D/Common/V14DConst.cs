@@ -4,6 +4,8 @@ namespace Service.ChargerV14D.Common;
 
 public static class V14DConst
 {
+    public static readonly AttributeKey<string> ChargerSn = AttributeKey<string>.ValueOf("charger_sn");
+    
     /// <summary>帧起始标志</summary>
     public const byte StartFlag = 0x68;
 

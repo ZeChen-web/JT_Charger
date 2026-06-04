@@ -21,20 +21,24 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
     {
         ServerMgr.SessionAttr(ctx.Channel, msg.PileCode, "0,0,0,0");
         IoSession session = ServerMgr.Server.SessionMgr.GetSession(ctx.Channel.Id.ToString());
+        if (session == null)
+        {
+            session = ServerMgr.Server.SessionMgr.GetSession(msg.PileCode);
+        }
         ServerMgr.Server.SessionMgr.ChangeSessionKey(session, msg.PileCode);
+
         V14DChargerClient client = AppInfo.Container.Resolve<V14DChargerClient>();
         client.Channel = ctx.Channel;
         client.Sn = msg.PileCode;
-        client.HeartTime = DateTime.Now; 
+        client.HeartTime = DateTime.Now;
         client.IsLoggedIn = true;
 
         client.PileCode = msg.PileCode;
-        //client.BinNo = binInfo.No;
         ServerMgr.AddBySn(msg.PileCode, client);
 
-        var resp = new V14DLoginResp(msg.PileCode, 0x01) { SeqNo = msg.SeqNo };
+        var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
         ctx.Channel.WriteAndFlushAsync(resp);
-        
+
         Log.Info($"V14D Login from {msg.PileCode}, pileCode={msg.PileCode}, protocolVer={msg.ProtocolVersion}");
     }
 }
