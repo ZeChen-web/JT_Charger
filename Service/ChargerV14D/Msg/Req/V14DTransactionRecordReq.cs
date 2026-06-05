@@ -54,9 +54,9 @@ public class V14DTransactionRecordReq : V14DFrame
     public uint MeterStart { get; set; }
     /// <summary>结束电表读数，4 字节 BIN，精确到 4 位小数。</summary>
     public uint MeterEnd { get; set; }
-    /// <summary>电量字段，4 字节 BIN，精确到 4 位小数。</summary>
+    /// <summary>总电量，4 字节 BIN，精确到 4 位小数。</summary>
     public uint TotalKWH { get; set; }
-    /// <summary>电量字段，4 字节 BIN，精确到 4 位小数。</summary>
+    /// <summary>计损总电量，4 字节 BIN，精确到 4 位小数。</summary>
     public uint TotalLossKWH { get; set; }
     /// <summary>金额字段，4 字节 BIN，精确到 4 位小数。</summary>
     public uint TotalAmount { get; set; }

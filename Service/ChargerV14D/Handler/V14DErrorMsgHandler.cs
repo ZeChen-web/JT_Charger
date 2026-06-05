@@ -13,6 +13,10 @@ public class V14DErrorMsgHandler : SimpleChannelInboundHandler<V14DErrorMsgReq>,
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DErrorMsgReq msg)
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        {
+            //TODO::异常数据需要入库
             Log.Info($"V14D ErrorMsg from {sn}, tsn={msg.TransactionSN}");
+        }
+            
     }
 }

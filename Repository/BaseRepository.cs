@@ -785,7 +785,14 @@ public abstract class BaseRepository<T> where T : class, new()
             .Insertable(entity)
             .ExecuteReturnEntity();
     }
-
+    public bool InsertT(T entity)
+    {
+        var result = DbBaseClient
+            .Insertable(entity)
+            .ExecuteCommand(); // 返回受影响的行数
+    
+        return result > 0;
+    }
     /// <summary>
     ///     写入或者更新实体数据
     /// </summary>
@@ -1708,6 +1715,73 @@ public abstract class BaseRepository<T> where T : class, new()
         return list;
     }
 
-
+    /// <summary>
+    /// 执行SQL语句并返回List<T> - 同步版本
+    /// </summary>
+    /// <param name="sql">SQL语句</param>
+    /// <param name="parameters">参数（可选）</param>
+    /// <param name="timeoutSeconds">超时时间（秒）</param>
+    /// <returns>实体列表</returns>
+    public List<T> SqlQueryable2(string sql, 
+        SugarParameter[] parameters = null, 
+        int timeoutSeconds = 30,
+        bool useNoLock = false)
+    {
+        try
+        {
+            // 设置超时
+            if (timeoutSeconds > 0)
+            {
+                DbBaseClient.Ado.CommandTimeOut = timeoutSeconds;
+            }
+        
+            // 添加NOLOCK提示
+            if (useNoLock && sql.Contains("SELECT"))
+            {
+                sql = AddNoLockHint(sql);
+            }
+        
+            // 执行查询
+            if (parameters != null && parameters.Length > 0)
+            {
+                return DbBaseClient.Ado.SqlQuery<T>(sql, parameters);
+            }
+            else
+            {
+                return DbBaseClient.Ado.SqlQuery<T>(sql);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+    /// <summary>
+    /// 在SQL中添加NOLOCK提示
+    /// </summary>
+    private string AddNoLockHint(string sql)
+    {
+        if (sql.IndexOf("WITH(NOLOCK)", StringComparison.OrdinalIgnoreCase) >= 0)
+            return sql;
+        
+        // 简单的NOLOCK添加逻辑（适用于简单查询）
+        var lowerSql = sql.ToLower();
+        var fromIndex = lowerSql.IndexOf("from ");
+        if (fromIndex > 0)
+        {
+            var fromPart = sql.Substring(fromIndex);
+            var parts = fromPart.Split(new[] { "join", "where", "order by", "group by" }, 
+                StringSplitOptions.None);
+        
+            if (parts.Length > 0)
+            {
+                var tablePart = parts[0];
+                var newTablePart = tablePart.TrimEnd() + " WITH(NOLOCK)";
+                sql = sql.Replace(tablePart, newTablePart);
+            }
+        }
+    
+        return sql;
+    }
 
 }

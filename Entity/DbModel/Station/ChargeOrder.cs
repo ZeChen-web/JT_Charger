@@ -261,6 +261,14 @@ namespace Entity.DbModel.Station
         public string SwapOrderSn { get; set; }
 
         /// <summary>
+        /// Desc:换电订单编号
+        /// Default:
+        /// Nullable:True
+        /// </summary>
+        [SugarColumn(ColumnName = "cloud_sn")]
+        public string CloudSn { get; set; }
+        
+        /// <summary>
         /// Desc:上传云平台状态;0-未上传；1-已上传
         /// Default:0
         /// Nullable:True

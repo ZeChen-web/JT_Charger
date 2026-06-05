@@ -7,4 +7,12 @@ public class V14DBillingModelSetCmd : V14DBillingModelResp
 {
     /// <summary>帧类型，1 字节 BIN；由具体报文类型固定。</summary>
     public override byte FrameType => V14DFrameType.BillingModelSet;
+
+    public V14DBillingModelSetCmd() { }
+
+    public V14DBillingModelSetCmd(string pileCode, ushort modelNo)
+    {
+        PileCode = pileCode;
+        ModelNo = modelNo;
+    }
 }

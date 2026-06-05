@@ -1,3 +1,4 @@
+using Entity.DbModel.Station;
 using Service.ChargerV14D.Common;
 
 namespace Service.ChargerV14D.Msg.Resp;
@@ -52,7 +53,55 @@ public class V14DBillingModelResp : V14DFrame
     /// <summary>48 个半小时时段费率号；0x00 尖，0x01 峰，0x02 平，0x03 谷。</summary>
     public byte[] RateSegments { get; set; } = new byte[48];
 
+    /// <summary>DB type 到协议费率号的映射: 1=尖→0x00, 2=峰→0x01, 3=平→0x02, 4=谷→0x03</summary>
+    protected static readonly Dictionary<int, byte> TypeToRateSegment = new()
+    {
+        { 1, 0x00 }, { 2, 0x01 }, { 3, 0x02 }, { 4, 0x03 }
+    };
+
     public V14DBillingModelResp() { }
+
+    /// <summary>从 DB 明细数据填充费率与时段信息</summary>
+    public void PopulateFromDetails(List<ElecPriceModelVersionDetail> details)
+    {
+        if (details == null || details.Count == 0)
+            return;
+
+        // 按尖峰平谷类型取费率: DB price 单位为分，协议需精确到5位小数 (元 * 100000)
+        // 分 → 5位小数的元: price * 1000
+        var detailsByType = details.GroupBy(d => d.Type).ToDictionary(g => g.Key, g => g.First());
+
+        PeakElecRate     = (uint)(detailsByType.GetValueOrDefault(1)?.Price * 1000 ?? 0);
+        PeakServiceRate  = (uint)(detailsByType.GetValueOrDefault(1)?.PriceSerice * 1000 ?? 0);
+        ShoulderElecRate = (uint)(detailsByType.GetValueOrDefault(2)?.Price * 1000 ?? 0);
+        ShoulderServiceRate = (uint)(detailsByType.GetValueOrDefault(2)?.PriceSerice * 1000 ?? 0);
+        FlatElecRate     = (uint)(detailsByType.GetValueOrDefault(3)?.Price * 1000 ?? 0);
+        FlatServiceRate  = (uint)(detailsByType.GetValueOrDefault(3)?.PriceSerice * 1000 ?? 0);
+        ValleyElecRate   = (uint)(detailsByType.GetValueOrDefault(4)?.Price * 1000 ?? 0);
+        ValleyServiceRate = (uint)(detailsByType.GetValueOrDefault(4)?.PriceSerice * 1000 ?? 0);
+
+        LossRatio = 0;
+
+        // 构建48个半小时时段费率号
+        for (int slot = 0; slot < 48; slot++)
+        {
+            int slotMinutes = (slot / 2) * 60 + (slot % 2) * 30;
+
+            var matched = details.FirstOrDefault(d =>
+            {
+                int startMin = d.StartHour * 60 + d.StartMinute;
+                int endMin = d.EndHour * 60 + d.EndMinute;
+                if (endMin > startMin)
+                    return slotMinutes >= startMin && slotMinutes < endMin;
+                else // 跨天时段
+                    return slotMinutes >= startMin || slotMinutes < endMin;
+            });
+
+            RateSegments[slot] = matched != null && TypeToRateSegment.TryGetValue(matched.Type, out var seg)
+                ? seg
+                : (byte)0x02; // 默认为平
+        }
+    }
 
     public override byte[] GetBodyBytes()
     {

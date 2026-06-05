@@ -13,6 +13,9 @@ public class V14DBmsDemandOutputHandler : SimpleChannelInboundHandler<V14DBmsDem
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DBmsDemandOutputReq msg)
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
-            client.BmsDemandOutput = msg;
+        {
+            client.V14DBmsDemandOutputReq = msg;
+            Log.Info($"V14D BmsDemandOutput from {sn}, msg={msg}");
+        }
     }
 }

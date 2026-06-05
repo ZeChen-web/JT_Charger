@@ -52,12 +52,25 @@ public class V14DChargerClient
     /// <summary>实时数据缓存</summary>
     public V14DRealTimeDataReq? RealTimeData { get; set; }
 
-    /// <summary>BMS需求与输出缓存</summary>
-    public V14DBmsDemandOutputReq? BmsDemandOutput { get; set; }
-
     /// <summary>BMS信息缓存</summary>
     public V14DBmsInfoReq? BmsInfo { get; set; }
+    /// <summary>7.3 充电握手</summary>
+    public V14DChargeHandshakeReq? V14DChargeHandshakeReq { get; set; }
+    /// <summary>7.4 参数配置</summary>
+    public V14DParamConfigReq? V14DParamConfigReq { get; set; }
+    /// <summary>7.9 充电过程BMS需求与充电机输出</summary>
+    public V14DBmsDemandOutputReq? V14DBmsDemandOutputReq { get; set; }
 
+    /// <summary>
+    /// 充电订单号
+    /// </summary>
+    public string? ChargeOrderNo { get; set; }
+    
+    /// <summary>
+    /// 电池编码
+    /// </summary>
+    public string? BatteryNo { get; set; }
+    
     /// <summary>充电功率 (kW)</summary>
     public float ChargePower => RealTimeData?.ChargePower ?? 0;
 
@@ -187,6 +200,7 @@ public class V14DChargerClient
     /// <summary>发送计费模型下发 (0x58)</summary>
     public Result<bool> SendBillingModelSet(V14DBillingModelSetCmd cmd)
     {
+        //TODO::直接发模型
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 

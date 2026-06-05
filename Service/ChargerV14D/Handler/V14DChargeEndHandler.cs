@@ -13,6 +13,9 @@ public class V14DChargeEndHandler : SimpleChannelInboundHandler<V14DChargeEndReq
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DChargeEndReq msg)
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        {
+            //TODO::
             Log.Info($"V14D ChargeEnd from {sn}, tsn={msg.TransactionSN}, endSoc={msg.BmsEndSoc}%");
+        }
     }
 }

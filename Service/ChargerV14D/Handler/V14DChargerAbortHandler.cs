@@ -13,6 +13,9 @@ public class V14DChargerAbortHandler : SimpleChannelInboundHandler<V14DChargerAb
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DChargerAbortReq msg)
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        {
+            //TODO::充电桩异常中止需要入库
             Log.Info($"V14D ChargerAbort from {sn}, tsn={msg.TransactionSN}, reason={msg.ChargerStopReason:X2}");
+        }
     }
 }

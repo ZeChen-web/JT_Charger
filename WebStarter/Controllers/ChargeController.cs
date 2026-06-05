@@ -171,15 +171,29 @@ public class ChargeController : ControllerBase
     }
 
     /// <summary>
-    /// 下发电价配置
+    /// 下发电价配置到所有已连接充电桩
     /// </summary>
-    /// <param name="version"></param>
+    /// <param name="version">计费模型版本号</param>
     [HttpGet]
     [Route("DistributeElecPriceForCharge/{Version}")]
     public Result<bool> DistributeElecPriceForCharge(int Version)
     {
-        // TODO: V14D协议需使用DistributeBillingModel接口
-        return Result<bool>.Fail("V14D协议请使用计费模型下发接口");
+        var chargerSns = new List<string>(ServerMgr.Dictionary.Keys);
+        if (chargerSns.Count == 0)
+            return Result<bool>.Fail("没有已连接的充电桩");
+
+        var failedSns = new List<string>();
+        foreach (var sn in chargerSns)
+        {
+            var result = _chargerService.DistributeBillingModel(sn, Version);
+            if (!result.IsSuccess)
+                failedSns.Add(sn);
+        }
+
+        if (failedSns.Count > 0)
+            return Result<bool>.Fail($"以下充电桩下发失败: {string.Join(", ", failedSns)}");
+
+        return Result<bool>.Success();
     }
     //BatteryStatusInfo
 

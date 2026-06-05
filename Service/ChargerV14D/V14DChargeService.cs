@@ -100,7 +100,7 @@ public class V14DChargeService
         return client.SendTimeSync(client.PileCode, DateTime.Now);
     }
 
-    /// <summary>下发计费模型</summary>
+    /// <summary>下发计费模型（传入已构建好的命令）</summary>
     public Result<bool> DistributeBillingModel(string chargerSn, V14DBillingModelSetCmd cmd)
     {
         var client = ServerMgr.GetBySn(chargerSn);
@@ -108,6 +108,31 @@ public class V14DChargeService
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
         cmd.PileCode = client.PileCode;
+        return client.SendBillingModelSet(cmd);
+    }
+
+    /// <summary>按计费模型版本号下发到指定充电桩</summary>
+    public Result<bool> DistributeBillingModel(string chargerSn, int version)
+    {
+        var client = ServerMgr.GetBySn(chargerSn);
+        if (client == null)
+            return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
+
+        var versionRepo = AppInfo.Container.Resolve<ElecPriceModelVersionRepository>();
+        var detailRepo = AppInfo.Container.Resolve<ElecPriceModelVersionDetailRepository>();
+
+        var ver = versionRepo.QueryByClause(v => v.Version == version);
+        if (ver == null || ver.Version == 0)
+            return Result<bool>.Fail($"计费模型版本 {version} 不存在");
+
+        var details = detailRepo.QueryByClauseToList(d => d.Version == version);
+        if (details == null || details.Count == 0)
+            return Result<bool>.Fail($"计费模型版本 {version} 无明细数据");
+
+        var cmd = new V14DBillingModelSetCmd(client.PileCode, (ushort)version);
+        cmd.PopulateFromDetails(details);
+
+        Log.Info($"DistributeBillingModel charger={chargerSn}, version={version}");
         return client.SendBillingModelSet(cmd);
     }
 
