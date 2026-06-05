@@ -17,6 +17,8 @@ public class V14DBillingModelResp : V14DFrame
 
     /// <summary>计费模型编号，2 字节 BIN。</summary>
     public ushort ModelNo { get; set; }
+    
+    
 
     /// <summary>尖电费费率，4 字节 BIN，精确到 5 位小数。</summary>
     public uint PeakElecRate { get; set; }
@@ -41,6 +43,8 @@ public class V14DBillingModelResp : V14DFrame
 
     /// <summary>谷服务费费率，4 字节 BIN，精确到 5 位小数。</summary>
     public uint ValleyServiceRate { get; set; }
+    
+    
 
     /// <summary>计损比例，1 字节 BIN；非 0 时按协议对上送充电量计损。</summary>
     public byte LossRatio { get; set; }

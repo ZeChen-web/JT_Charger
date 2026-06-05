@@ -67,6 +67,13 @@ namespace Entity.DbModel.Station
         /// </summary>
         [SugarColumn(ColumnName = "price")]
         public int Price { get; set; }
+        /// <summary>
+        /// Desc:服务费;以分为单位存储
+        /// Default:
+        /// Nullable:True
+        /// </summary>
+        [SugarColumn(ColumnName = "price_serice")]
+        public int PriceSerice { get; set; }
 
         /// <summary>
         /// Desc:尖峰平谷类型;1-尖；2-峰；3-平；4-谷
