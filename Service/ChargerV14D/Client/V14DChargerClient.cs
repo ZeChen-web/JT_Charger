@@ -70,11 +70,14 @@ public class V14DChargerClient
     /// <summary>
     /// 充电机是否连接
     /// </summary>
-    public bool Connected 
+    public bool Connected
     {
         get
         {
-            if ((DateTime.Now - HeartTime.Value).Seconds >= 30)
+            if (HeartTime == null)
+                return false;
+
+            if ((DateTime.Now - HeartTime.Value).TotalSeconds >= 30)
             {
                 return false;
             }

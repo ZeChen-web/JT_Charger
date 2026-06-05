@@ -40,8 +40,10 @@ public abstract class V14DFrame
         list.Add(V14DConst.StartFlag);                    // 起始标志 0x68
         list.Add(dataLen);                                // 数据长度 (1B)
         list.AddRange(crcData);                           // SeqNo + EncryptFlag + FrameType + Body
-        list.AddRange(BitConverter.GetBytes(crc));        // CRC16 (2B LE, 低字节在前)
-
+        //list.AddRange(BitConverter.GetBytes(crc));        // CRC16 (2B LE, 低字节在前)
+// CRC 高字节在前，低字节在后
+        list.Add((byte)(crc >> 8));         // 高字节
+        list.Add((byte)(crc & 0xFF));       // 低字节
         return list.ToArray();
     }
 

@@ -35,6 +35,8 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
 
         client.PileCode = msg.PileCode;
         ServerMgr.AddBySn(msg.PileCode, client);
+        
+        ServerMgr.AddBySn(ctx.Channel.Id.ToString(), client);
 
         var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
         ctx.Channel.WriteAndFlushAsync(resp);

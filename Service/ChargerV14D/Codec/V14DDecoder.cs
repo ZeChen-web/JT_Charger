@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Service.ChargerV14D.Common;
 using Service.ChargerV14D.Msg;
 using Service.ChargerV14D.Msg.Req;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Codec;
 
@@ -15,12 +16,20 @@ namespace Service.ChargerV14D.Codec;
 public class V14DDecoder : ByteToMessageDecoder
 {
     private static readonly byte[] StartDelimiter = { V14DConst.StartFlag };
-    private readonly ILog _log = LogManager.GetLogger(typeof(V14DDecoder));
+    private ILog Log(string? chargerSn)
+    {
+        if (ObjUtils.IsNotNullOrWhiteSpace(chargerSn))
+        {
+            return LogManager.GetLogger( chargerSn);
+        }
+        return LogManager.GetLogger(typeof(V14DDecoder));
+    }
 
     protected override void Decode(IChannelHandlerContext context, IByteBuffer buffer, List<object> output)
     {
-        string? pileCode = ChannelUtils.GetAttr(context.Channel, V14DConst.PileCode);
-
+        //string? pileCode = ChannelUtils.GetAttr(context.Channel, V14DConst.PileSn);
+        string? pileCode = ServerMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        
         // 查找起始标志 0x68
         int delimiterIndex = IndexOf(buffer, StartDelimiter);
         if (delimiterIndex < 0) return;
@@ -104,17 +113,17 @@ public class V14DDecoder : ByteToMessageDecoder
             if (msg != null)
             {
                 V14DFrame.ParseHeader(frameData, msg);
-                _log.Debug($"V14D Receive [{frameType:X2}] {BitUtls.BytesToHexStr(frameData)} : {JsonConvert.SerializeObject(msg)} from {pileCode}");
+                Log(pileCode).Info($"V14D Receive [{frameType:X2}] {BitUtls.BytesToHexStr(frameData)} : {JsonConvert.SerializeObject(msg)} from {pileCode}");
                 output.Add(msg);
             }
             else
             {
-                _log.Debug($"V14D Receive unknown FrameType=0x{frameType:X2} from {pileCode}");
+                Log(pileCode).Info($"V14D Receive unknown FrameType=0x{frameType:X2} from {pileCode}");
             }
         }
         catch (Exception e)
         {
-            _log.Error($"V14D decode fail, data={BitUtls.BytesToHexStr(frameData)}", e);
+            Log(pileCode).Info($"V14D decode fail, data={BitUtls.BytesToHexStr(frameData)}", e);
         }
     }
 

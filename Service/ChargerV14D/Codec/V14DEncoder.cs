@@ -7,6 +7,7 @@ using log4net;
 using Newtonsoft.Json;
 using Service.ChargerV14D.Common;
 using Service.ChargerV14D.Msg;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Codec;
 
@@ -25,14 +26,11 @@ public class V14DEncoder : MessageToByteEncoder<V14DFrame>
     }
     protected override void Encode(IChannelHandlerContext context, V14DFrame obj, IByteBuffer output)
     {
-        /*byte[] bytes = msg.ToBytes();
-        Log.Info($"V14D Send: {BitUtls.BytesToHexStr(bytes)} : {JsonConvert.SerializeObject(msg)}");
-        output.WriteBytes(bytes);*/
-        
         byte[] bytes = obj.ToBytes();
         
-        string? sn = ChannelUtils.GetAttr(context.Channel, V14DConst.ChargerSn);
-        Log(sn)?.Info($"send {BitUtls.BytesToHexStr(bytes)}:{JsonConvert.SerializeObject(obj)} to {ChannelUtils.GetAttr(context.Channel, V14DConst.ChargerSn)}");
+        
+        string? sn = ServerMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        Log(sn)?.Info($"send {BitUtls.BytesToHexStr(bytes)}:{JsonConvert.SerializeObject(obj)} to {sn}");
         
         output.WriteBytes(bytes);
     }
