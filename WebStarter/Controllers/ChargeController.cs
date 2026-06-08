@@ -39,7 +39,7 @@ public class ChargeController : ControllerBase
     [Route("GetChargerCodeList")]
     public async Task<Result<List<string>>> GetChargerCodeList()
     {
-        List<string> keysList = new List<string>(ServerMgr.Dictionary.Keys);
+        List<string> keysList = new List<string>(V14DClientMgr.Dictionary.Keys.Select(k => k.Item1).Distinct());
         return Result<List<string>>.Success(keysList);
     }
 
@@ -52,7 +52,7 @@ public class ChargeController : ControllerBase
     [Route("ChargerSendAuth/{code}")]
     public Result<bool> ChargerSendAuth(string code)
     {
-        V14DChargerClient? chargerClient = ServerMgr.GetBySn(code);
+        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(code);
 
         if (chargerClient != null)
         {
@@ -73,17 +73,17 @@ public class ChargeController : ControllerBase
     [Route("SendPowerRegulation/{code}/{power}")]
     public Result<bool> SendPowerRegulation(string code, float power)
     {
-        if (power <=0  || power > 280)
+        if (power <=0  || power > 100)
         {
-            return Result<bool>.Fail("功率值范围1到360");
+            return Result<bool>.Fail("功率值范围1到100");
         }
 
         string _code = _binInfoService.QueryByClause(i => i.Code == code).ChargerNo;
-        V14DChargerClient? chargerClient = ServerMgr.GetBySn(_code);
+        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(_code);
 
         if (chargerClient != null)
         {
-            chargerClient.SendParamSet(chargerClient.PileCode, 1, 1, (byte)power);
+            chargerClient.SendParamSet(chargerClient.PileCode, 1,  (byte)power);
             _equipInfoRepository.Update(i => i.ChargePower == power, it => it.Code == _code);
             return Result<bool>.Success(true);
         }
@@ -133,7 +133,7 @@ public class ChargeController : ControllerBase
     [Route("GetBinPowers")]
     public Result<float[]> GetBinPowers()
     {
-        float[] results = ServerMgr.Dictionary.Values
+        float[] results = V14DClientMgr.Dictionary.Values
             .Select(chargerClient => chargerClient.ChargePower)
             .ToArray();
         return Result<float[]>.Success(results);
@@ -178,7 +178,7 @@ public class ChargeController : ControllerBase
     [Route("DistributeElecPriceForCharge/{Version}")]
     public Result<bool> DistributeElecPriceForCharge(int Version)
     {
-        var chargerSns = new List<string>(ServerMgr.Dictionary.Keys);
+        var chargerSns = new List<string>(V14DClientMgr.Dictionary.Keys.Select(k => k.Item1).Distinct());
         if (chargerSns.Count == 0)
             return Result<bool>.Fail("没有已连接的充电桩");
 
@@ -205,8 +205,7 @@ public class ChargeController : ControllerBase
     [Route("BatteryStatusInfo")]
     public Result<BatteryStatusInfoResp> BatteryStatusInfo()
     {
-        // TODO: V14D协议需重新实现
-        return Result<BatteryStatusInfoResp>.Fail("V14D协议暂未实现");
+        return _chargerService.BatteryStatusInfo();
     }
 
     /// <summary>
@@ -217,7 +216,6 @@ public class ChargeController : ControllerBase
     [Route("BatteryInfo/{chargeNo}")]
     public Result<BatteryInfoResp> BatteryInfo(string chargeNo)
     {
-        // TODO: V14D协议需重新实现
-        return Result<BatteryInfoResp>.Fail("V14D协议暂未实现");
+        return _chargerService.BatteryInfo(chargeNo);
     }
 }

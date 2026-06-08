@@ -12,6 +12,7 @@ using Service.RealTime;
 using SqlSugar;
 using SqlSugar.IOC;
 
+
 var builder = WebApplication.CreateBuilder(args);
 var log = LogManager.GetLogger(typeof(Program));
 
@@ -110,7 +111,7 @@ if (!string.IsNullOrWhiteSpace(chargerPorts))
         if (int.TryParse(portStr.Trim(), out var port))
         {
             log.Info($"启动ChargerServer监听端口: {port}");
-            ServerMgr.InitServer(port);
+            V14DClientMgr.InitServer(port);
         }
     }
 }

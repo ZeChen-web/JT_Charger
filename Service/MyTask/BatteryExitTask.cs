@@ -1,5 +1,11 @@
-﻿using HybirdFrameworkCore.Autofac.Attribute;
+﻿using Autofac;
+using HybirdFrameworkCore.Autofac;
+using HybirdFrameworkCore.Autofac.Attribute;
 using HybirdFrameworkCore.AutoTask;
+using HybirdFrameworkCore.Entity;
+using log4net;
+using Repository.Station;
+using Service.ChargerV14D.Server;
 
 namespace Service.MyTask;
 
@@ -9,6 +15,7 @@ namespace Service.MyTask;
 [Scope]
 public class BatteryExitTask : ITask
 {
+    private static readonly ILog Log = LogManager.GetLogger(typeof(BatteryExitTask));
     private static bool _stop;
 
     public string Name()
@@ -20,10 +27,26 @@ public class BatteryExitTask : ITask
     {
         return 1000 * 1;
     }
+    
+    
+    private BinInfoRepository BinInfoRepository = AppInfo.Container.Resolve<BinInfoRepository>();
+    
 
     public void Handle()
     {
-        //TODO::这里需要增加电池在位信号的处理逻辑，目前先占位
+        var bininfos = BinInfoRepository.Query();
+        foreach (var binInfo in bininfos)
+        {
+            var client = V14DClientMgr.GetBySn(binInfo.ChargerNo,binInfo.ChargerNo);
+            if (client == null)
+                Log.Info($"充电机 {binInfo.ChargerNo} 未连接");
+            else
+            {
+                client.SendV14DBatteryInfoQueryCmd(binInfo.ChargerNo);
+                client.SendBatteryInBinSignal(binInfo.ChargerNo,Convert.ToByte(binInfo.ChargerGunNo),(byte)binInfo.Exists);
+            }
+        }
+        
     }
     public bool Stoped()
     {

@@ -20,18 +20,19 @@ public class V14DEncoder : MessageToByteEncoder<V14DFrame>
     {
         if (ObjUtils.IsNotNullOrWhiteSpace(chargerSn))
         {
-            return LogManager.GetLogger(  chargerSn);
+            return LogManager.GetLogger(chargerSn);
         }
+
         return LogManager.GetLogger(typeof(V14DEncoder));
     }
+
     protected override void Encode(IChannelHandlerContext context, V14DFrame obj, IByteBuffer output)
     {
         byte[] bytes = obj.ToBytes();
-        
-        
-        string? sn = ServerMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+
+        string? sn = V14DClientMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
         Log(sn)?.Info($"send {BitUtls.BytesToHexStr(bytes)}:{JsonConvert.SerializeObject(obj)} to {sn}");
-        
+
         output.WriteBytes(bytes);
     }
 }

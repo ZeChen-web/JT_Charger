@@ -36,7 +36,7 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            V14DChargerClient? chargerClient = ServerMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo);
             if (chargerClient != null)
             {
                 binInfoResp.power = chargerClient.ChargePower;
@@ -71,7 +71,7 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            V14DChargerClient? chargerClient = ServerMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo);
             if (chargerClient != null)
             {
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;

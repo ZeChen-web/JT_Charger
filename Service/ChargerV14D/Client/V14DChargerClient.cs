@@ -54,6 +54,12 @@ public class V14DChargerClient
 
     /// <summary>BMS信息缓存</summary>
     public V14DBmsInfoReq? BmsInfo { get; set; }
+
+    /// <summary>电池基本信息缓存 (0x73)</summary>
+    public V14DBatteryInfoReportReq? BatteryInfoReport { get; set; }
+
+    /// <summary>电池状态接口 (0x75)</summary>
+    public V14DBatteryStatusReportReq? BatteryStatusReport { get; set; }
     /// <summary>7.3 充电握手</summary>
     public V14DChargeHandshakeReq? V14DChargeHandshakeReq { get; set; }
     /// <summary>7.4 参数配置</summary>
@@ -174,14 +180,14 @@ public class V14DChargerClient
     }
 
     /// <summary>发送参数设置 (0x52)</summary>
-    public Result<bool> SendParamSet(string pileCode, byte gun, byte allowWork, byte maxPower)
+    public Result<bool> SendParamSet(string pileCode, byte gun, byte maxPower)
     {
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
-        var cmd = new V14DParamSetCmd(pileCode, gun, allowWork, maxPower) { SeqNo = V14DUtils.NextSeqNo() };
+        var cmd = new V14DParamSetCmd(pileCode, gun, maxPower) { SeqNo = V14DUtils.NextSeqNo() };
         Channel.WriteAndFlushAsync(cmd);
-        Log().Info($"SendParamSet pile={pileCode}, gun={gun}, allowWork={allowWork}, maxPower={maxPower}");
+        Log().Info($"SendParamSet pile={pileCode}, gun={gun},  maxPower={maxPower}");
         return Result<bool>.Success();
     }
 
@@ -265,6 +271,17 @@ public class V14DChargerClient
         resp.SeqNo = V14DUtils.NextSeqNo();
         Channel.WriteAndFlushAsync(resp);
         Log().Info($"SendConfirmStartCharge tsn={resp.TransactionSN}, result={resp.AuthResult}");
+        return Result<bool>.Success();
+    }
+    /// <summary>发送电池信息获取</summary>
+    public Result<bool> SendV14DBatteryInfoQueryCmd(string PileCode)
+    {
+        if (!Connected)
+            return Result<bool>.Fail($"Charger {Sn} disconnect");
+
+        var cmd = new V14DBatteryInfoQueryCmd(PileCode, 1) { SeqNo = V14DUtils.NextSeqNo() };
+        Channel.WriteAndFlushAsync(cmd);
+        Log().Info($"send SendV14DBatteryInfoQueryCmd pile={PileCode}");
         return Result<bool>.Success();
     }
 

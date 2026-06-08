@@ -63,6 +63,11 @@ public static class V14DFrameType
     public const byte QRCodeReply = 0x9B;              // 二维码应答 (上行)
     public const byte QRCodeDistribute = 0x9C;         // 下发二维码 (下行)
 
+    // === 电池信息 ===
+    public const byte BatteryInfoQuery = 0x72;         // 平台下发获取电池基本信息 (下行)
+    public const byte BatteryInfoReport = 0x73;        // 电池基本信息应答 (上行)
+    public const byte BatteryStatusReport = 0x75;      // 电池状态上报 (上行)
+
     // === VIN相关 ===
     public const byte VINQuery = 0xAD;                 // VIN查询 (下行)
     public const byte VINQueryReply = 0xAE;            // VIN查询应答 (上行)

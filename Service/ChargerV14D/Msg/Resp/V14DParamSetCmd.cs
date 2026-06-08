@@ -17,8 +17,8 @@ public class V14DParamSetCmd : V14DFrame
     public byte MaxOutputPower { get; set; }
 
     public V14DParamSetCmd() { }
-    public V14DParamSetCmd(string pileCode, byte gun, byte allowWork, byte maxPower)
-    { PileCode = pileCode; Gun = gun; AllowWork = allowWork; MaxOutputPower = maxPower; }
+    public V14DParamSetCmd(string pileCode, byte gun, /*byte allowWork,*/ byte maxPower)
+    { PileCode = pileCode; Gun = gun; AllowWork = 0; MaxOutputPower = maxPower; }
 
     public override byte[] GetBodyBytes()
     {

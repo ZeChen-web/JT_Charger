@@ -15,7 +15,7 @@ public class V14DHeartbeatHandler : SimpleChannelInboundHandler<V14DHeartbeatReq
 
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DHeartbeatReq msg)
     {
-        if (ServerMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
         {
             client.GunStatus = msg.GunStatus;
             client.LastHeartbeat = DateTime.Now;

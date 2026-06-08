@@ -14,7 +14,15 @@ public class V14DRealTimeDataReq : V14DFrame
     public string PileCode { get; set; } = "";
     /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    /// <summary>充电状态，1 字节 BIN；按协议状态枚举定义。</summary>
+    /// <summary>
+    /// 充电状态，1 字节 BIN；按协议状态枚举定义。
+    /// 0x00：离线
+    /// 0x01：故障
+    /// 0x02：空闲
+    /// 0x03：充电
+    /// 0x04:已插枪未充电
+    /// 0x05:充电完成未拔枪
+    /// </summary>
     public byte Status { get; set; }
     /// <summary>充电枪归位状态，1 字节 BIN。</summary>
     public byte GunHome { get; set; }

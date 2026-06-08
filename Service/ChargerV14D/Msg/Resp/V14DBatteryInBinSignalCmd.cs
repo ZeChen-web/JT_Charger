@@ -11,7 +11,7 @@ public class V14DBatteryInBinSignalCmd : V14DFrame
     public string PileCode { get; set; } = "";
     /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    /// <summary>电池入仓信号，1 字节 BIN。</summary>
+    /// <summary>电池入仓信号布尔型（1，电池在仓；0，仓内无电池）</summary>
     public byte BatteryInBin { get; set; }
     /// <summary>保留字段，按协议默认置 0。</summary>
     public uint Reserve { get; set; }

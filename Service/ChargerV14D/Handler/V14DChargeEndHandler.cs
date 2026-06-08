@@ -3,6 +3,7 @@ using HybirdFrameworkCore.Autofac.Attribute;
 using log4net;
 using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Handler;
 
@@ -12,9 +13,9 @@ public class V14DChargeEndHandler : SimpleChannelInboundHandler<V14DChargeEndReq
     private static readonly ILog Log = LogManager.GetLogger(typeof(V14DChargeEndHandler));
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DChargeEndReq msg)
     {
-        if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        if (V14DClientMgr.TryGetClient(ctx.Channel,msg.Gun, out var sn, out var client))
         {
-            //TODO::
+            //TODO::充电结束事件
             Log.Info($"V14D ChargeEnd from {sn}, tsn={msg.TransactionSN}, endSoc={msg.BmsEndSoc}%");
         }
     }

@@ -6,6 +6,7 @@ using Repository.Station;
 using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Handler;
 
@@ -30,7 +31,7 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
     }
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DTransactionRecordReq msg)
     {
-        if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
+        if (V14DClientMgr.TryGetClient(ctx.Channel, msg.Gun,out var sn, out var client))
         {
             Log.Info($"V14D TransactionRecord from {sn}, tsn={msg.TransactionSN}, totalKWH={msg.TotalKWHValue:F4}");
 

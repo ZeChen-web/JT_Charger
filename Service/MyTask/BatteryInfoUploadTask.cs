@@ -19,7 +19,7 @@ namespace Service.MyTask;
 public class BatteryInfoUploadTask : ITask
 {
     private static readonly ILog Log = LogManager.GetLogger(typeof(BatteryInfoUploadTask));
-    private RedisHelper RedisHelper { get; set; } = AppInfo.Container.Resolve<RedisHelper>();
+    private RedisHelper RedisHelp/er { get; set; } = AppInfo.Container.Resolve<RedisHelper>();
     private BinInfoRepository BinInfoRepository = AppInfo.Container.Resolve<BinInfoRepository>();
 
     private static bool _stop;

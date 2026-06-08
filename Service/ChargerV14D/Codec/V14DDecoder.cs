@@ -28,7 +28,7 @@ public class V14DDecoder : ByteToMessageDecoder
     protected override void Decode(IChannelHandlerContext context, IByteBuffer buffer, List<object> output)
     {
         //string? pileCode = ChannelUtils.GetAttr(context.Channel, V14DConst.PileSn);
-        string? pileCode = ServerMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        string? pileCode = V14DClientMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
         
         // 查找起始标志 0x68
         int delimiterIndex = IndexOf(buffer, StartDelimiter);

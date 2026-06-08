@@ -19,13 +19,13 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
 
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DLoginReq msg)
     {
-        ServerMgr.SessionAttr(ctx.Channel, msg.PileCode, "0,0,0,0");
-        IoSession session = ServerMgr.Server.SessionMgr.GetSession(ctx.Channel.Id.ToString());
+        V14DClientMgr.SessionAttr(ctx.Channel, msg.PileCode, "0,0,0,0");
+        IoSession session = V14DClientMgr.Server.SessionMgr.GetSession(ctx.Channel.Id.ToString());
         if (session == null)
         {
-            session = ServerMgr.Server.SessionMgr.GetSession(msg.PileCode);
+            session = V14DClientMgr.Server.SessionMgr.GetSession(msg.PileCode);
         }
-        ServerMgr.Server.SessionMgr.ChangeSessionKey(session, msg.PileCode);
+        V14DClientMgr.Server.SessionMgr.ChangeSessionKey(session, msg.PileCode);
 
         V14DChargerClient client = AppInfo.Container.Resolve<V14DChargerClient>();
         client.Channel = ctx.Channel;
@@ -34,9 +34,10 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
         client.IsLoggedIn = true;
 
         client.PileCode = msg.PileCode;
-        ServerMgr.AddBySn(msg.PileCode, client);
+        V14DClientMgr.AddBySn(msg.PileCode, "1",client);
+        V14DClientMgr.AddBySn(msg.PileCode, "2",client);
         
-        ServerMgr.AddBySn(ctx.Channel.Id.ToString(), client);
+        V14DClientMgr.AddBySn(ctx.Channel.Id.ToString(),msg.PileCode, client);
 
         var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
         ctx.Channel.WriteAndFlushAsync(resp);

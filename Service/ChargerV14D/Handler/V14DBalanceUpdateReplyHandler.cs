@@ -3,6 +3,7 @@ using HybirdFrameworkCore.Autofac.Attribute;
 using log4net;
 using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
+using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Handler;
 
