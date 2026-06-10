@@ -10,6 +10,7 @@ using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Handler;
 
+/// <summary>8.7 交易记录报文 (0x3F，上行)。</summary>
 [Order(8)]
 [Scope("InstancePerDependency")]
 public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTransactionRecordReq>, IBaseHandler

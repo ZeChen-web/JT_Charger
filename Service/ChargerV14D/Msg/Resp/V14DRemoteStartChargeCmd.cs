@@ -25,7 +25,7 @@ public class V14DRemoteStartChargeCmd : V14DFrame
     public V14DRemoteStartChargeCmd() { }
     public override byte[] GetBodyBytes()
     {
-        var b = new byte[42];
+        var b = new byte[50];
         int o = 0;
         V14DUtils.StringToBcd(TransactionSN, 16).CopyTo(b, o); o += 16;
         V14DUtils.StringToBcd(PileCode, 7).CopyTo(b, o); o += 7;

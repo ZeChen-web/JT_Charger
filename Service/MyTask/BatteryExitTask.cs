@@ -25,7 +25,7 @@ public class BatteryExitTask : ITask
 
     public int Interval()
     {
-        return 1000 * 1;
+        return 1000 * 5;
     }
     
     
@@ -37,7 +37,7 @@ public class BatteryExitTask : ITask
         var bininfos = BinInfoRepository.Query();
         foreach (var binInfo in bininfos)
         {
-            var client = V14DClientMgr.GetBySn(binInfo.ChargerNo,binInfo.ChargerNo);
+            var client = V14DClientMgr.GetBySn(binInfo.ChargerNo,binInfo.ChargerGunNo);
             if (client == null)
                 Log.Info($"充电机 {binInfo.ChargerNo} 未连接");
             else

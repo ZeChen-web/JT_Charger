@@ -7,6 +7,7 @@ using Service.ChargerV14D.Server;
 
 namespace Service.ChargerV14D.Handler;
 
+/// <summary>7.4 参数配置 (0x17, 上行) GBT-27930</summary>
 [Order(8)]
 [Scope("InstancePerDependency")]
 public class V14DParamConfigHandler : SimpleChannelInboundHandler<V14DParamConfigReq>, IBaseHandler

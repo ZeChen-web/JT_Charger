@@ -30,7 +30,7 @@ public class V14DEncoder : MessageToByteEncoder<V14DFrame>
     {
         byte[] bytes = obj.ToBytes();
 
-        string? sn = V14DClientMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        string? sn = ChannelUtils.GetAttr(context.Channel, V14DConst.PileSn);
         Log(sn)?.Info($"send {BitUtls.BytesToHexStr(bytes)}:{JsonConvert.SerializeObject(obj)} to {sn}");
 
         output.WriteBytes(bytes);

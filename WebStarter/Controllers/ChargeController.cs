@@ -151,7 +151,7 @@ public class ChargeController : ControllerBase
         var binInfo = _binInfoService.QueryByClause(i => i.Code == binNo);
         if (binInfo == null)
             return Result<bool>.Fail("仓位不存在");
-        /*return */_chargerService.StartCharge(binInfo.ChargerNo, 1, 100, 0);
+        /*return */_chargerService.StartCharge(binInfo.ChargerNo, Convert.ToByte(binInfo.ChargerGunNo),  10);
         return Result<bool>.Success(true);
     }
 
@@ -167,7 +167,7 @@ public class ChargeController : ControllerBase
         var binInfo = _binInfoService.QueryByClause(i => i.Code == binNo);
         if (binInfo == null)
             return Result<bool>.Fail("仓位不存在");
-        return _chargerService.StopCharge(binInfo.ChargerNo, 1);
+        return _chargerService.StopCharge(binInfo.ChargerNo, Convert.ToByte(binInfo.ChargerGunNo));
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ public class V14DParamSetReplyHandler : SimpleChannelInboundHandler<V14DParamSet
     private static readonly ILog Log = LogManager.GetLogger(typeof(V14DParamSetReplyHandler));
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DParamSetReplyReq msg)
     {
-        if (V14DClientMgr.TryGetClient(ctx.Channel,msg.Gun, out var sn, out var client))
+        if (V14DClientMgr.TryGetClient(ctx.Channel, out var sn, out var client))
             Log.Info($"V14D ParamSetReply from {sn}, result={msg.Result}");
     }
 }

@@ -26,7 +26,7 @@ public class V14DChargeService
     public BinInfoRepository BinInfoRepository { get; set; }
     
     /// <summary>远程启动充电</summary>
-    public Result<string> StartCharge(string chargerSn, byte gun, byte socLimit, uint balance,
+    public Result<string> StartCharge(string chargerSn, byte gun, uint balance,
         string logicCardNo = "", string physicalCardNo = "", string? chargeOrderNo = null)
     {
         var client = V14DClientMgr.GetBySn(chargerSn);

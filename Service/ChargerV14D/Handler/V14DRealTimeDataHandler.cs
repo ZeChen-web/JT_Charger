@@ -32,13 +32,13 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
             var u1 = _binInfoRepository.Update(
                 t => new BinInfo()
                 {
-                    Status = status(msg.Status),
+                    ChargeStatus = status(msg.Status),
                     Soc = msg.SOC
                 },
                 i => i.ChargerNo == msg.PileCode && i.ChargerGunNo == (msg.Gun).ToString());
 
-            Log.Debug(
-                $"V14D RealTimeData from {sn}, status={msg.Status}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
+            Log.Info(
+                $"V14D RealTimeData from {sn}, status={msg.Status},gun={msg.Gun}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
             V14DReadRealTimeDataCmd readCmd = new V14DReadRealTimeDataCmd(msg.PileCode, msg.Gun);
             ctx.Channel.WriteAndFlushAsync(readCmd);
         }
