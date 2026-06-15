@@ -13,27 +13,27 @@ public class V14DBmsDemandOutputReq : V14DFrame
     public string PileCode { get; set; } = "";
     /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    /// <summary>电压字段，按协议精度换算。</summary>
+    /// <summary>BMS 电压需求。</summary>
     public ushort BmsVoltageDemand { get; set; }
-    /// <summary>电流字段，按协议精度换算。</summary>
+    /// <summary>BMS 电流需求。</summary>
     public ushort BmsCurrentDemand { get; set; }
     /// <summary>BMS 充电模式，1 字节 BIN；0x01 恒压，0x02 恒流。</summary>
     public byte BmsChargeMode { get; set; }
-    /// <summary>电压字段，按协议精度换算。</summary>
+    /// <summary>BMS 充电电压测量值。</summary>
     public ushort BmsVoltageMeasured { get; set; }
-    /// <summary>电流字段，按协议精度换算。</summary>
+    /// <summary>BMS 充电电流测量值。</summary>
     public ushort BmsCurrentMeasured { get; set; }
     /// <summary>最高单体动力蓄电池电压及组号，2 字节 BIN；高 12 位电压，低 4 位组号。</summary>
     public ushort BmsMaxCellVoltageGroup { get; set; }
-    /// <summary>SOC 字段，按协议精度换算。</summary>
+    /// <summary>BMS 当前荷电状态 SOC（ %）。</summary>
     public byte BmsSoc { get; set; }
     /// <summary>BMS 估算剩余充电时间，2 字节 BIN，单位分钟。</summary>
     public ushort BmsRemainTime { get; set; }
-    /// <summary>电压字段，按协议精度换算。</summary>
+    /// <summary>电桩电压输出值。</summary>
     public ushort PileOutputVoltage { get; set; }
-    /// <summary>电流字段，按协议精度换算。</summary>
+    /// <summary>电桩电流输出值</summary>
     public ushort PileOutputCurrent { get; set; }
-    /// <summary>时间字段，按协议格式解析。</summary>
+    /// <summary>累计充电时间</summary>
     public ushort AccumulatedChargeTime { get; set; }
 
     public V14DBmsDemandOutputReq() { }

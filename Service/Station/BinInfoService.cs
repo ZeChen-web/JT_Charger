@@ -47,6 +47,9 @@ public class BinInfoService : BaseServices<BinInfo>
                 {
                     binInfoResp.BmsNeedVoltage = chargerClient.BatteryStatusReport.DemandVoltage;
                     binInfoResp.BmsNeedCurrent = chargerClient.BatteryStatusReport.DemandCurrent;
+                    binInfoResp.TotalCurrent = chargerClient.BatteryStatusReport.ChargeCurrent;
+                    binInfoResp.TotalVoltage = chargerClient.BatteryStatusReport.ChargeVoltage;
+                    binInfoResp.Soh = chargerClient.BatteryStatusReport.SOH;
                 }
 
                 var realtime = chargerClient.RealTimeData;
@@ -55,7 +58,10 @@ public class BinInfoService : BaseServices<BinInfo>
                     binInfoResp.ChargingTime = realtime.ChargeTime;
                     binInfoResp.EstimatedRemainingTime = realtime.RemainTime;
                     binInfoResp.CellTemperatureMax = (short)realtime.MaxBatTempValue;
+                    binInfoResp.ChargingInterfaceDetectionOneTemp = Convert.ToInt16(realtime.GunTempValue);//枪温度
+                    binInfoResp.ChargingInterfaceDetectionTwoTemp = Convert.ToInt16(realtime.MaxBatTemp);//电池最高温度
                 }
+
             }
         }
 

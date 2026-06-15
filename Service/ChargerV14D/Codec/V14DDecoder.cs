@@ -108,6 +108,7 @@ public class V14DDecoder : ByteToMessageDecoder
                 V14DFrameType.RemoteUpdateReply => new V14DRemoteUpdateReplyReq(body),
                 V14DFrameType.QRCodeReply => new V14DQRCodeReplyReq(body),
                 V14DFrameType.VINQueryReply => new V14DVINQueryReplyReq(body),
+                V14DFrameType.BatteryStatusReport => new V14DBatteryStatusReportReq(body),
                 _ => null
             };
 

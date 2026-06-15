@@ -238,6 +238,12 @@ public partial class BinInfoResp
     /// </summary>
     public float TotalCurrent { get; set; }
     /// <summary>
+    /// 电池包总电流，充电为负值，放电为正
+    /// Default:
+    /// Nullable:0
+    /// </summary>
+    public float TotalVoltage { get; set; }
+    /// <summary>
     /// 电芯温度最大值
     /// Default:
     /// Nullable:0
@@ -274,11 +280,11 @@ public partial class BinInfoResp
     /// </summary>
     public int Exists { get; set; }
     /// <summary>
-    /// 充电接口温度探头 1
+    /// 枪温度
     /// </summary>
     public Int16 ChargingInterfaceDetectionOneTemp { get; set; }
     /// <summary>
-    /// 充电接口温度探头 2
+    /// 电池组最高温度
     /// </summary>
     public Int16 ChargingInterfaceDetectionTwoTemp { get; set; }
     /// <summary>

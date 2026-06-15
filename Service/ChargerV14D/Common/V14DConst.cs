@@ -26,7 +26,6 @@ public static class V14DConst
     public static readonly AttributeKey<string> PileSn = AttributeKey<string>.ValueOf("v14d_pile_sn");
 }
 
-/// <summary>充电桩状态 (0x13报文)</summary>
 public enum PileStatus : byte
 {
     Offline = 0x00,

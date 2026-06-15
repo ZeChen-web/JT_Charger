@@ -13,11 +13,26 @@ public class V14DChargerAbortReq : V14DFrame
     public string PileCode { get; set; } = "";
     /// <summary>枪号，1 字节 BIN。</summary>
     public byte Gun { get; set; }
-    /// <summary>充电机中止充电原因，1 字节 BIN。</summary>
+    /// <summary>充电机中止充电原因，
+    /// 1-2 位——达到充电机设定的条件中止
+    /// 3-4 位——人工中止
+    /// 5-6 位——异常中止
+    /// 7-8 位——BMS 主动中止
+    /// </summary>
     public byte ChargerStopReason { get; set; }
-    /// <summary>充电机中止充电故障原因，2 字节 BIN。</summary>
+    /// <summary>充电机中止充电故障原因，2 字节
+    /// 1-2 位——充电机过温故障
+    /// 3-4 位——充电连接器故障
+    /// 5-6 位——充电机内部过温故障
+    /// 7-8 位——所需电量不能传送
+    /// 9-10 位——充电机急停故障
+    /// 11-12 位——其他故障
+    /// 13-16 位——预留位</summary>
     public ushort ChargerStopFaultReason { get; set; }
-    /// <summary>充电机中止充电错误原因，1 字节 BIN。</summary>
+    /// <summary>充电机中止充电错误原因，1 字节 BIN。
+    /// 1-2 位——电流不匹配
+    /// 3-4 位——电压异常
+    /// 5-8 位——预留位</summary>
     public byte ChargerStopErrorReason { get; set; }
 
     public V14DChargerAbortReq() { }

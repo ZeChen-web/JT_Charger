@@ -20,7 +20,7 @@ public class V14DBatteryStatusReportReq : V14DFrame
     public ushort BatteryNo { get; set; }
 
     /// <summary>SOC，2 字节 BIN，精度0.1%，0~100%</summary>
-    public ushort SOC { get; set; }
+    public float SOC { get; set; }
 
     /// <summary>电池箱状态，1 字节 BIN；0=不正常，1=正常</summary>
     public byte BatteryBoxStatus { get; set; }
@@ -56,13 +56,13 @@ public class V14DBatteryStatusReportReq : V14DFrame
     public byte MinCellVoltageNo { get; set; }
 
     /// <summary>最高电池温度，2 字节 BIN，-50°C偏移</summary>
-    public ushort MaxBatteryTemperature { get; set; }
+    public float MaxBatteryTemperature { get; set; }
 
     /// <summary>最高温度检测编号，1 字节 BIN</summary>
     public byte MaxTempDetectNo { get; set; }
 
     /// <summary>最低电池温度，2 字节 BIN，-50°C偏移</summary>
-    public ushort MinBatteryTemperature { get; set; }
+    public float MinBatteryTemperature { get; set; }
 
     /// <summary>最低温度检测编号，1 字节 BIN</summary>
     public byte MinTempDetectNo { get; set; }
@@ -82,43 +82,35 @@ public class V14DBatteryStatusReportReq : V14DFrame
     /// <summary>单体电池总数，2 字节 BIN</summary>
     public ushort CellCount { get; set; }
 
-    /// <summary>SOC换算值（%）</summary>
-    public float SOCValue => SOC * 0.1f;
-
-    /// <summary>最高温度换算值</summary>
-    public float MaxTemperatureValue => (short)MaxBatteryTemperature - 50f;
-
-    /// <summary>最低温度换算值</summary>
-    public float MinTemperatureValue => (short)MinBatteryTemperature - 50f;
 
     public V14DBatteryStatusReportReq() { }
 
     public V14DBatteryStatusReportReq(byte[] body)
     {
-        if (body.Length < 93) return;
+        if (body.Length < 89) return;
         int o = 0;
 
         PileCode = V14DUtils.BcdToString(body, o, 7); o += 7;
         Gun = body[o++];
         Array.Copy(body, o, Reserved, 0, 4); o += 4;
-        BatteryNo = BitConverter.ToUInt16(body, o); o += 2;
-        SOC = BitConverter.ToUInt16(body, o); o += 2;
+        BatteryNo = BitConverter.ToUInt16(body, o);
+        SOC = BitConverter.ToUInt16(body, o) * 0.1f; o += 2;
         BatteryBoxStatus = body[o++];
-        ChargeVoltage = BitConverter.ToUInt16(body, o); o += 2;
-        ChargeCurrent = BitConverter.ToUInt16(body, o); o += 2;
-        DemandVoltage = BitConverter.ToUInt16(body, o); o += 2;
-        DemandCurrent = BitConverter.ToUInt16(body, o); o += 2;
+        ChargeVoltage = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
+        ChargeCurrent = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
+        DemandVoltage = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
+        DemandCurrent = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
         ChargeMode = body[o++];
         TransactionOrder = V14DUtils.BcdToString(body, o, 16); o += 16;
-        MaxCellVoltage = BitConverter.ToUInt16(body, o); o += 2;
+        MaxCellVoltage = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
         MaxCellVoltageNo = body[o++];
-        MinCellVoltage = BitConverter.ToUInt16(body, o); o += 2;
+        MinCellVoltage = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
         MinCellVoltageNo = body[o++];
-        MaxBatteryTemperature = BitConverter.ToUInt16(body, o); o += 2;
+        MaxBatteryTemperature = Convert.ToInt16((body[o]-50)); o += 1;
         MaxTempDetectNo = body[o++];
-        MinBatteryTemperature = BitConverter.ToUInt16(body, o); o += 2;
+        MinBatteryTemperature = Convert.ToInt16((body[o]-50)); o += 1;
         MinTempDetectNo = body[o++];
-        BatteryCode = global::System.Text.Encoding.ASCII.GetString(body, o, 27).TrimEnd('\0'); o += 27;
+        BatteryCode = global::System.Text.Encoding.ASCII.GetString(body, o, 27).TrimEnd('\0').Replace("?",""); o += 27;
         BmsSoftwareVersion = global::System.Text.Encoding.ASCII.GetString(body, o, 8).TrimEnd('\0'); o += 8;
         BatteryFault = body[o++];
         SOH = body[o++];
