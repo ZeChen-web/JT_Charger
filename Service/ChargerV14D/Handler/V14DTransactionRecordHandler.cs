@@ -41,7 +41,7 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
             ChargeOrder db = _chargeOrderRepository.QueryByClause(it => it.Sn == msg.TransactionSN);
 
             DateTime startTime = msg.StartDateTime;
-            DateTime endTime = msg.StartDateTime;
+            DateTime endTime = msg.EndDateTime;
 
             if (db == null)
             {

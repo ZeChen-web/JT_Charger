@@ -22,9 +22,10 @@ public class V14DBatteryInBinSignalCmd : V14DFrame
 
     public override byte[] GetBodyBytes()
     {
-        var b = new byte[9];
+        var b = new byte[13];
         V14DUtils.StringToBcd(PileCode, 7).CopyTo(b, 0);
-        b[7] = Gun; b[8] = BatteryInBin;
+        b[7] = Gun; b[8] = BatteryInBin; 
+        b[9] = 0; b[10] = 0; b[11] = 0; b[12] = 0;
         return b;
     }
 }

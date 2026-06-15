@@ -28,7 +28,8 @@ public class V14DDecoder : ByteToMessageDecoder
     protected override void Decode(IChannelHandlerContext context, IByteBuffer buffer, List<object> output)
     {
         //string? pileCode = ChannelUtils.GetAttr(context.Channel, V14DConst.PileSn);
-        string? pileCode = V14DClientMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        //string? pileCode = V14DClientMgr.GetBySn(context.Channel.Id.ToString())?.Sn;
+        string? pileCode = ChannelUtils.GetAttr(context.Channel, V14DConst.PileSn);
         
         // 查找起始标志 0x68
         int delimiterIndex = IndexOf(buffer, StartDelimiter);
@@ -118,7 +119,7 @@ public class V14DDecoder : ByteToMessageDecoder
             }
             else
             {
-                Log(pileCode).Info($"V14D Receive unknown FrameType=0x{frameType:X2} from {pileCode}");
+                Log(pileCode).Info($"V14D Receive unknown FrameType=0x{frameType:X2} from {pileCode}:{BitUtls.BytesToHexStr(frameData)} ");
             }
         }
         catch (Exception e)

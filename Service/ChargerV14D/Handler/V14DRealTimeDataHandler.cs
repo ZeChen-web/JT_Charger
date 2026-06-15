@@ -39,8 +39,8 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
 
             Log.Info(
                 $"V14D RealTimeData from {sn}, status={msg.Status},gun={msg.Gun}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
-            V14DReadRealTimeDataCmd readCmd = new V14DReadRealTimeDataCmd(msg.PileCode, msg.Gun);
-            ctx.Channel.WriteAndFlushAsync(readCmd);
+            //V14DReadRealTimeDataCmd readCmd = new V14DReadRealTimeDataCmd(msg.PileCode, msg.Gun);
+            //ctx.Channel.WriteAndFlushAsync(readCmd);
         }
     }
 
@@ -49,8 +49,8 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
         switch (chargeStatus)
         {
             case 0: return 0; // 离线
-            case 1: return 5; // 故障
-            case 2: return 0; //空闲 
+            case 1: return 3; // 故障
+            case 2: return 0; // 空闲 
             case 3: return 1; // 充电中
             case 4: return 0; // 已插枪未充电
             case 5: return 0; // 充电完成未拔枪

@@ -36,12 +36,18 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo,binInfoResp.ChargerGunNo);
             if (chargerClient != null)
             {
                 binInfoResp.power = chargerClient.ChargePower;
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;
                 binInfoResp.IsAuthed = chargerClient.IsLoggedIn;
+
+                if (chargerClient.BatteryStatusReport!=null)
+                {
+                    binInfoResp.BmsNeedVoltage = chargerClient.BatteryStatusReport.DemandVoltage;
+                    binInfoResp.BmsNeedCurrent = chargerClient.BatteryStatusReport.DemandCurrent;
+                }
 
                 var realtime = chargerClient.RealTimeData;
                 if (realtime != null)
@@ -71,7 +77,7 @@ public class BinInfoService : BaseServices<BinInfo>
         // 功率赋值
         foreach (var binInfoResp in binInfoList)
         {
-            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo);
+            V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo,binInfoResp.ChargerGunNo.ToString());
             if (chargerClient != null)
             {
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;

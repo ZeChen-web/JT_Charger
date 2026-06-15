@@ -64,13 +64,13 @@ public class V14DBillingModelResp : V14DFrame
     /// <summary>从 DB 明细数据填充费率与时段信息</summary>
     public void PopulateFromDetails(List<ElecPriceModelVersionDetail> details)
     {
-        if (details == null || details.Count == 0)
+        if (details.Count < 48)
             return;
 
         // 按尖峰平谷类型取费率: DB price 单位为分，协议需精确到5位小数 (元 * 100000)
         // 分 → 5位小数的元: price * 1000
         var detailsByType = details.GroupBy(d => d.Type).ToDictionary(g => g.Key, g => g.First());
-
+        ModelNo = (ushort)detailsByType[0].Version;
         PeakElecRate     = (uint)(detailsByType.GetValueOrDefault(1)?.Price * 1000 ?? 0);
         PeakServiceRate  = (uint)(detailsByType.GetValueOrDefault(1)?.PriceSerice * 1000 ?? 0);
         ShoulderElecRate = (uint)(detailsByType.GetValueOrDefault(2)?.Price * 1000 ?? 0);
@@ -87,19 +87,9 @@ public class V14DBillingModelResp : V14DFrame
         {
             int slotMinutes = (slot / 2) * 60 + (slot % 2) * 30;
 
-            var matched = details.FirstOrDefault(d =>
-            {
-                int startMin = d.StartHour * 60 + d.StartMinute;
-                int endMin = d.EndHour * 60 + d.EndMinute;
-                if (endMin > startMin)
-                    return slotMinutes >= startMin && slotMinutes < endMin;
-                else // 跨天时段
-                    return slotMinutes >= startMin || slotMinutes < endMin;
-            });
+            var matched = details[slot];
 
-            RateSegments[slot] = matched != null && TypeToRateSegment.TryGetValue(matched.Type, out var seg)
-                ? seg
-                : (byte)0x02; // 默认为平
+            RateSegments[slot] = TypeToRateSegment.TryGetValue(matched.Type, out var seg) ? seg : (byte)0x02; // 默认为平
         }
     }
 

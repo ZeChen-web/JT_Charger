@@ -90,7 +90,7 @@ public class V14DClientMgr
         }
     }
 
-    public static V14DChargerClient? GetBySn(string sn,string gun="1")
+    public static V14DChargerClient? GetBySn(string sn,string gun/*="1"*/)
     {
         Dictionary.TryGetValue((sn,gun), out var o);
         return o;

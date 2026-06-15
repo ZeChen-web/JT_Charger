@@ -15,10 +15,14 @@ public class V14DBatteryStatusReportHandler : SimpleChannelInboundHandler<V14DBa
 
     protected override void ChannelRead0(IChannelHandlerContext ctx, V14DBatteryStatusReportReq msg)
     {
-        if (V14DClientMgr.TryGetClient(ctx.Channel,msg.Gun, out var sn, out var client))
+        if (V14DClientMgr.TryGetClient(ctx.Channel, msg.Gun, out var sn, out var client))
         {
+            //TODO::有电池故障要处理
+            //client.ChargePower = msg.ChargeVoltage * msg.ChargeCurrent;7.1传的有功率
+            client.BatteryNo = msg.BatteryCode;
             client.BatteryStatusReport = msg;
-            Log.Info($"V14D BatteryStatusReport from {sn}, pile={msg.PileCode}, gun={msg.Gun}, soc={msg.SOCValue}%, fault={msg.BatteryFault}");
+            Log.Info(
+                $"V14D BatteryStatusReport from {sn}, pile={msg.PileCode}, gun={msg.Gun}, soc={msg.SOCValue}%, fault={msg.BatteryFault}");
         }
     }
 }

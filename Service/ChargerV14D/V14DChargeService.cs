@@ -29,7 +29,7 @@ public class V14DChargeService
     public Result<string> StartCharge(string chargerSn, byte gun, uint balance,
         string logicCardNo = "", string physicalCardNo = "", string? chargeOrderNo = null)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<string>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -65,7 +65,7 @@ public class V14DChargeService
     /// <summary>远程停止充电</summary>
     public Result<bool> StopCharge(string chargerSn, byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -78,7 +78,7 @@ public class V14DChargeService
     /// <summary>读取实时数据</summary>
     public Result<bool> ReadRealTimeData(string chargerSn, byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -88,7 +88,7 @@ public class V14DChargeService
     /// <summary>设置工作参数</summary>
     public Result<bool> SetParam(string chargerSn, byte gun, byte maxPower)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -98,7 +98,7 @@ public class V14DChargeService
     /// <summary>对时</summary>
     public Result<bool> TimeSync(string chargerSn)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,"1");
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -108,7 +108,7 @@ public class V14DChargeService
     /// <summary>下发计费模型（传入已构建好的命令）</summary>
     public Result<bool> DistributeBillingModel(string chargerSn, V14DBillingModelSetCmd cmd)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,"1");
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -119,7 +119,7 @@ public class V14DChargeService
     /// <summary>按计费模型版本号下发到指定充电桩</summary>
     public Result<bool> DistributeBillingModel(string chargerSn, int version)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,"1");
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -142,23 +142,23 @@ public class V14DChargeService
     }
 
     /// <summary>获取实时数据</summary>
-    public V14DRealTimeDataReq? GetRealTimeData(string chargerSn)
+    public V14DRealTimeDataReq? GetRealTimeData(string chargerSn,byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         return client?.RealTimeData;
     }
 
     /// <summary>获取充电功率 (kW)</summary>
-    public float GetChargePower(string chargerSn)
+    public float GetChargePower(string chargerSn,byte gun)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         return client?.ChargePower ?? 0;
     }
 
     /// <summary>发送电池在仓信号</summary>
     public Result<bool> SendBatteryInBinSignal(string chargerSn, byte gun, byte inBin)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -166,9 +166,9 @@ public class V14DChargeService
     }
 
     /// <summary>远程重启充电桩</summary>
-    public Result<bool> RemoteRestart(string chargerSn, bool immediate = true)
+    public Result<bool> RemoteRestart(string chargerSn,byte gun ,bool immediate = true)
     {
-        var client = V14DClientMgr.GetBySn(chargerSn);
+        var client = V14DClientMgr.GetBySn(chargerSn,gun.ToString());
         if (client == null)
             return Result<bool>.Fail($"充电机 {chargerSn} 未连接");
 
@@ -196,9 +196,11 @@ public class V14DChargeService
         return Result<BatteryStatusInfoResp>.Success(batteryStatusInfoResp);
     }
     
-    public Result<BatteryInfoResp> BatteryInfo(string chargeSn)
+    //TODO::映射数据给前端
+    public Result<BatteryInfoResp> BatteryInfo(string chargeSn,byte no)
     {
-        var chargerClient = V14DClientMgr.GetBySn(chargeSn);
+        int gun = ((no & 1) == 1) ? 1 : 2;
+        var chargerClient = V14DClientMgr.GetBySn(chargeSn,gun.ToString());
         BatteryInfoResp batteryInfoResp = new();
         if (chargerClient != null)
         {

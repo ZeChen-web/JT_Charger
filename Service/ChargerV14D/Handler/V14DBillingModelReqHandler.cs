@@ -54,7 +54,7 @@ public class V14DBillingModelReqHandler : SimpleChannelInboundHandler<V14DBillin
                 resp.ModelNo = (ushort)version.Version;
 
                 var details = _detailRepository.QueryByClauseToList(d => d.Version == version.Version);
-                if (details != null && details.Count > 0)
+                if (details.Count > 0)
                 {
                     resp.PopulateFromDetails(details);
                 }

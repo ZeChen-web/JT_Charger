@@ -155,7 +155,7 @@ namespace Entity.DbModel.Station
         public int? BatteryEnterSeq { get; set; }
 
         /// <summary>
-        /// Desc:充电状态;0-未知；1-正在充电；2-无电池；3-禁用；4-充电停止
+        /// Desc:充电状态;0-未知；1-正在充电；2-无电池；3-禁用/故障 4-停止充电
         /// Default:0
         /// Nullable:True
         /// </summary>

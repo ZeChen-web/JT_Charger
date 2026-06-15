@@ -52,7 +52,7 @@ public class ChargeController : ControllerBase
     [Route("ChargerSendAuth/{code}")]
     public Result<bool> ChargerSendAuth(string code)
     {
-        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(code);
+        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(code,"1");
 
         if (chargerClient != null)
         {
@@ -78,13 +78,14 @@ public class ChargeController : ControllerBase
             return Result<bool>.Fail("功率值范围1到100");
         }
 
-        string _code = _binInfoService.QueryByClause(i => i.Code == code).ChargerNo;
-        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(_code);
+        var binInfo = _binInfoService.QueryByClause(i => i.Code == code);
+        
+        V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfo.ChargerNo,binInfo.ChargerGunNo);
 
         if (chargerClient != null)
         {
             chargerClient.SendParamSet(chargerClient.PileCode, 1,  (byte)power);
-            _equipInfoRepository.Update(i => i.ChargePower == power, it => it.Code == _code);
+            _equipInfoRepository.Update(i => i.ChargePower == power, it => it.Code == binInfo.ChargerNo);
             return Result<bool>.Success(true);
         }
 
@@ -195,7 +196,6 @@ public class ChargeController : ControllerBase
 
         return Result<bool>.Success();
     }
-    //BatteryStatusInfo
 
     /// <summary>
     /// 电池状态信息：电池总数 满电数量、充电中、故障电池、维护中电池
@@ -213,9 +213,15 @@ public class ChargeController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Route("BatteryInfo/{chargeNo}")]
-    public Result<BatteryInfoResp> BatteryInfo(string chargeNo)
+    [Route("BatteryInfo/{chargeNo}/{no}")]
+    public Result<BatteryInfoResp> BatteryInfo(string chargeNo,byte no)
     {
-        return _chargerService.BatteryInfo(chargeNo);
+        if (chargeNo.Length <= 14)
+            return Result<BatteryInfoResp>.Fail("充电编码不匹配");
+        if (no<0||no>=13)
+        {
+            return Result<BatteryInfoResp>.Fail("仓位编码不匹配");
+        }
+        return _chargerService.BatteryInfo(chargeNo,no);
     }
 }

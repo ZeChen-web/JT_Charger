@@ -72,7 +72,7 @@ namespace Entity.DbModel.Station
         /// Default:
         /// Nullable:True
         /// </summary>
-        [SugarColumn(ColumnName = "price_serice")]
+        [SugarColumn(ColumnName = "price_service")]
         public int PriceSerice { get; set; }
 
         /// <summary>
