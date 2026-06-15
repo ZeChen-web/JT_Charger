@@ -106,7 +106,7 @@ namespace Entity.DbModel.Station
         /// Nullable:True
         /// </summary>
         [SugarColumn(ColumnName = "start_soc")]
-        public int? StartSoc { get; set; }
+        public decimal? StartSoc { get; set; }
 
         /// <summary>
         /// Desc:充电结束soc
@@ -114,7 +114,7 @@ namespace Entity.DbModel.Station
         /// Nullable:True
         /// </summary>
         [SugarColumn(ColumnName = "stop_soc")]
-        public int? StopSoc { get; set; }
+        public decimal? StopSoc { get; set; }
 
         /// <summary>
         /// Desc:充电时长

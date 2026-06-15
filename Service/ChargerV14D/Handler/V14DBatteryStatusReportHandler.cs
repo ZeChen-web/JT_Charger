@@ -28,6 +28,7 @@ public class V14DBatteryStatusReportHandler : SimpleChannelInboundHandler<V14DBa
             var u1 = _binInfoRepository.Update(
                 t => new BinInfo()
                 {
+                    Soc = msg.SOC,
                     BatteryNo = msg.BatteryCode
                 },
                 i => i.ChargerNo == msg.PileCode && i.ChargerGunNo == (msg.Gun).ToString());

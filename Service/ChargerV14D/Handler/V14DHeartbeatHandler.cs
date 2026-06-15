@@ -21,6 +21,15 @@ public class V14DHeartbeatHandler : SimpleChannelInboundHandler<V14DHeartbeatReq
             client.LastHeartbeat = DateTime.Now;
             client.HeartTime = DateTime.Now;
 
+            // 同步心跳时间到 gun 2，保证两把枪的连接状态一致
+            var client2 = V14DClientMgr.GetBySn(sn, "2");
+            if (client2 != null)
+            {
+                client2.GunStatus = msg.GunStatus;
+                client2.LastHeartbeat = DateTime.Now;
+                client2.HeartTime = DateTime.Now;
+            }
+
             var resp = new V14DHeartbeatResp(msg.PileCode, msg.GunNo) { SeqNo = msg.SeqNo };
             ctx.Channel.WriteAndFlushAsync(resp);
         }

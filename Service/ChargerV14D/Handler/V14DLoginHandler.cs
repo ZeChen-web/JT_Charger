@@ -27,17 +27,25 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
         }
         V14DClientMgr.Server.SessionMgr.ChangeSessionKey(session, msg.PileCode);
 
-        V14DChargerClient client = AppInfo.Container.Resolve<V14DChargerClient>();
-        client.Channel = ctx.Channel;
-        client.Sn = msg.PileCode;
-        client.HeartTime = DateTime.Now;
-        client.IsLoggedIn = true;
+        // gun 1 独立实例
+        V14DChargerClient client1 = AppInfo.Container.Resolve<V14DChargerClient>();
+        client1.Channel = ctx.Channel;
+        client1.Sn = msg.PileCode;
+        client1.HeartTime = DateTime.Now;
+        client1.IsLoggedIn = true;
+        client1.PileCode = msg.PileCode;
+        V14DClientMgr.AddBySn(msg.PileCode, "1", client1);
 
-        client.PileCode = msg.PileCode;
-        V14DClientMgr.AddBySn(msg.PileCode, "1",client);
-        V14DClientMgr.AddBySn(msg.PileCode, "2",client);
-        
-        V14DClientMgr.AddBySn(ctx.Channel.Id.ToString(),msg.PileCode, client);
+        // gun 2 独立实例，避免两把枪共用同一个对象导致数据覆盖
+        V14DChargerClient client2 = AppInfo.Container.Resolve<V14DChargerClient>();
+        client2.Channel = ctx.Channel;
+        client2.Sn = msg.PileCode;
+        client2.HeartTime = DateTime.Now;
+        client2.IsLoggedIn = true;
+        client2.PileCode = msg.PileCode;
+        V14DClientMgr.AddBySn(msg.PileCode, "2", client2);
+
+        V14DClientMgr.AddBySn(ctx.Channel.Id.ToString(), msg.PileCode, client1);
 
         var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
         ctx.Channel.WriteAndFlushAsync(resp);

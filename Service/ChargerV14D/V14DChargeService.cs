@@ -50,11 +50,13 @@ public class V14DChargeService
             var chargeOrderRepo = AppInfo.Container.Resolve<ChargeOrderRepository>();
             chargeOrderRepo.Insert(new ChargeOrder
             {
+                StartSoc = client.SOC,
                 Sn = chargeOrderNo,
                 ChargerNo = chargerSn,
                 ChargeMode = 2, // V1.4D远程启动
                 CmdStatus = 0,
-                StartMode = 1
+                StartMode = 1,
+                BatteryNo = client.BatteryNo,
             });
             Log.Info($"StartCharge success: tsn={chargeOrderNo}, charger={chargerSn}, gun={gun}");
         }

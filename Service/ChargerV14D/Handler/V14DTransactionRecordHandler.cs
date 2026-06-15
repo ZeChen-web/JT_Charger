@@ -53,7 +53,7 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
                     StartTime = startTime,
                     EndTime = endTime,
                     //StartSoc = msg.SocBefore,
-                    //StopSoc = msg.SocAfter,
+                    StopSoc = client.SOC,
 
                     ChargeTimeCount = (int)Math.Round(timeSpan.TotalMinutes),
                     ElecCount = Convert.ToDecimal(msg.TotalKWH),
@@ -89,7 +89,7 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
                 db.StartTime = startTime;
                 db.EndTime = endTime;
                 //db.StartSoc = msg.SocBefore;
-                //db.StopSoc = msg.SocAfter;
+                db.StopSoc = client.SOC;
                 TimeSpan? timeSpan = (db.EndTime - db.StartTime);
                 db.ChargeTimeCount = (int)Math.Round(Convert.ToDecimal(timeSpan?.TotalMinutes));
                 db.ElecCount = Convert.ToDecimal(msg.TotalKWH);

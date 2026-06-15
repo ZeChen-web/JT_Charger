@@ -81,7 +81,7 @@ public class V14DChargerClient
     public float ChargePower => RealTimeData?.ChargePower ?? 0;
 
     /// <summary>SOC</summary>
-    public byte SOC => RealTimeData?.SOC ?? 0;
+    public decimal SOC => BatteryStatusReport?.SOC ?? 0;
 
 
     public DateTime? HeartTime = DateTime.Now.AddSeconds(-30);

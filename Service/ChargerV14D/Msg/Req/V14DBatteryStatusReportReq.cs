@@ -20,7 +20,7 @@ public class V14DBatteryStatusReportReq : V14DFrame
     public ushort BatteryNo { get; set; }
 
     /// <summary>SOC，2 字节 BIN，精度0.1%，0~100%</summary>
-    public float SOC { get; set; }
+    public decimal? SOC { get; set; }
 
     /// <summary>电池箱状态，1 字节 BIN；0=不正常，1=正常</summary>
     public byte BatteryBoxStatus { get; set; }
@@ -94,7 +94,7 @@ public class V14DBatteryStatusReportReq : V14DFrame
         Gun = body[o++];
         Array.Copy(body, o, Reserved, 0, 4); o += 4;
         BatteryNo = BitConverter.ToUInt16(body, o);
-        SOC = BitConverter.ToUInt16(body, o) * 0.1f; o += 2;
+        SOC = (decimal?)(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
         BatteryBoxStatus = body[o++];
         ChargeVoltage = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
         ChargeCurrent = Convert.ToUInt16(BitConverter.ToUInt16(body, o) * 0.1); o += 2;
@@ -126,7 +126,7 @@ public class V14DBatteryStatusReportReq : V14DFrame
         b[o++] = Gun;
         Array.Copy(Reserved, 0, b, o, 4); o += 4;
         BitConverter.GetBytes(BatteryNo).CopyTo(b, o); o += 2;
-        BitConverter.GetBytes(SOC).CopyTo(b, o); o += 2;
+        BitConverter.GetBytes(Convert.ToInt16(SOC)).CopyTo(b, o); o += 2;
         b[o++] = BatteryBoxStatus;
         BitConverter.GetBytes(ChargeVoltage).CopyTo(b, o); o += 2;
         BitConverter.GetBytes(ChargeCurrent).CopyTo(b, o); o += 2;

@@ -39,7 +39,6 @@ public class BinInfoService : BaseServices<BinInfo>
             V14DChargerClient? chargerClient = V14DClientMgr.GetBySn(binInfoResp.ChargerNo,binInfoResp.ChargerGunNo);
             if (chargerClient != null)
             {
-                binInfoResp.power = chargerClient.ChargePower;
                 binInfoResp.ChargeConnectFlag = chargerClient.Connected;
                 binInfoResp.IsAuthed = chargerClient.IsLoggedIn;
 
@@ -50,6 +49,9 @@ public class BinInfoService : BaseServices<BinInfo>
                     binInfoResp.TotalCurrent = chargerClient.BatteryStatusReport.ChargeCurrent;
                     binInfoResp.TotalVoltage = chargerClient.BatteryStatusReport.ChargeVoltage;
                     binInfoResp.Soh = chargerClient.BatteryStatusReport.SOH;
+
+                    binInfoResp.power = chargerClient.BatteryStatusReport.ChargeCurrent *
+                                        chargerClient.BatteryStatusReport.ChargeVoltage;
                 }
 
                 var realtime = chargerClient.RealTimeData;

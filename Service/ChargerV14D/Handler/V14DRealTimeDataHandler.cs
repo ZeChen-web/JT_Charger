@@ -33,7 +33,7 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
                 t => new BinInfo()
                 {
                     ChargeStatus = status(msg.Status),
-                    Soc = msg.SOC
+                    //Soc = msg.SOC
                 },
                 i => i.ChargerNo == msg.PileCode && i.ChargerGunNo == (msg.Gun).ToString());
 
