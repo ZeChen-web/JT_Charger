@@ -56,6 +56,7 @@ public class V14DChargeService
                 ChargeMode = 2, // V1.4D远程启动
                 CmdStatus = 0,
                 StartMode = 1,
+                StartType = 1,
                 BatteryNo = client.BatteryNo,
             });
             Log.Info($"StartCharge success: tsn={chargeOrderNo}, charger={chargerSn}, gun={gun}");

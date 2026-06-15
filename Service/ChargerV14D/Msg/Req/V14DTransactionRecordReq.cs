@@ -19,47 +19,47 @@ public class V14DTransactionRecordReq : V14DFrame
     /// <summary>充电结束时间，7 字节 CP56Time2a 格式。</summary>
     public byte[] EndTime { get; set; } = new byte[7];
     /// <summary>尖费率，4 字节 BIN，精确到 5 位小数。</summary>
-    public uint PeakRate { get; set; }
+    public float PeakRate { get; set; }
     /// <summary>尖时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint PeakKWH { get; set; }
+    public float PeakKWH { get; set; }
     /// <summary>尖时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint PeakLossKWH { get; set; }
+    public float PeakLossKWH { get; set; }
     /// <summary>尖时段金额，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint PeakAmount { get; set; }
+    public float PeakAmount { get; set; }
     /// <summary>峰费率，4 字节 BIN，精确到 5 位小数。</summary>
-    public uint ShoulderRate { get; set; }
+    public float ShoulderRate { get; set; }
     /// <summary>峰时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ShoulderKWH { get; set; }
+    public float ShoulderKWH { get; set; }
     /// <summary>峰时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ShoulderLossKWH { get; set; }
+    public float ShoulderLossKWH { get; set; }
     /// <summary>峰时段金额，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ShoulderAmount { get; set; }
+    public float ShoulderAmount { get; set; }
     /// <summary>平费率，4 字节 BIN，精确到 5 位小数。</summary>
-    public uint FlatRate { get; set; }
+    public float FlatRate { get; set; }
     /// <summary>平时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint FlatKWH { get; set; }
+    public float FlatKWH { get; set; }
     /// <summary>平时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint FlatLossKWH { get; set; }
+    public float FlatLossKWH { get; set; }
     /// <summary>平时段金额，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint FlatAmount { get; set; }
+    public float FlatAmount { get; set; }
     /// <summary>谷费率，4 字节 BIN，精确到 5 位小数。</summary>
-    public uint ValleyRate { get; set; }
+    public float ValleyRate { get; set; }
     /// <summary>谷时段充电电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ValleyKWH { get; set; }
+    public float ValleyKWH { get; set; }
     /// <summary>谷时段计损电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ValleyLossKWH { get; set; }
+    public float ValleyLossKWH { get; set; }
     /// <summary>谷时段金额，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint ValleyAmount { get; set; }
-    /// <summary>开始电表读数，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint MeterStart { get; set; }
+    public float ValleyAmount { get; set; }
+    /// <summary>开始电表读数.0.0001KWH，4 字节 BIN，精确到 4 位小数。</summary>
+    public double MeterStart { get; set; }
     /// <summary>结束电表读数，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint MeterEnd { get; set; }
+    public double MeterEnd { get; set; }
     /// <summary>总电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint TotalKWH { get; set; }
+    public double TotalKWH { get; set; }
     /// <summary>计损总电量，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint TotalLossKWH { get; set; }
+    public double TotalLossKWH { get; set; }
     /// <summary>金额字段，4 字节 BIN，精确到 4 位小数。</summary>
-    public uint TotalAmount { get; set; }
+    public float TotalAmount { get; set; }
     /// <summary>车辆 VIN，17 字节 ASCII，右补 0。</summary>
     public string VIN { get; set; } = "";
     /// <summary>交易标识，1 字节 BIN；按协议定义表示交易类型/状态。</summary>
@@ -78,16 +78,6 @@ public class V14DTransactionRecordReq : V14DFrame
     /// <summary>时间字段，按协议格式解析。</summary>
     public DateTime TradeDateTime => V14DUtils.CP56Time2aToDateTime(TradeTime);
 
-    /// <summary>按协议精度或格式换算后的只读值。</summary>
-    public float PeakRateValue => PeakRate * 0.00001f;
-    /// <summary>按协议精度或格式换算后的只读值。</summary>
-    public float PeakKWHValue => PeakKWH * 0.0001f;
-    /// <summary>按协议精度或格式换算后的只读值。</summary>
-    public float PeakAmountValue => PeakAmount * 0.0001f;
-    /// <summary>按协议精度或格式换算后的只读值。</summary>
-    public float TotalKWHValue => TotalKWH * 0.0001f;
-    /// <summary>按协议精度或格式换算后的只读值。</summary>
-    public float TotalAmountValue => TotalAmount * 0.0001f;
 
     public V14DTransactionRecordReq() { }
 
@@ -103,31 +93,31 @@ public class V14DTransactionRecordReq : V14DFrame
         StartTime = new byte[7]; Array.Copy(body, offset, StartTime, 0, 7); offset += 7;
         EndTime = new byte[7]; Array.Copy(body, offset, EndTime, 0, 7); offset += 7;
 
-        PeakRate = BitConverter.ToUInt32(body, offset); offset += 4;
-        PeakKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        PeakLossKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        PeakAmount = BitConverter.ToUInt32(body, offset); offset += 4;
+        PeakRate = BitConverter.ToUInt32(body, offset)*0.00001f; offset += 4;
+        PeakKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        PeakLossKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        PeakAmount = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
 
-        ShoulderRate = BitConverter.ToUInt32(body, offset); offset += 4;
-        ShoulderKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        ShoulderLossKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        ShoulderAmount = BitConverter.ToUInt32(body, offset); offset += 4;
+        ShoulderRate = BitConverter.ToUInt32(body, offset)*0.00001f; offset += 4;
+        ShoulderKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        ShoulderLossKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        ShoulderAmount = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
 
-        FlatRate = BitConverter.ToUInt32(body, offset); offset += 4;
-        FlatKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        FlatLossKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        FlatAmount = BitConverter.ToUInt32(body, offset); offset += 4;
+        FlatRate = BitConverter.ToUInt32(body, offset)*0.00001f; offset += 4;
+        FlatKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        FlatLossKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        FlatAmount = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
 
-        ValleyRate = BitConverter.ToUInt32(body, offset); offset += 4;
-        ValleyKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        ValleyLossKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        ValleyAmount = BitConverter.ToUInt32(body, offset); offset += 4;
+        ValleyRate = BitConverter.ToUInt32(body, offset)*0.00001f; offset += 4;
+        ValleyKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        ValleyLossKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        ValleyAmount = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
 
-        MeterStart = BitConverter.ToUInt32(body, offset); offset += 4;
-        MeterEnd = BitConverter.ToUInt32(body, offset); offset += 4;
-        TotalKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        TotalLossKWH = BitConverter.ToUInt32(body, offset); offset += 4;
-        TotalAmount = BitConverter.ToUInt32(body, offset); offset += 4;
+        MeterStart = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        MeterEnd = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        TotalKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        TotalLossKWH = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
+        TotalAmount = BitConverter.ToUInt32(body, offset)*0.0001f; offset += 4;
 
         VIN = V14DUtils.ReadAscii(body, offset, 17); offset += 17;
         TradeFlag = body[offset++];

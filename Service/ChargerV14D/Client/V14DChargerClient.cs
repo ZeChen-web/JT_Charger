@@ -134,7 +134,7 @@ public class V14DChargerClient
 
     /// <summary>发送远程启动充电 (0x34)</summary>
     public Result<bool> SendRemoteStartCharge(string transactionSN, string pileCode, byte gun,
-        string logicCardNo, string physicalCardNo, uint balance, string stopPassword = "")
+        string logicCardNo, string physicalCardNo, uint balance=100, string stopPassword = "")
     {
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");

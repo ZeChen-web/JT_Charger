@@ -34,7 +34,7 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel, msg.Gun,out var sn, out var client))
         {
-            Log.Info($"V14D TransactionRecord from {sn}, tsn={msg.TransactionSN}, totalKWH={msg.TotalKWHValue:F4}");
+            Log.Info($"V14D TransactionRecord from {sn}, tsn={msg.TransactionSN}, totalKWH={msg.TotalKWH:F4}");
 
             client.ChargeOrderNo= msg.TransactionSN;
             
@@ -52,22 +52,17 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
                     BatteryNo = client.BatteryNo,
                     StartTime = startTime,
                     EndTime = endTime,
-                    //StartSoc = msg.SocBefore,
                     StopSoc = client.SOC,
 
                     ChargeTimeCount = (int)Math.Round(timeSpan.TotalMinutes),
                     ElecCount = Convert.ToDecimal(msg.TotalKWH),
-                    AcElecCount = Convert.ToDecimal(msg.TotalKWH),
-                    StartAcElec = Convert.ToDecimal(msg.MeterStart),
-                    StopAcElec = Convert.ToDecimal(msg.MeterEnd),
-                    //StartDcElec = Convert.ToDecimal(msg.DcMeterDataBefore),
-                    //StopDcElec = Convert.ToDecimal(msg.DcMeterDataAfter),
+                    StartDcElec = Convert.ToDecimal(msg.MeterStart),
+                    StopDcElec = Convert.ToDecimal(msg.MeterEnd),
                     SharpElecCount = Convert.ToDecimal(msg.PeakKWH),
                     PeakElecCount = Convert.ToDecimal(msg.ShoulderKWH),
                     FlatElecCount = Convert.ToDecimal(msg.FlatKWH),
                     ValleyElecCount = Convert.ToDecimal(msg.ValleyKWH),
                     ChargeMode = 0,
-                    //StartMode = msg.StartMode,
                     StartType = 2
                 };
                 for (int i = 0; i < 3; i++)
@@ -88,26 +83,20 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
             {
                 db.StartTime = startTime;
                 db.EndTime = endTime;
-                //db.StartSoc = msg.SocBefore;
                 db.StopSoc = client.SOC;
                 TimeSpan? timeSpan = (db.EndTime - db.StartTime);
                 db.ChargeTimeCount = (int)Math.Round(Convert.ToDecimal(timeSpan?.TotalMinutes));
                 db.ElecCount = Convert.ToDecimal(msg.TotalKWH);
-                db.AcElecCount = Convert.ToDecimal(msg.TotalKWH);
-                db.StartAcElec = Convert.ToDecimal(msg.MeterStart);
-                db.StopAcElec = Convert.ToDecimal(msg.MeterEnd);
-                //db.StartDcElec = Convert.ToDecimal(msg.DcMeterDataBefore);
-                //db.StopDcElec = Convert.ToDecimal(msg.DcMeterDataAfter);
-                db.ElecCount = Convert.ToDecimal(msg.TotalKWH);
-                db.AcElecCount = Convert.ToDecimal(msg.TotalKWH);
-                db.StartAcElec = Convert.ToDecimal(msg.MeterStart);
-                db.StopAcElec = Convert.ToDecimal(msg.MeterEnd);
-                //db.AcSharpElecCount = Convert.ToDecimal(acPowersPeriods[0]);
-                //db.AcPeakElecCount = Convert.ToDecimal(acPowersPeriods[1]);
-                //db.AcFlatElecCount = Convert.ToDecimal(acPowersPeriods[2]);
-                //db.AcValleyElecCount = Convert.ToDecimal(acPowersPeriods[3]);
+                //db.AcElecCount = Convert.ToDecimal(msg.TotalKWH);
+                //db.StartAcElec = Convert.ToDecimal(msg.MeterStart);
+                //db.StopAcElec = Convert.ToDecimal(msg.MeterEnd);
+                db.StartDcElec = Convert.ToDecimal(msg.MeterStart);
+                db.StopDcElec = Convert.ToDecimal(msg.MeterEnd);
+                db.SharpElecCount = Convert.ToDecimal(msg.PeakKWH);
+                db.PeakElecCount = Convert.ToDecimal(msg.ShoulderKWH);
+                db.FlatElecCount = Convert.ToDecimal(msg.FlatKWH);
+                db.ValleyElecCount = Convert.ToDecimal(msg.ValleyKWH);
                 //StartMode = msg.StartMode,
-                db.StartType = 2;
 
                 try
                 {

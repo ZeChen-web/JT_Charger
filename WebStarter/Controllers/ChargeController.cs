@@ -84,7 +84,7 @@ public class ChargeController : ControllerBase
 
         if (chargerClient != null)
         {
-            chargerClient.SendParamSet(chargerClient.PileCode, 1,  (byte)power);
+            chargerClient.SendParamSet(chargerClient.PileCode,Convert.ToByte(binInfo.ChargerGunNo) ,  (byte)power);
             _equipInfoRepository.Update(i => i.ChargePower == power, it => it.Code == binInfo.ChargerNo);
             return Result<bool>.Success(true);
         }
