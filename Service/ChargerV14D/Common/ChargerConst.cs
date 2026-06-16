@@ -3,72 +3,25 @@
 public static class ChargerConst
 {
 
-    public static readonly string DateFormat = "yyMMddHHmmss";
-    public static readonly string yyyyMMddHHmmss = "yyyyMMddHHmmss";
-
-    ///<summary>
-    /// 启动方式
-    /// 3- 0：运营平台启动；
-    /// 4- 1：APP 启动；
-    /// 5- 2: 本地启动
-    /// </summary>
-    /// <param name="startMode"></param>
-    /// <returns></returns>
-    public static int StartMode(int? startMode)
+    public static Dictionary<(string, string), string> _dictionary = new Dictionary<(string, string), string>()
     {
-        switch (startMode)
-        {
-            case 0: return 3;
-            case 1: return 4;
-            case 2: return 5;
-            
-            case 3: return 0;
-            case 4: return 1;
-            case 5: return 2;
-        }
-
-        return 0;
-    }
-
-    //充电及数据
-    //00H：待机
-    //01H：工作
-    //02H：工作完成
-    //03H: 故障
-    
-    //Desc:充电状态;0-待机；1-正在充电；2-无电池；3-禁用；4-充电完成5故障；
-    
-    /// <summary>
-    /// 根据充电机状态设置数据库状态
-    /// </summary>
-    public static int WorkStatus(int workStatus)
+        { ("12345678900001", "1"), "1" },
+        { ("12345678900001", "2"), "2" },
+        { ("12345678900002", "1"), "3" },
+        { ("12345678900002", "2"), "4" },
+        { ("12345678900003", "1"), "5" },
+        { ("12345678900003", "2"), "6" },
+        { ("12345678900004", "1"), "7" },
+        { ("12345678900004", "2"), "8" },
+        { ("12345678900005", "1"), "9" },
+        { ("12345678900005", "2"), "10" },
+        { ("12345678900006", "1"), "11" },
+        { ("12345678900006", "2"), "12" },
+    };
+    public static string No(string chargerNo, string chargerGunNo)
     {
-        switch (workStatus)
-        {
-            case 0: return 0;
-            case 1: return 1;
-            case 2: return 4;
-            case 3: return 5;
-        }
-
-        return 0;
+        return _dictionary.TryGetValue((chargerNo, chargerGunNo), out var no)
+            ? no
+            : string.Empty;
     }
-}
-
-/// <summary>
-/// 充电状态。0:无效值；1:鉴权成功；2:鉴权失败；3：开始充电成功；4：开始充电失败；5：正在充电；6：停止充电成功；7：停止充电失败；
-/// </summary>
-public enum ChargingStatus
-{
-    UnKnown=0,
-    StartChargingSuccess=1,
-
-    StopChargingSuccess=4,
-    Authed=5,
-    AuthFailed=6,
-
-    StartChargingFailed=7,
-   // Charging,
-
-    StopChargingFailed=8
 }

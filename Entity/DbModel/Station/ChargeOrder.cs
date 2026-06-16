@@ -51,6 +51,13 @@ namespace Entity.DbModel.Station
         /// </summary>
         [SugarColumn(ColumnName = "charger_no")]
         public string ChargerNo { get; set; }
+        /// <summary>
+        /// Desc:仓位号
+        /// Default:
+        /// Nullable:True
+        /// </summary>
+        [SugarColumn(ColumnName = "no")]
+        public string No { get; set; }
 
         /// <summary>
         /// Desc:充电枪编号

@@ -43,30 +43,29 @@ public class V14DChargeService
             chargeOrderNo = $"{client.PileCode}{gun}{DateTime.Now:yyMMddHHmmss}{new Random().Next(10, 99)}";
         }
 
-        var result = client.SendRemoteStartCharge(chargeOrderNo, client.PileCode, gun,
-            logicCardNo, physicalCardNo, balance);
-
-        var swap = _swapOrderBatteryRepository.GetOrderBattery(client.BatteryNo, DateTime.Now.ToString());
+        /*var swap = _swapOrderBatteryRepository.GetOrderBattery(client.BatteryNo, DateTime.Now.ToString());
         string cloudSn = null;
         string swapOrderSn = null;
-
-
+        
         var swapOrder = _swapOrder.QueryByClause(i => i.Sn == swap.SwapOrderSn);
         if (swapOrder.CloudSn != null)
         {
             cloudSn = swapOrder.CloudSn;
             swapOrderSn = swapOrder.Sn;
-        }
-
-
+        }*/
+        var result = client.SendRemoteStartCharge(chargeOrderNo, client.PileCode, gun,
+            logicCardNo, physicalCardNo, balance);
+        
         if (result.IsSuccess)
         {
             // 写入充电订单
             var chargeOrderRepo = AppInfo.Container.Resolve<ChargeOrderRepository>();
             chargeOrderRepo.Insert(new ChargeOrder
             {
-                CloudSn = cloudSn,
-                SwapOrderSn = swapOrderSn,
+                //CloudSn = cloudSn,
+                //SwapOrderSn = swapOrderSn,
+                ChargerGunNo = gun.ToString(),
+                No = client.BinNo,
                 StartSoc = client.SOC,
                 Sn = chargeOrderNo,
                 ChargerNo = chargerSn,

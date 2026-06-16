@@ -5,6 +5,7 @@ using HybirdFrameworkCore.Autofac.Attribute;
 using HybirdFrameworkDriver.Session;
 using log4net;
 using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Common;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
 using Service.ChargerV14D.Server;
@@ -34,6 +35,7 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
         client1.HeartTime = DateTime.Now;
         client1.IsLoggedIn = true;
         client1.PileCode = msg.PileCode;
+        client1.BinNo = ChargerConst.No(msg.PileCode, "1");
         V14DClientMgr.AddBySn(msg.PileCode, "1", client1);
 
         // gun 2 独立实例，避免两把枪共用同一个对象导致数据覆盖
@@ -43,9 +45,10 @@ public class V14DLoginHandler : SimpleChannelInboundHandler<V14DLoginReq>, IBase
         client2.HeartTime = DateTime.Now;
         client2.IsLoggedIn = true;
         client2.PileCode = msg.PileCode;
+        client2.BinNo = ChargerConst.No(msg.PileCode, "2");
         V14DClientMgr.AddBySn(msg.PileCode, "2", client2);
 
-        V14DClientMgr.AddBySn(ctx.Channel.Id.ToString(), msg.PileCode, client1);
+        //V14DClientMgr.AddBySn(ctx.Channel.Id.ToString(), msg.PileCode, client1);
 
         var resp = new V14DLoginResp(msg.PileCode, 0x00) { SeqNo = msg.SeqNo };
         ctx.Channel.WriteAndFlushAsync(resp);
