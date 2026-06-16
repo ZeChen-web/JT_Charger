@@ -10,6 +10,12 @@ public class V14DBillingModelSetCmd : V14DBillingModelResp
 
     public V14DBillingModelSetCmd() { }
 
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pileCode">桩编号</param>
+    /// <param name="modelNo"></param>
     public V14DBillingModelSetCmd(string pileCode, ushort modelNo)
     {
         PileCode = pileCode;

@@ -119,8 +119,12 @@ else
 {
     log.Warn("未配置ChargerServer监听端口，跳过启动");
 }
+if (AppSettingsHelper.GetBool("task", "enable"))
+{
+    TaskInit.Init();
+}
 
-TaskInit.Init();
+
 QuartzSchedulerFactory.Init();
 app.Lifetime.ApplicationStopping.Register(QuartzSchedulerFactory.Shutdown);
 

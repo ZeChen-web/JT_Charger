@@ -64,32 +64,63 @@ public class V14DBillingModelResp : V14DFrame
     /// <summary>从 DB 明细数据填充费率与时段信息</summary>
     public void PopulateFromDetails(List<ElecPriceModelVersionDetail> details)
     {
-        if (details.Count < 48)
-            return;
+        if (details == null || details.Count == 0)
+        {
+            throw new Exception("电价明细为空");
+        }
 
-        // 按尖峰平谷类型取费率: DB price 单位为分，协议需精确到5位小数 (元 * 100000)
-        // 分 → 5位小数的元: price * 1000
-        var detailsByType = details.GroupBy(d => d.Type).ToDictionary(g => g.Key, g => g.First());
-        ModelNo = (ushort)detailsByType[0].Version;
-        PeakElecRate     = (uint)(detailsByType.GetValueOrDefault(1)?.Price * 1000 ?? 0);
-        PeakServiceRate  = (uint)(detailsByType.GetValueOrDefault(1)?.PriceSerice * 1000 ?? 0);
-        ShoulderElecRate = (uint)(detailsByType.GetValueOrDefault(2)?.Price * 1000 ?? 0);
-        ShoulderServiceRate = (uint)(detailsByType.GetValueOrDefault(2)?.PriceSerice * 1000 ?? 0);
-        FlatElecRate     = (uint)(detailsByType.GetValueOrDefault(3)?.Price * 1000 ?? 0);
-        FlatServiceRate  = (uint)(detailsByType.GetValueOrDefault(3)?.PriceSerice * 1000 ?? 0);
-        ValleyElecRate   = (uint)(detailsByType.GetValueOrDefault(4)?.Price * 1000 ?? 0);
-        ValleyServiceRate = (uint)(detailsByType.GetValueOrDefault(4)?.PriceSerice * 1000 ?? 0);
+        if (details.Count < 48)
+        {
+            throw new Exception($"电价明细不足48条，当前仅有{details.Count}条");
+        }
+
+        // 按类型分组
+        var detailsByType = details
+            .GroupBy(d => d.Type)
+            .ToDictionary(g => g.Key, g => g.First());
+
+        // 版本号直接取第一条
+        ModelNo = (ushort)details.First().Version;
+
+        // 尖
+        PeakElecRate =
+            (uint)((detailsByType.GetValueOrDefault(1)?.Price ?? 0) * 1000);
+
+        PeakServiceRate =
+            (uint)((detailsByType.GetValueOrDefault(1)?.PriceSerice ?? 0) * 1000);
+
+        // 峰
+        ShoulderElecRate =
+            (uint)((detailsByType.GetValueOrDefault(2)?.Price ?? 0) * 1000);
+
+        ShoulderServiceRate =
+            (uint)((detailsByType.GetValueOrDefault(2)?.PriceSerice ?? 0) * 1000);
+
+        // 平
+        FlatElecRate =
+            (uint)((detailsByType.GetValueOrDefault(3)?.Price ?? 0) * 1000);
+
+        FlatServiceRate =
+            (uint)((detailsByType.GetValueOrDefault(3)?.PriceSerice ?? 0) * 1000);
+
+        // 谷
+        ValleyElecRate =
+            (uint)((detailsByType.GetValueOrDefault(4)?.Price ?? 0) * 1000);
+
+        ValleyServiceRate =
+            (uint)((detailsByType.GetValueOrDefault(4)?.PriceSerice ?? 0) * 1000);
 
         LossRatio = 0;
 
-        // 构建48个半小时时段费率号
+        // 构建48个半小时时段
         for (int slot = 0; slot < 48; slot++)
         {
-            int slotMinutes = (slot / 2) * 60 + (slot % 2) * 30;
-
             var matched = details[slot];
 
-            RateSegments[slot] = TypeToRateSegment.TryGetValue(matched.Type, out var seg) ? seg : (byte)0x02; // 默认为平
+            RateSegments[slot] =
+                TypeToRateSegment.TryGetValue(matched.Type, out var seg)
+                    ? seg
+                    : (byte)0x02; // 默认平时段
         }
     }
 

@@ -10,6 +10,7 @@ using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
 using Service.ChargerV14D.Server;
+using Service.Init;
 
 namespace Service.ChargerV14D.Handler;
 
@@ -35,18 +36,13 @@ public class V14DBillingModelReqHandler : SimpleChannelInboundHandler<V14DBillin
 
             #region 计费模型查询与填充
 
-            int modelno = 0;
-            var strModelno = _redisHelper.GetStrValue("ModelNo");
-            if (!string.IsNullOrEmpty(strModelno))
-            {
-                modelno = Convert.ToByte(strModelno);
-            }
+            int modelno = StaticStationInfo.Ceid;
             
             var version = _versionRepository.QueryByClause(i => i.Version == modelno);
             if (version == null || version.Version == 0)
             {
                 Log.Warn($"V14D BillingModelReq from {sn}, modelNo={modelno} not found, fallback to active version");
-                version = GetActiveVersion();
+                version = _versionRepository.GetActiveVersion();
             }
 
             if (version != null && version.Version != 0)
@@ -72,19 +68,5 @@ public class V14DBillingModelReqHandler : SimpleChannelInboundHandler<V14DBillin
 
             ctx.Channel.WriteAndFlushAsync(resp);
         }
-    }
-    /// <summary>查询当前时间处于有效期内的计费模型版本（左开右闭）</summary>
-    private ElecPriceModelVersion? GetActiveVersion()
-    {
-        var now = DateTime.Now;
-        var allVersions = _versionRepository.Query();
-        if (allVersions == null || allVersions.Count == 0)
-            return null;
-
-        return allVersions
-            .Where(v => (!v.StartTime.HasValue || now > v.StartTime.Value)
-                        && (!v.EndTime.HasValue || now <= v.EndTime.Value))
-            .OrderByDescending(v => v.Version)
-            .FirstOrDefault();
     }
 }

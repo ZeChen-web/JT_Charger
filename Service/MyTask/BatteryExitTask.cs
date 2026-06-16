@@ -42,7 +42,7 @@ public class BatteryExitTask : ITask
 
     public void Handle()
     {
-        var binInfos = BinInfoRepository.Query();
+        var binInfos = BinInfoRepository.QueryByClauseToList(i => i.CacheBinFlag == 0);
 
         foreach (var binInfo in binInfos)
         {

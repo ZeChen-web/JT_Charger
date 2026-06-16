@@ -37,11 +37,13 @@ public class AutoChargeTask : ITask
 
     public void Handle()
     {
+        if (StaticStationInfo.AutoChargeEnabled!=1)
+        {
+            return;
+        }
+        
         try
         {
-            DateTime now = DateTime.Now;
-
-
             List<BinInfo> allBinInfos = binInfoRepository.Query();
             if (allBinInfos.Count < 0)
             {
@@ -62,46 +64,6 @@ public class AutoChargeTask : ITask
                 Log.Info("there is no auto charger");
                 return;
             }
-
-            /*#region 电价模型
-
-            int ceid = StaticStationInfo.Ceid;
-            ElecPriceModelVersion elecPriceModelVersion =
-                elecPriceModelVersionRepository.QueryByClause(i => i.Version == ceid);
-            if (elecPriceModelVersion == null)
-            {
-                Log.Info("lack of effective elecPriceModelVersion");
-                return;
-            }
-
-            List<ElecPriceModelVersionDetail> elecPriceModelVersionDetails =
-                elecPriceModelVersionDetailRepository.QueryListByClause(it =>
-                    it.Version == elecPriceModelVersion.Version);
-            /*ElecPriceModelVersionDetail? elecPriceModelVersionDetail = elecPriceModelVersionDetails.Where(i =>
-                i.StartHour <= now.Hour && i.StartMinute <= now.Minute
-                                        && i.EndHour > now.Hour &&
-                                        i.EndMinute > now.Minute).FirstOrDefault();#1#
-            ElecPriceModelVersionDetail? elecPriceModelVersionDetail = null;
-
-            foreach (var VARIABLE in elecPriceModelVersionDetails)
-            {
-                // 构造开始和结束的DateTime对象，使用当前日期的年月日
-                DateTime startTime = new DateTime(now.Year, now.Month, now.Day, VARIABLE.StartHour,
-                    VARIABLE.StartMinute, 0);
-                DateTime endTime = new DateTime(now.Year, now.Month, now.Day, VARIABLE.EndHour, VARIABLE.EndMinute, 0);
-                if (DateTime.Now >= startTime && DateTime.Now <= endTime)
-                {
-                    elecPriceModelVersionDetail = VARIABLE;
-                }
-            }
-
-            if (elecPriceModelVersionDetail == null)
-            {
-                Log.Info("lack of effective elecPriceModelVersionDetail");
-                return;
-            }
-
-            #endregion*/
 
             #region 运营模型
 

@@ -1,12 +1,15 @@
-﻿using AutoMapper;
+﻿using Autofac;
+using AutoMapper;
 using Entity.DbModel.Station;
 using Entity.Dto.Req;
 using Entity.Dto.Resp;
+using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Station;
 using Service.ChargerV14D;
 using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Msg.Resp;
 using Service.ChargerV14D.Server;
 using Service.Station;
 
@@ -23,12 +26,17 @@ public class ChargeController : ControllerBase
     private V14DChargeService _chargerService;
     private BinInfoService _binInfoService;
     private EquipInfoRepository _equipInfoRepository;
+    private ElecPriceModelVersionRepository _versionRepository;
+    private ElecPriceModelVersionDetailRepository _detailRepository;
 
-    public ChargeController(V14DChargeService chargerService, BinInfoService binInfoService,EquipInfoRepository equipInfoRepository)
+    public ChargeController(V14DChargeService chargerService, BinInfoService binInfoService,EquipInfoRepository equipInfoRepository, ElecPriceModelVersionRepository versionRepository,
+     ElecPriceModelVersionDetailRepository detailRepository)
     {
         _chargerService = chargerService;
         _binInfoService = binInfoService;
         _equipInfoRepository = equipInfoRepository;
+        _versionRepository = versionRepository;
+        _detailRepository = detailRepository;
     }
     
     /// <summary>
@@ -177,24 +185,59 @@ public class ChargeController : ControllerBase
     /// <param name="version">计费模型版本号</param>
     [HttpGet]
     [Route("DistributeElecPriceForCharge/{Version}")]
-    public Result<bool> DistributeElecPriceForCharge(int Version)
+    public Result<bool> DistributeElecPriceForCharge(ushort Version)
     {
-        var chargerSns = new List<string>(V14DClientMgr.Dictionary.Keys.Select(k => k.Item1).Distinct());
-        if (chargerSns.Count == 0)
-            return Result<bool>.Fail("没有已连接的充电桩");
-
-        var failedSns = new List<string>();
-        foreach (var sn in chargerSns)
+        try
         {
-            var result = _chargerService.DistributeBillingModel(sn, Version);
-            if (!result.IsSuccess)
-                failedSns.Add(sn);
+            ElecPriceModelVersion version = _versionRepository.QueryByClause(i => i.Version == Version);
+            
+            var binInfos = _binInfoService.QueryListByClause(i => i.CacheBinFlag == 0);
+            var failedList = new List<string>();
+            var successCount = 0;
+            foreach (var binInfo in binInfos)
+            {
+                var client = V14DClientMgr.GetBySn(binInfo.ChargerNo,binInfo.ChargerGunNo);
+                if (client!=null)
+                {
+                    #region 计费模型查询与填充
+                    V14DBillingModelSetCmd resp = new V14DBillingModelSetCmd(binInfo.ChargerNo,Version);
+                    
+                    if (version == null || version.Version == 0)
+                    {
+                        version = _versionRepository.GetActiveVersion();
+                    }
+
+                    if (version != null && version.Version != 0)
+                    {
+                        var details = _detailRepository.QueryByClauseToList(d => d.Version == version.Version);
+                        if (details.Count > 0)
+                        {
+                            resp.PopulateFromDetails(details);
+                        }
+                    }
+
+                    #endregion
+                    client.SendBillingModelSet(resp);
+                    successCount++;
+                }
+                else
+                {
+                    failedList.Add($"{binInfo.ChargerNo}-{binInfo.ChargerGunNo}");
+                }
+
+            }
+
+            if (failedList.Count > 0)
+            {
+                return Result<bool>.Success(true, $"发送完成，成功{successCount}台，失败{failedList.Count}台（{string.Join("、", failedList)}号枪未连接）");
+            }
+            return Result<bool>.Success(true,"发送成功");
         }
-
-        if (failedSns.Count > 0)
-            return Result<bool>.Fail($"以下充电桩下发失败: {string.Join(", ", failedSns)}");
-
-        return Result<bool>.Success();
+        catch (Exception e)
+        {
+            return Result<bool>.Fail(e.ToString());
+        }
+        
     }
 
     /// <summary>
