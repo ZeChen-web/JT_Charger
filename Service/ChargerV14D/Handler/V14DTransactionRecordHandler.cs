@@ -1,3 +1,4 @@
+using Common.Const;
 using DotNetty.Transport.Channels;
 using Entity.DbModel.Station;
 using HybirdFrameworkCore.Autofac.Attribute;
@@ -37,6 +38,9 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
         {
             Log.Info($"V14D TransactionRecord from {sn}, tsn={msg.TransactionSN}, totalKWH={msg.TotalKWH:F4}");
 
+            #region 充电订单入库
+
+            
             client.ChargeOrderNo= msg.TransactionSN;
             
             ChargeOrder db = _chargeOrderRepository.QueryByClause(it => it.Sn == msg.TransactionSN);
@@ -136,6 +140,22 @@ public class V14DTransactionRecordHandler : SimpleChannelInboundHandler<V14DTran
                 }
             }
 
+            #endregion
+
+            #region 故障入库
+
+            if (msg.StopReason!=0)//这里不是正常停机
+            {
+                Dictionary<string, bool> lstAlarm = new();
+                lstAlarm.Add(msg.StopReason.ToString(),true);
+            
+                FaultHandling.SaveAlarmInfoToProcessRecord(lstAlarm,EquipmentType.Charger,msg.PileCode+msg.Gun);
+
+                
+            }
+
+            #endregion
+            
             
             var confirm = new V14DTransactionRecordConfirm(msg.TransactionSN) { SeqNo = msg.SeqNo };
             ctx.Channel.WriteAndFlushAsync(confirm);

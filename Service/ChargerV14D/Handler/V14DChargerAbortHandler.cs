@@ -1,3 +1,4 @@
+using Common.Const;
 using DotNetty.Transport.Channels;
 using HybirdFrameworkCore.Autofac.Attribute;
 using log4net;
@@ -15,7 +16,18 @@ public class V14DChargerAbortHandler : SimpleChannelInboundHandler<V14DChargerAb
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel,msg.Gun, out var sn, out var client))
         {
-            //TODO::充电桩异常中止需要入库
+            Dictionary<string, bool> lstAlarm = new();
+            if(msg.ChargerOverTempFault) lstAlarm.Add("14",true);
+            if(msg.ChargerConnectorFault ) lstAlarm.Add("15",true);
+            if(msg.InternalOverTempFault) lstAlarm.Add("16",true);
+            if(msg.PowerTransferFault) lstAlarm.Add("17",true);
+            if(msg.EmergencyStopFault) lstAlarm.Add("18",true);
+            if(msg.OtherFault) lstAlarm.Add("19",true);
+            if(msg.CurrentMismatch) lstAlarm.Add("20",true);
+            if(msg.VoltageAbnormal) lstAlarm.Add("21",true);
+            
+            FaultHandling.SaveAlarmInfoToProcessRecord(lstAlarm,EquipmentType.Charger,msg.PileCode+msg.Gun);
+            
             Log.Info($"V14D ChargerAbort from {sn}, tsn={msg.TransactionSN}, reason={msg.ChargerStopReason:X2}");
         }
     }

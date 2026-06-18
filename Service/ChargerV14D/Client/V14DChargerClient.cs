@@ -66,6 +66,8 @@ public class V14DChargerClient
     public V14DParamConfigReq? V14DParamConfigReq { get; set; }
     /// <summary>7.9 充电过程BMS需求与充电机输出</summary>
     public V14DBmsDemandOutputReq? V14DBmsDemandOutputReq { get; set; }
+    
+    public V14DErrorMsgReq? V14DErrorMsgReq { get; set; }
 
     /// <summary>
     /// 充电订单号
@@ -206,7 +208,6 @@ public class V14DChargerClient
     /// <summary>发送计费模型下发 (0x58)</summary>
     public Result<bool> SendBillingModelSet(V14DBillingModelSetCmd cmd)
     {
-        //TODO::直接发模型
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 

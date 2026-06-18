@@ -64,7 +64,6 @@ public class ChargeController : ControllerBase
 
         if (chargerClient != null)
         {
-            // TODO: V14D鉴权需通过计费模型验证流程实现
             return Result<bool>.Fail("V14D协议暂不支持独立鉴权指令，请使用计费模型验证");
         }
 

@@ -39,8 +39,7 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
 
             Log.Info(
                 $"V14D RealTimeData from {sn}, status={msg.Status},gun={msg.Gun}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
-            //V14DReadRealTimeDataCmd readCmd = new V14DReadRealTimeDataCmd(msg.PileCode, msg.Gun);
-            //ctx.Channel.WriteAndFlushAsync(readCmd);,
+            
             //TODO::硬件故障，不能充电
             //TODO::硬件告警，不影响充电
         }

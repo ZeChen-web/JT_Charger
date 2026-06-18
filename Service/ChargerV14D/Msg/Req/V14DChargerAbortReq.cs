@@ -34,6 +34,71 @@ public class V14DChargerAbortReq : V14DFrame
     /// 3-4 位——电压异常
     /// 5-8 位——预留位</summary>
     public byte ChargerStopErrorReason { get; set; }
+    
+    
+    // =========================
+    // ChargerStopReason (1 byte)
+    // =========================
+
+    /// <summary>1-2：达到设定条件中止</summary>
+    public bool StopByTargetCondition => Get2Bit(ChargerStopReason, 0);
+
+    /// <summary>3-4：人工中止</summary>
+    public bool StopByManual => Get2Bit(ChargerStopReason, 1);
+
+    /// <summary>5-6：异常中止</summary>
+    public bool StopByException => Get2Bit(ChargerStopReason, 2);
+
+    /// <summary>7-8：BMS主动中止</summary>
+    public bool StopByBms => Get2Bit(ChargerStopReason, 3);
+
+    // =========================
+    // FaultReason (2 bytes)
+    // =========================
+
+    /// <summary>1-2：充电机过温故障</summary>
+    public bool ChargerOverTempFault => Get2Bit(ChargerStopFaultReason, 0);
+
+    /// <summary>3-4：充电连接器故障</summary>
+    public bool ChargerConnectorFault => Get2Bit(ChargerStopFaultReason, 1);
+
+    /// <summary>5-6：充电机内部过温故障</summary>
+    public bool InternalOverTempFault => Get2Bit(ChargerStopFaultReason, 2);
+
+    /// <summary>7-8：所需电量不能传送</summary>
+    public bool PowerTransferFault => Get2Bit(ChargerStopFaultReason, 3);
+
+    /// <summary>9-10：急停故障</summary>
+    public bool EmergencyStopFault => Get2Bit(ChargerStopFaultReason, 4);
+
+    /// <summary>11-12：其他故障</summary>
+    public bool OtherFault => Get2Bit(ChargerStopFaultReason, 5);
+
+    // =========================
+    // ErrorReason (1 byte)
+    // =========================
+
+    /// <summary>1-2：电流不匹配</summary>
+    public bool CurrentMismatch => Get2Bit(ChargerStopErrorReason, 0);
+
+    /// <summary>3-4：电压异常</summary>
+    public bool VoltageAbnormal => Get2Bit(ChargerStopErrorReason, 1);
+
+    // =========================
+    // Bit解析
+    // =========================
+
+    private bool Get2Bit(byte value, int index)
+    {
+        int shift = index * 2;
+        return ((value >> shift) & 0x03) != 0;
+    }
+
+    private bool Get2Bit(ushort value, int index)
+    {
+        int shift = index * 2;
+        return ((value >> shift) & 0x03) != 0;
+    }
 
     public V14DChargerAbortReq() { }
     public V14DChargerAbortReq(byte[] body)
