@@ -75,6 +75,8 @@ public class V14DChargeService
                 StartType = 1,
                 BatteryNo = client.BatteryNo,
             });
+            client.StartSoc = (decimal)client.SOC;
+            client.StartTime = DateTime.Now;
             Log.Info($"StartCharge success: tsn={chargeOrderNo}, charger={chargerSn}, gun={gun}");
         }
 

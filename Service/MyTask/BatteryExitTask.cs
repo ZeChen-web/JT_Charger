@@ -69,6 +69,7 @@ public class BatteryExitTask : ITask
                 Log.Debug($"发送电池信息查询：{binInfo.ChargerNo}-{binInfo.ChargerGunNo}");
             }*/
 
+            client.Exists = binInfo.Exists;
             // 每5秒发送一次在位信号
             client.SendBatteryInBinSignal(
                 binInfo.ChargerNo,

@@ -30,6 +30,7 @@ public class V14DChargerClient
     /// 电池仓编号
     /// </summary>
     public string? BinNo { get; set; }
+    public int No { get; set; }
 
     /// <summary>设备类型编号</summary>
     public string EqmTypeNo { get; set; } = "";
@@ -45,6 +46,11 @@ public class V14DChargerClient
 
     /// <summary>桩状态</summary>
     public byte PileStatus { get; set; }
+    
+    /// <summary> 在位状态：0-不在位；1-在位；其他-无效</summary>
+    public int Exists { get; set; }
+    public decimal StartSoc { get; set; }
+    public DateTime StartTime { get; set; }
 
     /// <summary>最后心跳时间</summary>
     public DateTime? LastHeartbeat { get; set; }

@@ -159,7 +159,7 @@ public class UploadTelemetryDataResp
     /// <summary>
     /// 交流电表当前电量
     /// </summary>
-    public float ACMeterCurrentBatteryValue { get; set; }
+    //public float ACMeterCurrentBatteryValue { get; set; }
 
     /// <summary>
     /// 设备编号

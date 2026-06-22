@@ -1,5 +1,4 @@
-﻿/*
-using Autofac;
+﻿using Autofac;
 using Entity.DbModel.Station;
 using HybirdFrameworkCore.Autofac;
 using HybirdFrameworkCore.Autofac.Attribute;
@@ -8,7 +7,8 @@ using HybirdFrameworkCore.Redis;
 using log4net;
 using Newtonsoft.Json;
 using Repository.Station;
-using Service.Charger.Client;
+using Service.ChargerV14D.Client;
+using Service.ChargerV14D.Server;
 using Service.Init;
 using Service.Swap.Dto;
 using SqlSugar;
@@ -19,7 +19,7 @@ namespace Service.MyTask;
 public class BatteryInfoUploadTask : ITask
 {
     private static readonly ILog Log = LogManager.GetLogger(typeof(BatteryInfoUploadTask));
-    private RedisHelper RedisHelp/er { get; set; } = AppInfo.Container.Resolve<RedisHelper>();
+    private RedisHelper RedisHelper { get; set; } = AppInfo.Container.Resolve<RedisHelper>();
     private BinInfoRepository BinInfoRepository = AppInfo.Container.Resolve<BinInfoRepository>();
 
     private static bool _stop;
@@ -42,7 +42,7 @@ public class BatteryInfoUploadTask : ITask
         List<SingleBatInfo> batInfos = binInfos.Where(it => it.Exists == 1).Select(it =>
         {
             Log.Info("start BatteryInfoUploadTask uoload bininfo select");
-            ChargerClient? client = ClientMgr.GetBySn(it.ChargerNo);
+            V14DChargerClient? client = V14DClientMgr.GetBySn(it.ChargerNo,it.ChargerGunNo);
             SingleBatInfo batInfo = new SingleBatInfo()
             {
                 bn = it.BatteryNo,
@@ -51,10 +51,10 @@ public class BatteryInfoUploadTask : ITask
                 cno = Convert.ToInt32(it.ChargerNo.Substring(1)),
                 el = 0,
                 hc = Convert.ToInt32(it.ChargeStatus),
-                hst=Convert.ToSingle(client?.BatteryPackDataVoltage?.CellTemperatureMax),
-                hsv = Convert.ToSingle(client?.BatteryPackDataVoltage?.CellVoltageMax),
-                lst = Convert.ToSingle(client?.BatteryPackDataVoltage?.CellTemperatureMin),
-                lsv = Convert.ToSingle(client?.BatteryPackDataVoltage?.CellVoltageMin),
+                hst=Convert.ToSingle(client?.BatteryStatusReport?.MaxBatteryTemperature),
+                hsv = Convert.ToSingle(client?.BatteryStatusReport?.MaxCellVoltage),
+                lst = Convert.ToSingle(client?.BatteryStatusReport?.MinBatteryTemperature),
+                lsv = Convert.ToSingle(client?.BatteryStatusReport?.MinCellVoltage),
                 soc = Convert.ToSingle(it.Soc),
                 soe = Convert.ToSingle(it.Soe),
                 soh = Convert.ToSingle(it.Soh)
@@ -94,4 +94,3 @@ public class BatteryInfoUploadTask : ITask
         _stop = false;
     }
 }
-*/
