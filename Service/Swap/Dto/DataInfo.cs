@@ -2,6 +2,7 @@
 
 public class DataInfo
 {
+    public string bn { get; set; }
     /// <summary>
     /// 设备编号	设备编号，唯一的
     /// </summary>
@@ -56,9 +57,9 @@ public class DataInfo
     public int fc { get; set; }
 
     /// <summary>
-    /// 充电开始时间	没有进行充电填空
+    /// 单体温度	每一节电芯的单体温度 单位 0.1℃ ,如果没有该节电芯的数据，填65535.0 无效值
     /// </summary>
-    public DateTime st { get; set; }
+    public float st { get; set; }
 
     /// <summary>
     /// 已经充电时间	单位 分钟
@@ -139,6 +140,11 @@ public class DataInfo
     /// 出水口温度	单位 0.1℃ , 没有水冷设备填 0xFF
     /// </summary>
     public float ot { get; set; } = 0xff;
+
+    /// <summary>
+    /// 电池度数
+    /// </summary>
+    public decimal bc { get; set; } = 0xff;
 
     /// <summary>
     /// 更新时间	格式 ”yyyy-MM-dd HH:mm:ss ”

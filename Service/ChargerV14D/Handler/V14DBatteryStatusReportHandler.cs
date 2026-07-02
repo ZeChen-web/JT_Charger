@@ -55,6 +55,7 @@ public class V14DBatteryStatusReportHandler : SimpleChannelInboundHandler<V14DBa
             #region redis数据上传
 
             DataInfo dataInfo = new DataInfo();
+            dataInfo.bn = msg.BatteryCode;
             dataInfo.en = client.PileCode + msg.Gun;
             dataInfo.sd = client.BinNo;
             dataInfo.hb = client.Exists;
@@ -64,7 +65,7 @@ public class V14DBatteryStatusReportHandler : SimpleChannelInboundHandler<V14DBa
             dataInfo.fs = client.PileStatus == 3 ? 1 : 0;
             //dataInfo.@as=
             //dataInfo.fc=
-            dataInfo.st = client.StartTime;
+            //dataInfo.st = client.StartTime;
             dataInfo.ct = Convert.ToInt32(client.RealTimeData.ChargeTime);
             dataInfo.ssoc = (int)client.StartSoc;
             dataInfo.csoc = (int)client.SOC;
@@ -76,11 +77,13 @@ public class V14DBatteryStatusReportHandler : SimpleChannelInboundHandler<V14DBa
             dataInfo.hsv = msg.MaxCellVoltage;
             dataInfo.lst = msg.MinBatteryTemperature;
             dataInfo.hst = msg.MaxBatteryTemperature;
-            dataInfo.bt=DateTime.Now;
+            dataInfo.bc = client.BatteryType;
+            dataInfo.bt = DateTime.Now;
             
 
             RedisHelper.PublishAsync("BatteryInfoUploadTask", JsonConvert.SerializeObject(dataInfo));
 
+            Log.Info("send BatteryInfoUploadTask 4");
             #endregion
             
 

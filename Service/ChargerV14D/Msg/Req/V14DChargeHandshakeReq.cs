@@ -17,10 +17,10 @@ public class V14DChargeHandshakeReq : V14DFrame
     public byte[] BmsProtocolVer { get; set; } = new byte[3];
     /// <summary>电池类型，1 字节 BIN。</summary>
     public byte BmsBatType { get; set; }
-    /// <summary>电池额定容量，2 字节 BIN，0.1Ah/位。</summary>
-    public ushort BmsRatedCapacity { get; set; }
-    /// <summary>电压字段，按协议精度换算。</summary>
-    public ushort BmsRatedVoltage { get; set; }
+    /// <summary>BMS 整车动力蓄电池系统额定容量</summary>
+    public decimal BmsRatedCapacity { get; set; }
+    /// <summary>BMS 整车动力蓄电池系统额定总电压</summary>
+    public decimal BmsRatedVoltage { get; set; }
     /// <summary>电池生产厂商名称，4 字节 ASCII。</summary>
     public byte[] BmsManufacturer { get; set; } = new byte[4];
     /// <summary>BMS/电池编号，4 字节 BIN，厂商自定义。</summary>
@@ -52,8 +52,8 @@ public class V14DChargeHandshakeReq : V14DFrame
         Gun = body[o++];
         Array.Copy(body, o, BmsProtocolVer, 0, 3); o += 3;
         BmsBatType = body[o++];
-        BmsRatedCapacity = BitConverter.ToUInt16(body, o); o += 2;
-        BmsRatedVoltage = BitConverter.ToUInt16(body, o); o += 2;
+        BmsRatedCapacity = BitConverter.ToUInt16(body, o)*(decimal)0.1; o += 2;
+        BmsRatedVoltage = BitConverter.ToUInt16(body, o)*(decimal)0.1; o += 2;
         Array.Copy(body, o, BmsManufacturer, 0, 4); o += 4;
         Array.Copy(body, o, BmsBatSN, 0, 4); o += 4;
         BmsYear = body[o++]; BmsMonth = body[o++]; BmsDay = body[o++];
@@ -72,8 +72,8 @@ public class V14DChargeHandshakeReq : V14DFrame
         b[o++] = Gun;
         FixArr(BmsProtocolVer, 3).CopyTo(b, o); o += 3;
         b[o++] = BmsBatType;
-        BitConverter.GetBytes(BmsRatedCapacity).CopyTo(b, o); o += 2;
-        BitConverter.GetBytes(BmsRatedVoltage).CopyTo(b, o); o += 2;
+        BitConverter.GetBytes((ushort)BmsRatedCapacity).CopyTo(b, o); o += 2;
+        BitConverter.GetBytes((ushort)BmsRatedVoltage).CopyTo(b, o); o += 2;
         FixArr(BmsManufacturer, 4).CopyTo(b, o); o += 4;
         FixArr(BmsBatSN, 4).CopyTo(b, o); o += 4;
         b[o++] = BmsYear; b[o++] = BmsMonth; b[o++] = BmsDay;

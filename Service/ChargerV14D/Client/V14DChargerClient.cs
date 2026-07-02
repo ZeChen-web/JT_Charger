@@ -20,16 +20,15 @@ public class V14DChargerClient
 
     /// <summary>桩序列号/标识</summary>
     public string Sn { get; set; } = "";
-    
+
     public IChannel Channel { get; set; }
 
     /// <summary>桩编码 (7位BCD)</summary>
     public string PileCode { get; set; } = "";
-    
-    /// <summary>
-    /// 电池仓编号
-    /// </summary>
+
+    /// <summary>电池仓编号</summary>
     public string? BinNo { get; set; }
+
     public int No { get; set; }
 
     /// <summary>设备类型编号</summary>
@@ -46,10 +45,17 @@ public class V14DChargerClient
 
     /// <summary>桩状态</summary>
     public byte PileStatus { get; set; }
-    
+
     /// <summary> 在位状态：0-不在位；1-在位；其他-无效</summary>
     public int Exists { get; set; }
+
+    /// <summary>开始充电soc</summary>
     public decimal StartSoc { get; set; }
+
+    /// <summary>电池度数</summary>
+    public decimal BatteryType { get; set; }
+
+    /// <summary>开始时间</summary>
     public DateTime StartTime { get; set; }
 
     /// <summary>最后心跳时间</summary>
@@ -66,25 +72,28 @@ public class V14DChargerClient
 
     /// <summary>电池状态接口 (0x75)</summary>
     public V14DBatteryStatusReportReq? BatteryStatusReport { get; set; }
+
     /// <summary>7.3 充电握手</summary>
     public V14DChargeHandshakeReq? V14DChargeHandshakeReq { get; set; }
+
     /// <summary>7.4 参数配置</summary>
     public V14DParamConfigReq? V14DParamConfigReq { get; set; }
+
     /// <summary>7.9 充电过程BMS需求与充电机输出</summary>
     public V14DBmsDemandOutputReq? V14DBmsDemandOutputReq { get; set; }
-    
+
     public V14DErrorMsgReq? V14DErrorMsgReq { get; set; }
 
     /// <summary>
     /// 充电订单号
     /// </summary>
     public string? ChargeOrderNo { get; set; }
-    
+
     /// <summary>
     /// 电池编码
     /// </summary>
     public string? BatteryNo { get; set; }
-    
+
     /// <summary>充电功率 (kW)</summary>
     public float ChargePower => RealTimeData?.ChargePower ?? 0;
 
@@ -93,7 +102,7 @@ public class V14DChargerClient
 
 
     public DateTime? HeartTime = DateTime.Now.AddSeconds(-30);
-    
+
     /// <summary>
     /// 充电机是否连接
     /// </summary>
@@ -121,9 +130,9 @@ public class V14DChargerClient
             {
                 HeartTime = null; // 如果不需要保持连接状态，可以选择清空 HeartTime
             }
-        } 
+        }
     }
-    
+
     #endregion
 
     private ILog Log()
@@ -142,7 +151,7 @@ public class V14DChargerClient
 
     /// <summary>发送远程启动充电 (0x34)</summary>
     public Result<bool> SendRemoteStartCharge(string transactionSN, string pileCode, byte gun,
-        string logicCardNo, string physicalCardNo, uint balance=100, string stopPassword = "")
+        string logicCardNo, string physicalCardNo, uint balance = 100, string stopPassword = "")
     {
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
@@ -158,7 +167,7 @@ public class V14DChargerClient
             Balance = balance,
             StopPassword = stopPassword
         };
-        
+
         Channel.WriteAndFlushAsync(cmd);
         Log().Info($"SendRemoteStartCharge tsn={transactionSN}, pile={pileCode}, gun={gun}");
         return Result<bool>.Success();
@@ -229,7 +238,8 @@ public class V14DChargerClient
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
 
-        var cmd = new V14DLockControlCmd { PileCode = pileCode, Gun = gun, Command = command, SeqNo = V14DUtils.NextSeqNo() };
+        var cmd = new V14DLockControlCmd
+            { PileCode = pileCode, Gun = gun, Command = command, SeqNo = V14DUtils.NextSeqNo() };
         Channel.WriteAndFlushAsync(cmd);
         return Result<bool>.Success();
     }
@@ -280,6 +290,7 @@ public class V14DChargerClient
         Log().Info($"SendConfirmStartCharge tsn={resp.TransactionSN}, result={resp.AuthResult}");
         return Result<bool>.Success();
     }
+
     /// <summary>发送电池信息获取</summary>
     public Result<bool> SendV14DBatteryInfoQueryCmd(string PileCode)
     {
@@ -304,7 +315,7 @@ public class V14DChargerClient
     }
 
     /// <summary>设置通道属性</summary>
-    public void SessionAttr(IChannel channel,string sn, string destAddr)
+    public void SessionAttr(IChannel channel, string sn, string destAddr)
     {
         ChannelUtils.AddAttr(channel, V14DConst.ChargerSn, sn);
         //ChannelUtils.AddAttr(channel, V14DConst.EqmTypeNo, sn);

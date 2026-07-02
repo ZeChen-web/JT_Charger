@@ -17,6 +17,9 @@ public class V14DChargeHandshakeHandler : SimpleChannelInboundHandler<V14DCharge
     {
         if (V14DClientMgr.TryGetClient(ctx.Channel,msg.Gun, out var sn, out var client))
         {
+            var batteryType = msg.BmsRatedCapacity * msg.BmsRatedVoltage/1000;
+            client.BatteryType = batteryType;
+            //电池型号
             client.V14DChargeHandshakeReq = msg;
             Log.Info($"V14D ChargeHandshake from {sn}, tsn={msg.TransactionSN}");
         }
