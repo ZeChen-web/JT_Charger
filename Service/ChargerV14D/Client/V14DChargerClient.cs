@@ -9,6 +9,7 @@ using Service.ChargerV14D.Common;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
 using Service.ChargerV14D.Server;
+using Service.Init;
 
 namespace Service.ChargerV14D.Client;
 
@@ -155,6 +156,8 @@ public class V14DChargerClient
     {
         if (!Connected)
             return Result<bool>.Fail($"Charger {Sn} disconnect");
+        if(RealTimeData.MaxBatTemp>StaticStationInfo.CanChargeTemp)
+            return Result<bool>.Fail($"Charger {Sn} battery temp too high, maxTemp={RealTimeData.MaxBatTemp}");
 
         var cmd = new V14DRemoteStartChargeCmd
         {

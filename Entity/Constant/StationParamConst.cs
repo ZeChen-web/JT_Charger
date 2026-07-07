@@ -219,4 +219,18 @@ public class StationParamConst
     public static readonly string CloudPubTopic = "Cloud.CloudPubTopic";
 
     #endregion
+    
+    #region 吉泰新需求，电池充电判断和消防的
+
+    /// <summary>
+    /// 允许充电温度（电池最高温度低于此值才允许开始充电）
+    /// </summary>
+    public static readonly string CanChargeTemp = "Station.CanChargeTemp";
+
+    /// <summary>
+    /// 停止充电温度（充电中电池温度高于此值自动停止充电）
+    /// </summary>
+    public static readonly string StopChargeTemp = "Station.StopChargeTemp";
+
+    #endregion
 }

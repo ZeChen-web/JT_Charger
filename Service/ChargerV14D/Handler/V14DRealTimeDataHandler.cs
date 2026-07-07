@@ -11,6 +11,7 @@ using Service.ChargerV14D.Client;
 using Service.ChargerV14D.Msg.Req;
 using Service.ChargerV14D.Msg.Resp;
 using Service.ChargerV14D.Server;
+using Service.Init;
 
 namespace Service.ChargerV14D.Handler;
 
@@ -39,6 +40,18 @@ public class V14DRealTimeDataHandler : SimpleChannelInboundHandler<V14DRealTimeD
 
             Log.Info(
                 $"V14D RealTimeData from {sn}, status={msg.Status},gun={msg.Gun}, soc={msg.SOC}%, power={msg.ChargePower:F2}kW");
+            
+            #region 根据温度自动停止充电
+
+            if (msg.Status == 2) 
+            {
+                if (msg.MaxBatTemp>StaticStationInfo.StopChargeTemp)
+                {
+                    client.SendRemoteStopCharge(client.PileCode, Convert.ToByte(msg.Gun));
+                    Log.Info($"auto stop charge {client.PileCode} temp:{msg.MaxBatTemp}");
+                }
+            }
+            #endregion
             
             //TODO::硬件故障，不能充电
             //TODO::硬件告警，不影响充电

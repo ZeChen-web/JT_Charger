@@ -200,4 +200,26 @@ public class StaticStationInfo
     }
 
     #endregion
+    
+    #region 吉泰新需求，电池充电判断和消防的
+
+    /// <summary>
+    /// 充电允许温度
+    /// </summary>
+    public static byte CanChargeTemp
+    {
+        get => byte.Parse(Resolve(StationParamConst.CanChargeTemp));
+        set => Set(StationParamConst.CanChargeTemp, value);
+    }
+    
+    /// <summary>
+    /// 充电停止温度
+    /// </summary>
+    public static byte StopChargeTemp
+    {
+        get => byte.Parse(Resolve(StationParamConst.StopChargeTemp));
+        set => Set(StationParamConst.StopChargeTemp, value);
+    }
+
+    #endregion
 }

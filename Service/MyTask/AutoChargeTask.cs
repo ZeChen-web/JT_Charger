@@ -37,14 +37,18 @@ public class AutoChargeTask : ITask
 
     public void Handle()
     {
-        if (StaticStationInfo.AutoChargeEnabled!=1)
+        List<BinInfo> allBinInfos = binInfoRepository.Query();
+        
+        
+        if (StaticStationInfo.AutoChargeEnabled != 1)
         {
             return;
         }
         
+        #region 自动充电
+
         try
         {
-            List<BinInfo> allBinInfos = binInfoRepository.Query();
             if (allBinInfos.Count < 0)
             {
                 Log.Info("lack of binInfos");
@@ -52,7 +56,8 @@ public class AutoChargeTask : ITask
             }
 
             List<EquipInfo> chargerList =
-                EquipInfoRepository.QueryListByClause(it => it.TypeCode == (int)EquipmentType.Charger && it.Status==1);
+                EquipInfoRepository.QueryListByClause(it =>
+                    it.TypeCode == (int)EquipmentType.Charger && it.Status == 1);
             HashSet<string> autoChargeSet =
                 chargerList.Where(it => it.AutoCharge == 1).Select(it => it.Code).ToHashSet();
 
@@ -104,7 +109,8 @@ public class AutoChargeTask : ITask
 
             int needBatteryCount = opModelDetails[0].BatteryCount ?? 8;
             List<BinInfo> canSwapList = allBinInfos.Where(it =>
-                    it.Soc != null && Convert.ToSingle(it.Soc) >= StaticStationInfo.SwapSoc && it.CanSwapFlag == 1 && it.ChargeStatus!=1)
+                    it.Soc != null && Convert.ToSingle(it.Soc) >= StaticStationInfo.SwapSoc && it.CanSwapFlag == 1 &&
+                    it.ChargeStatus != 1)
                 .ToList();
 
             List<BinInfo> chargingList = binInfos.Where(it => it.ChargeStatus == 1).ToList();
@@ -128,26 +134,25 @@ public class AutoChargeTask : ITask
             }*/
 
             #endregion
-            
+
             int stopCount = chargingList.Count + canSwapList.Count - needBatteryCount;
-            Log.Info($"chargingList.Count={chargingList.Count}, canSwapList.Count={canSwapList.Count},needBatteryCount={needBatteryCount}");
+            Log.Info(
+                $"chargingList.Count={chargingList.Count}, canSwapList.Count={canSwapList.Count},needBatteryCount={needBatteryCount}");
             Log.Info($"stopCount={stopCount}");
             if (canSwapList.Count < needBatteryCount)
             {
-              
                 if (stopCount < 0)
                 {
-                   // Log.Info($"stopCount={stopCount}");
+                    // Log.Info($"stopCount={stopCount}");
                     List<BinInfo> canChargeList = binInfos.Where(it =>
                             it.Soc != null && Convert.ToSingle(it.Soc) < StaticStationInfo.SwapSoc &&
                             it.CanChargeFlag == 1 && it.Exists == 1 && it.ChargeStatus != 1
-                            &&it.BatteryNo!="0"&&it.BatteryNo!="-1"&&it.BatteryNo!=null)
+                            && it.BatteryNo != "0" && it.BatteryNo != "-1" && it.BatteryNo != null)
                         .ToList();
                     //启动电量高的
                     canChargeList.Sort((a, b) => (b.Soc ?? 0).CompareTo(a.Soc ?? 0));
-                    
 
-                    byte chargeSoc = StaticStationInfo.ChargeSoc;
+
                     Log.Info(
                         $"need start count={-stopCount}, canChargeList={JsonConvert.SerializeObject(canChargeList.Select(info => info.Code + "," + info.ChargerNo).ToList())}");
                     int number = 0;
@@ -157,7 +162,9 @@ public class AutoChargeTask : ITask
                         {
                             //没有充电时候在充电
                             Result<bool>? result = V14DClientMgr.GetBySn(binInfo.ChargerNo, binInfo.ChargerGunNo)
-                                ?.SendRemoteStartCharge( $"{binInfo.ChargerNo}{binInfo.ChargerGunNo}{DateTime.Now:yyMMddHHmmss}{new Random().Next(10, 99)}", binInfo.ChargerNo, Convert.ToByte(binInfo.ChargerGunNo),
+                                ?.SendRemoteStartCharge(
+                                    $"{binInfo.ChargerNo}{binInfo.ChargerGunNo}{DateTime.Now:yyMMddHHmmss}{new Random().Next(10, 99)}",
+                                    binInfo.ChargerNo, Convert.ToByte(binInfo.ChargerGunNo),
                                     null, null);
                             if (result is { IsSuccess: true })
                             {
@@ -174,7 +181,7 @@ public class AutoChargeTask : ITask
                     }
                 }
             }
-          
+
             if (stopCount > 0)
             {
                 if (chargingList.Count > 0)
@@ -219,6 +226,8 @@ public class AutoChargeTask : ITask
         {
             Log.Error("handle with error", e);
         }
+
+        #endregion
     }
 
     public bool Stoped()

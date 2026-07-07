@@ -127,7 +127,7 @@ public class V14DRealTimeDataReq : V14DFrame
         GunCode = BitConverter.ToString(body, offset, 8);
         offset += 8;
         SOC = body[offset++];
-        MaxBatTemp = body[offset++];
+        MaxBatTemp = Convert.ToByte(body[offset++]-50);
         ChargeTime = BitConverter.ToUInt16(body, offset);
         offset += 2;
         RemainTime = BitConverter.ToUInt16(body, offset);
